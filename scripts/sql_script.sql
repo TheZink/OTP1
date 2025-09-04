@@ -5,8 +5,8 @@ USE courseDB;
 
 CREATE TABLE IF NOT EXISTS Course(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    course_name VARCHAR(100) DEFAULT NULL,
-    course_topic VARCHAR(100),
+    course_name VARCHAR(255) DEFAULT NULL,
+    course_topic VARCHAR(255),
     min_attendance INT DEFAULT 0,
     max_attendance INT NOT NULL,
     course_active BOOLEAN DEFAULT FALSE,
@@ -15,8 +15,8 @@ CREATE TABLE IF NOT EXISTS Course(
 
 CREATE TABLE IF NOT EXISTS Staff(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    staff_name VARCHAR(50) NOT NULL,
-    staff_role VARCHAR(50) NOT NULL,
+    staff_name VARCHAR(255) NOT NULL,
+    staff_role VARCHAR(255) NOT NULL,
     staff_admin BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -33,6 +33,7 @@ CREATE TABLE IF NOT EXISTS Attendance(
     user_id INT,
     staff_id INT,
     atten_status BOOLEAN DEFAULT FALSE,
+    atten_current INT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (course_id) REFERENCES Course(id),
     FOREIGN KEY (user_id) REFERENCES Users(id),
