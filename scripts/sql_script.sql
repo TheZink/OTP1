@@ -3,15 +3,22 @@ CREATE DATABASE IF NOT EXISTS courseDB;
 
 USE courseDB;
 
+CREATE TABLE IF NOT EXISTS Topic(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    topic_name VARCHAR(255) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS Course(
     id INT PRIMARY KEY AUTO_INCREMENT,
-    course_name VARCHAR(255) DEFAULT NULL,
-    course_topic VARCHAR(255),
+    course_name VARCHAR(255) NOT NULL,
+    course_topic VARCHAR(255) DEFAULT NULL,
+    course_desc VARCHAR(255) DEFAULT NULL,
     min_attendance INT DEFAULT 0,
     max_attendance INT NOT NULL,
     course_active BOOLEAN DEFAULT FALSE,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
+
 
 CREATE TABLE IF NOT EXISTS Staff(
     id INT PRIMARY KEY AUTO_INCREMENT,
@@ -72,6 +79,16 @@ CREATE TABLE IF NOT EXISTS Attendance_info_join(
     FOREIGN KEY (info_id) REFERENCES AttendanceInfo(id)
 );
 
+INSERT INTO Topic (topic_name) VALUES ("Programming Course");
+INSERT INTO Topic (topic_name) VALUES ("Mathematic Course");
+INSERT INTO Topic (topic_name) VALUES ("Language Course");
+INSERT INTO Topic (topic_name) VALUES ("Project Course");
+INSERT INTO Topic (topic_name) VALUES ("Exam");
+INSERT INTO Topic (topic_name) VALUES ("Exam Part 1");
+INSERT INTO Topic (topic_name) VALUES ("Exam Part 2");
+INSERT INTO Topic (topic_name) VALUES ("Exam Resit 1");
+INSERT INTO Topic (topic_name) VALUES ("Exam Resit 2");
+
 INSERT INTO Users (user_name, user_passw) VALUES ("Pekka Pouta", "Salasana12345");
 INSERT INTO Users (user_name, user_passw) VALUES ("Jukka Junitti", "Salasana12345");
 INSERT INTO Users (user_name, user_passw) VALUES ("Toni Testaaja", "Salasana");
@@ -81,7 +98,7 @@ INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Ro
 INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Toni Tukihenkilö", "God", True, "godmode12345");
 
 
-INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Basic", "Programming", 5,10,True);
-INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Advanced", "Programming", 12,20,True);
+INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Basic", "Programming Course", 5,10,True);
+INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Advanced", "Programming Course", 12,20,True);
 INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Exam","Exam", 1,1,True);
 
