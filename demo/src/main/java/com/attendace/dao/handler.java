@@ -1,4 +1,4 @@
-package com.attendace.dao.handlers;
+package com.attendace.dao;
 
 public class handler {
 
