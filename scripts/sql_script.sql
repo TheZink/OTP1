@@ -18,12 +18,14 @@ CREATE TABLE IF NOT EXISTS Staff(
     staff_name VARCHAR(255) NOT NULL,
     staff_role VARCHAR(255) NOT NULL,
     staff_admin BOOLEAN DEFAULT FALSE,
+    staff_passw VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS Users(
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_name VARCHAR(50) NOT NULL,
+    user_passw VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -69,3 +71,11 @@ CREATE TABLE IF NOT EXISTS Attendance_info_join(
     FOREIGN KEY (atten_id) REFERENCES Attendance(id),
     FOREIGN KEY (info_id) REFERENCES AttendanceInfo(id)
 );
+
+INSERT INTO Users (user_name, user_passw) VALUES ("Pekka Pouta", "Salasana12345");
+INSERT INTO Users (user_name, user_passw) VALUES ("Jukka Junitti", "Salasana12345");
+INSERT INTO Users (user_name, user_passw) VALUES ("Toni Testaaja", "Salasana");
+
+INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Olli Opettaja", "Teacher", False, "Opettaja12345");
+INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Roni Rehtori", "Principal", False, "Rehtori12345");
+INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Toni Tukihenkilö", "God", True, "godmode12345")
