@@ -8,6 +8,12 @@ CREATE TABLE IF NOT EXISTS Topic(
     topic_name VARCHAR(255) NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS Degree(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    degree_name VARCHAR(255) NOT NULL,
+    degree_ects INT(20) NOT NULL
+);
+
 CREATE TABLE IF NOT EXISTS Course(
     id INT PRIMARY KEY AUTO_INCREMENT,
     course_name VARCHAR(255) NOT NULL,
@@ -32,6 +38,8 @@ CREATE TABLE IF NOT EXISTS Staff(
 CREATE TABLE IF NOT EXISTS Users(
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_name VARCHAR(50) NOT NULL,
+    user_student_id INT(20) NOT NULL,
+    user_degree VARCHAR(50) NOT NULL,
     user_passw VARCHAR(255) NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
@@ -89,9 +97,11 @@ INSERT INTO Topic (topic_name) VALUES ("Exam Part 2");
 INSERT INTO Topic (topic_name) VALUES ("Exam Resit 1");
 INSERT INTO Topic (topic_name) VALUES ("Exam Resit 2");
 
-INSERT INTO Users (user_name, user_passw) VALUES ("Pekka Pouta", "Salasana12345");
-INSERT INTO Users (user_name, user_passw) VALUES ("Jukka Junitti", "Salasana12345");
-INSERT INTO Users (user_name, user_passw) VALUES ("Toni Testaaja", "Salasana");
+INSERT INTO Degree (degree_name, degree_ects) VALUES ("Software Engineer", 240);
+
+INSERT INTO Users (user_name, user_student_id, user_degree, user_passw) VALUES ("Pekka Pouta", 25001, "Meteorologi", "Salasana12345");
+INSERT INTO Users (user_name, user_student_id, user_degree, user_passw) VALUES ("Jukka Junitti", 25002, "Software Engineer", "Salasana12345");
+INSERT INTO Users (user_name, user_student_id, user_degree, user_passw) VALUES ("Toni Testaaja", 25003, "Software Engineer", "Salasana");
 
 INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Olli Opettaja", "Teacher", False, "Opettaja12345");
 INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Roni Rehtori", "Principal", False, "Rehtori12345");
