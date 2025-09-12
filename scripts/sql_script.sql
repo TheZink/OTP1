@@ -78,4 +78,10 @@ INSERT INTO Users (user_name, user_passw) VALUES ("Toni Testaaja", "Salasana");
 
 INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Olli Opettaja", "Teacher", False, "Opettaja12345");
 INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Roni Rehtori", "Principal", False, "Rehtori12345");
-INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Toni Tukihenkilö", "God", True, "godmode12345")
+INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Toni Tukihenkilö", "God", True, "godmode12345");
+
+
+INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Basic", "Programming", 5,10,True);
+INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Advanced", "Programming", 12,20,True);
+INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Exam","Exam", 1,1,True);
+
