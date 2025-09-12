@@ -19,6 +19,8 @@ CREATE TABLE IF NOT EXISTS Course(
     course_name VARCHAR(255) NOT NULL,
     course_topic VARCHAR(255) DEFAULT NULL,
     course_desc VARCHAR(255) DEFAULT NULL,
+    attendance_avaible BOOLEAN DEFAULT FALSE,
+    attendance_key VARCHAR(6),
     min_attendance INT DEFAULT 0,
     max_attendance INT NOT NULL,
     course_active BOOLEAN DEFAULT FALSE,
@@ -107,9 +109,9 @@ INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Ol
 INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Roni Rehtori", "Principal", False, "Rehtori12345");
 INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Toni Tukihenkilö", "God", True, "godmode12345");
 
-INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Basic", "Programming Course", 5,10,True);
-INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Advanced", "Programming Course", 12,20,True);
-INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Exam","Exam", 1,1,True);
+INSERT INTO Course ( course_name, course_topic, attendance_avaible, attendance_key, min_attendance, max_attendance, course_active ) VALUES ("Python Basic", "Programming Course", False, null, 5,10,True);
+INSERT INTO Course ( course_name, course_topic, attendance_avaible, attendance_key, min_attendance, max_attendance, course_active ) VALUES ("Python Advanced", "Programming Course", False, null, 12,20,True);
+INSERT INTO Course ( course_name, course_topic, attendance_avaible, attendance_key, min_attendance, max_attendance, course_active ) VALUES ("Python Exam","Exam", False, null, 1,1,True);
 
 INSERT INTO course_user_join (user_id, course_id) VALUES (1,1);
 INSERT INTO course_user_join (user_id, course_id) VALUES (2,1);
