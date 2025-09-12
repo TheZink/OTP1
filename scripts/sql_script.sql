@@ -97,8 +97,18 @@ INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Ol
 INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Roni Rehtori", "Principal", False, "Rehtori12345");
 INSERT INTO Staff (staff_name, staff_role, staff_admin, staff_passw) VALUES ("Toni Tukihenkilö", "God", True, "godmode12345");
 
-
 INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Basic", "Programming Course", 5,10,True);
 INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Advanced", "Programming Course", 12,20,True);
 INSERT INTO Course ( course_name, course_topic, min_attendance, max_attendance, course_active) VALUES ("Python Exam","Exam", 1,1,True);
+
+INSERT INTO course_user_join (user_id, course_id) VALUES (1,1);
+INSERT INTO course_user_join (user_id, course_id) VALUES (2,1);
+INSERT INTO course_user_join (user_id, course_id) VALUES (3,1);
+INSERT INTO course_user_join (user_id, course_id) VALUES (1,2);
+INSERT INTO course_user_join (user_id, course_id) VALUES (2,2);
+INSERT INTO course_user_join (user_id, course_id) VALUES (3,2);
+
+INSERT INTO course_staff_join (staff_id, course_id) VALUES (1,1);
+INSERT INTO course_staff_join (staff_id, course_id) VALUES (1,2);
+
 
