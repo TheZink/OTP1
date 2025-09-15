@@ -26,42 +26,24 @@ public class Dao_course extends Handler {
 
     @Override
     public Object process(Request request){
-        Map<String, Object> data = request.getData(); //Fetch data from request
+        Map<String, Object> object = request.getData(); //Fetch data from request
 
         if (request.getType() == RequestType.GETALLDATA){
             return getAllData();
         }
 
         else if (request.getType() ==RequestType.GETDATA){
-            String value = (String) data.get("value");
-            String label = (String) data.get("label");
-            return getData(value, label);
+            return getData(object);
         }
 
         else if (request.getType() == RequestType.SETDATA){
-
-            String name = (String) data.get("course_name");
-            String topic = (String) data.get("course_topic");
-            String desc = (String) data.get("course_desc");
-            boolean attend_active = (boolean) data.get("attendance_avaible");
-            String attend_key = (String) data.get("attendance_key");
-            int min_attend = (int) data.get("min_attendance");
-            int max_attend = (int) data.get("max_attendance");
-            boolean course_active = (boolean) data.get("course_active");
-
-
-            setData(name, topic, desc, attend_active, attend_key, min_attend, max_attend, course_active);
+            setData(object);
 
             return true;
         }
 
         else if (request.getType() == RequestType.UPDATEDATA){
-
-            String value = (String) data.get("value");
-            String label = (String) data.get("label");
-            String setValue = (String) data.get("setValue");
-
-            updateData(value, label, setValue);
+            updateData(object);
 
             return true;
         }
@@ -104,12 +86,11 @@ public class Dao_course extends Handler {
         return data;
     }
 
-    public ArrayList<String> getData(String value, String label){
+    // Fetch specific course from Course-table
+    public ArrayList<String> getData(Map<String, Object> object){
 
-        // Fetch specific course from Course-table
-
-        // Method return row id, name, topic, description, attendance-status, attendance-key, 
-        // min-, max-attendance, course-activity and timestamp
+        String value = (String) object.get("value");
+        String label = (String) object.get("label");
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
@@ -141,9 +122,17 @@ public class Dao_course extends Handler {
         return data;
     }
     
-    public void setData(String name, String topic, String desc, boolean attenAvaible, String attenKey,  int attenMin, int attenMax, boolean active) {
+    // Set course data to the Course-table
+    public void setData(Map<String, Object> object) {
 
-        // Set course data to the Course-table
+        String name = (String) object.get("course_name");
+        String topic = (String) object.get("course_topic");
+        String desc = (String) object.get("course_desc");
+        boolean attend_active = (boolean) object.get("attendance_avaible");
+        String attend_key = (String) object.get("attendance_key");
+        int min_attend = (int) object.get("min_attendance");
+        int max_attend = (int) object.get("max_attendance");
+        boolean course_active = (boolean) object.get("course_active");
 
         Connection connection = DbConnection.getConnection();
         String sql = "INSERT INTO STAFF (course_name, course_topic, course_desc, " + 
@@ -155,11 +144,11 @@ public class Dao_course extends Handler {
             ps.setString(1, name);
             ps.setString(2, topic);
             ps.setString(3, desc);
-            ps.setBoolean(4, attenAvaible);
-            ps.setString(5, attenKey);
-            ps.setInt(6, attenMin);
-            ps.setInt(7, attenMax);
-            ps.setBoolean(4, active);
+            ps.setBoolean(4, attend_active);
+            ps.setString(5, attend_key);
+            ps.setInt(6, min_attend);
+            ps.setInt(7, max_attend);
+            ps.setBoolean(4, course_active);
 
             ps.executeUpdate();
             
@@ -168,9 +157,12 @@ public class Dao_course extends Handler {
         }
     }
 
-    public void updateData(String value, String label, String setValue){
+    // Update specific course in Course-table
+    public void updateData(Map<String, Object> object){
 
-        // Update specific course in Course-table
+        String value = (String) object.get("value");
+        String label = (String) object.get("label");
+        String setValue = (String) object.get("setValue");
 
         Connection connection = DbConnection.getConnection();
         String sql = "UPDATE course SET " + label + " = " + setValue + " WHERE id = " + value;
