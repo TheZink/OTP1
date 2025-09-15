@@ -13,6 +13,7 @@ import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 
 public class Dao_userTest {
+
     @Test
     void testCanProcess() {
         Dao_user handler = new Dao_user();
@@ -25,7 +26,7 @@ public class Dao_userTest {
     void testCheckLogin() {
         Dao_user handler = new Dao_user();
         Map<String, Object> object = new HashMap<>();
-        object.put("user_name", "Toni Testaaja");
+        object.put("username", "Toni Testaaja");
         object.put("password", "Salasana");
         Request request = new Request(RequestDao.USERS, RequestType.SIGNIN, object);
         assertEquals(true, handler.handle(request));
@@ -39,27 +40,27 @@ public class Dao_userTest {
         assertNotNull(result);
     }
 
-    @Test // TODO: Method return always NotNull-value
+    @Test
     void testGetData() {
         Dao_user handler = new Dao_user();
         Map<String, Object> data = new HashMap<>();
-        data.put("username", "Toni Testaaj");
+        data.put("username", "Toni Testaaja");
         Request request = new Request(RequestDao.USERS, RequestType.GETDATA, data);
         Object result = handler.handle(request);
         assertNotNull(result);
     }
 
-    @Test //TODO: Cannot invoke "java.lang.Boolean.booleanValue()" because the return value of "java.util.Map.get(Object)" is null
+    @Test
     void testSetData() {
-        Dao_staff handler = new Dao_staff();
+        Dao_user handler = new Dao_user();
         Map<String, Object> object = new HashMap<>();
         object.put("username", "Ilkka Sinkonen");
         object.put("student_id", 25004);
-        object.put("degree", "Don't worry ma'am, i'm the engineer");
+        object.put("degree", "I'm the engineer");
         object.put("password", "12345");
 
-        Request request = new Request(RequestDao.STAFF, RequestType.SETDATA, object);
-        assertEquals(null, handler.handle(request));
+        Request request = new Request(RequestDao.USERS, RequestType.SETDATA, object);
+        assertEquals(true, handler.handle(request));
 
     }
 }

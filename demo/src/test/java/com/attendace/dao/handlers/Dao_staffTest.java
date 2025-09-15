@@ -24,9 +24,7 @@ public class Dao_staffTest {
     }
 
     @Test
-    void testProcess() {
-
-    }
+    void testProcess() {}
 
     @Test
     void testGetAllData() {
@@ -36,16 +34,16 @@ public class Dao_staffTest {
         assertNotNull(handler.canProcess(request));
     }
 
-    @Test //TODO: Method return always NotNull-value
+    @Test
     void testGetData() {
         Dao_staff handler = new Dao_staff();
         Map<String, Object> object = new HashMap<>();
-        object.put("username", "Olli Oettaja");
+        object.put("username", "Olli Opettaja");
         Request request = new Request(RequestDao.STAFF, RequestType.GETDATA, object);
         assertNotNull(handler.canProcess(request));
     }
 
-    @Test // TODO: Method fails in the login
+    @Test
     void testCheckLogin() {
         Dao_staff handler = new Dao_staff();
         Map<String, Object> object = new HashMap<>();
@@ -61,7 +59,7 @@ public class Dao_staffTest {
         Dao_staff handler = new Dao_staff();
         Map<String, Object> object = new HashMap<>();
         object.put("username", "Ilkka Sinkonen");
-        object.put("role", "Insinööri");
+        object.put("role", "Insinööri1");
         object.put("isAdmin", true);
         object.put("password", "12345");
 
