@@ -78,7 +78,7 @@ public class Dao_staff extends Handler {
     // Fetch specific user from Staff-table
     public ArrayList<String> getData(Map<String, Object> object){
 
-        String username = (String) object.get("user_name");
+        String username = (String) object.get("username");
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
@@ -108,10 +108,10 @@ public class Dao_staff extends Handler {
     // Set staff data to the Staff-table
     public void setData(Map<String, Object> object){
 
-        String username = (String) object.get("staff_name");
-        String role = (String) object.get("staff_role");
-        boolean admin = (boolean) object.get("staff_admin");
-        String passw = (String) object.get("user_passw");
+        String username = (String) object.get("username");
+        String role = (String) object.get("role");
+        boolean isAdmin = (boolean) object.get("isAdmin");
+        String passw = (String) object.get("password");
 
         Connection connection = DbConnection.getConnection();
         String sql = "INSERT INTO STAFF (staff_name, staff_role, staff_admin, staff_passw) VALUES (?, ?, ?, ?)";
@@ -120,7 +120,7 @@ public class Dao_staff extends Handler {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, username);
             ps.setString(2, role);
-            ps.setBoolean(3, admin);
+            ps.setBoolean(3, isAdmin);
             ps.setString(4, passw);
 
             ps.executeUpdate();
