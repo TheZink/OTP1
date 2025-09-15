@@ -24,40 +24,23 @@ public class Dao_attendance extends Handler {
 
     @Override
     public Object process(Request request){
-        Map<String, Object> data = request.getData(); //Fetch data from request
+        Map<String, Object> object = request.getData(); //Fetch data from request
 
         if (request.getType() == RequestType.GETALLDATA){
             return getAllData();
         }
 
         else if (request.getType() == RequestType.GETDATA){
-
-            String value = (String) data.get("value");
-            String label = (String) data.get("label");
-
-            return getData(value, label);
+            return getData(object);
         }
 
         else if (request.getType() == RequestType.SETDATA){
-
-            int course = (int) data.get("course_id"); 
-            int user = (int) data.get("user_id");
-            int staff = (int) data.get("staff_if");
-            boolean status = (boolean) data.get("atten_status");
-            int current = (int) data.get("atten_current");
-
-            setData(course, user, staff, status, current);
-
+            setData(object);
             return true;
         }
 
         else if (request.getType() == RequestType.UPDATEDATA){
-
-            String value = (String) data.get("value");
-            String label = (String) data.get("label");
-            int setValue = (int) data.get("setValue");
-
-            updateData(value, label, setValue);
+            updateData(object);
 
             return true;
         }
@@ -95,11 +78,12 @@ public class Dao_attendance extends Handler {
         return data;
 
     }
+    
+    // Fetch specific attendance from Course-table
+    public ArrayList<String> getData(Map<String, Object> object) {
 
-    public ArrayList<String> getData(String value, String label) {
-
-        // Fetch specific attendance from Course-table
-        // Method return row id, courseId, studentId, staffId, attenStatus, attenCurrent and timestamp
+        String value = (String) object.get("value");
+        String label = (String) object.get("label");
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
@@ -127,9 +111,15 @@ public class Dao_attendance extends Handler {
         return data;
     }
 
-    public void setData(int course, int user, int staff, boolean status, int current) {
+    // Set attendance data to the Course-table
+    public void setData(Map<String, Object> object) {
 
-        // Set attendance data to the Course-table
+        int course = (int) object.get("course_id"); 
+        int user = (int) object.get("user_id");
+        int staff = (int) object.get("staff_if");
+        boolean status = (boolean) object.get("atten_status");
+        int current = (int) object.get("atten_current");
+
 
         Connection connection = DbConnection.getConnection();
         String sql = "INSERT INTO STAFF (course_id, user_id, staff_id, atten_status, atten_current) VALUES (?, ?, ?, ?, ?)";
@@ -149,9 +139,12 @@ public class Dao_attendance extends Handler {
         }
     }
 
-    public void updateData(String value, String label, int setValue){
+    // Update specific attendance in Attendance-table
+    public void updateData(Map<String, Object> object){
 
-        // Update specific attendance in Attendance-table
+        String value = (String) object.get("value");
+        String label = (String) object.get("label");
+        int setValue = (int) object.get("setValue");
 
         Connection connection = DbConnection.getConnection();
         String sql = "UPDATE attendance SET " + label + " = " + setValue + " WHERE id = " + value;
