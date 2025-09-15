@@ -4,5 +4,7 @@ public enum RequestType {
     GETDATA,
     GETALLDATA,
     SETDATA,
+    REMOVEDATA,
+    UPDATEDATA,
     SIGNIN
 }
