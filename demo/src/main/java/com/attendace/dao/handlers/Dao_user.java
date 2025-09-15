@@ -19,7 +19,7 @@ public class Dao_user extends Handler {
 
     @Override
     public boolean canProcess(Request request){
-        return request.getDao() == RequestDao.STAFF;
+        return request.getDao() == RequestDao.USERS;
     }
 
     // This method check, if handler can process type of request
@@ -143,7 +143,7 @@ public class Dao_user extends Handler {
             ps.setInt(2, id);
             ps.setString(3, degree);
             ps.setString(4, passw);
-            ps.setInt(5, id); // id for WHERE clause
+            ps.setInt(5, id);
             ps.executeUpdate();
             
         } catch (Exception e) {
@@ -153,7 +153,7 @@ public class Dao_user extends Handler {
 
     public boolean checkLogin(Map<String, Object> data){
     
-        String username = (String) data.get("username");
+        String username = (String) data.get("user_name");
         String password = (String) data.get("password");
     
         Connection connection = DbConnection.getConnection();
@@ -166,10 +166,10 @@ public class Dao_user extends Handler {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
     
-            // This checks if the password correct
+            // This checks if the password is correct
     
             if (rs.next()){
-                if (rs.getString("password") == password){
+                if (rs.getString("user_passw").equals(password)){
                     return true;
                 }
             }
