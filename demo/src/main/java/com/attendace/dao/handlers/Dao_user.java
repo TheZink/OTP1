@@ -33,24 +33,24 @@ public class Dao_user extends Handler {
         }
 
         else if (request.getType() ==RequestType.GETDATA){
-            String username = (String) data.get("username");
-            return getData(username);
+            return getData(data);
+        }
+
+        else if (request.getType() == RequestType.SETDATA){
+            setData(data);
+            return true;
         }
 
         else if (request.getType() == RequestType.SIGNIN){
-            String username = (String) data.get("username");
-            String password = (String) data.get("password");
-            return checkLogin(username, password);
+            return checkLogin(data);
         }
 
         return null;
     }
     
+    // Fetch all users from Users-table.
     public ArrayList<String> getAllData(){
-
-        // Fetch all users from Users-table.
-        // Method return row id, username, student id, degree and timestamp.
-        
+     
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT * FROM USERS ORDER BY id DESC LIMIT 1";
@@ -74,10 +74,10 @@ public class Dao_user extends Handler {
         return data;
     }
 
-    public ArrayList<String> getData(String userName){
+    // Fetch specific user from Users-table
+    public ArrayList<String> getData(Map<String, Object> object){
 
-        // Fetch specific user from Users-table
-        // Method return id, username, student id, degree, password and timestamp
+        String username = (String) object.get("user_name");
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
@@ -86,7 +86,7 @@ public class Dao_user extends Handler {
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, userName);
+            ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
@@ -95,7 +95,7 @@ public class Dao_user extends Handler {
                 data.add(Integer.toString(rs.getInt("user_student_id")));
                 data.add(rs.getString("user_degree"));
                 data.add(rs.getString("user_password"));
-                data.add(rs.getDate("pvm").toString());
+                data.add(rs.getDate("created_at").toString());
             }
 
             
@@ -106,7 +106,56 @@ public class Dao_user extends Handler {
         return data;
     }
 
-    public boolean checkLogin(String username, String password){
+    
+    // Set users data to the table
+    public void setData(Map<String, Object> object){
+        
+        String username = (String) object.get("user_name");
+        int studentId = (int) object.get("user_student_id");
+        String degree = (String) object.get("user_degree");
+        String passw = (String) object.get("user_passw");
+        
+        Connection connection = DbConnection.getConnection();
+        String sql = "INSERT INTO USERS (user_name, user_student_id, user_degree, user_passw) VALUES (?, ?, ?, ?)";
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setInt(2, studentId);
+            ps.setString(3, degree);
+            ps.setString(4, passw);
+            
+            ps.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    public void updateData(String name, int id, String degree, String passw) {
+        Connection connection = DbConnection.getConnection();
+        String sql = "UPDATE USERS SET user_name = ?, user_student_id = ?, user_degree = ?, user_passw = ? WHERE id = ?";
+        
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setInt(2, id);
+            ps.setString(3, degree);
+            ps.setString(4, passw);
+            ps.setInt(5, id); // id for WHERE clause
+            ps.executeUpdate();
+            
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkLogin(Map<String, Object> data){
+    
+        String username = (String) data.get("username");
+        String password = (String) data.get("password");
+    
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT * FROM USERS WHERE user_name = ?";
         
@@ -116,43 +165,19 @@ public class Dao_user extends Handler {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-
+    
             // This checks if the password correct
-
+    
             if (rs.next()){
                 if (rs.getString("password") == password){
                     return true;
                 }
             }
-
+    
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+    
         return false;
     }
-
-    public void setData(String name, int id, String degree, String passw){
-
-        // Set users data to the table
-
-        Connection connection = DbConnection.getConnection();
-        String sql = "INSERT INTO USERS (user_name, user_student_id, user_degree, user_passw) VALUES (?, ?, ?, ?)";
-
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, name);
-            ps.setInt(2, id);
-            ps.setString(3, degree);
-            ps.setString(4, passw);
-
-            ps.executeUpdate();
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    
-
 }
