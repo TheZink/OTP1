@@ -33,8 +33,37 @@ public class Dao_course extends Handler {
         }
 
         else if (request.getType() ==RequestType.GETDATA){
-            String username = (String) data.get("username");
-            return getData(username);
+            String value = (String) data.get("value");
+            String label = (String) data.get("label");
+            return getData(value, label);
+        }
+
+        else if (request.getType() == RequestType.SETDATA){
+
+            String name = (String) data.get("course_name");
+            String topic = (String) data.get("course_topic");
+            String desc = (String) data.get("course_desc");
+            boolean attend_active = (boolean) data.get("attendance_avaible");
+            String attend_key = (String) data.get("attendance_key");
+            int min_attend = (int) data.get("min_attendance");
+            int max_attend = (int) data.get("max_attendance");
+            boolean course_active = (boolean) data.get("course_active");
+
+
+            setData(name, topic, desc, attend_active, attend_key, min_attend, max_attend, course_active);
+
+            return true;
+        }
+
+        else if (request.getType() == RequestType.UPDATEDATA){
+
+            String value = (String) data.get("value");
+            String label = (String) data.get("label");
+            String setValue = (String) data.get("setValue");
+
+            updateData(value, label, setValue);
+
+            return true;
         }
 
         return null;
@@ -75,7 +104,7 @@ public class Dao_course extends Handler {
         return data;
     }
 
-    public ArrayList<String> getData(String courseName){
+    public ArrayList<String> getData(String value, String label){
 
         // Fetch specific course from Course-table
 
@@ -84,12 +113,12 @@ public class Dao_course extends Handler {
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM COURSE WHERE course_name = ?";
+        String sql = "SELECT * FROM COURSE WHERE " + label + " = ?";
 
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, courseName);
+            ps.setString(1, value);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
@@ -135,6 +164,22 @@ public class Dao_course extends Handler {
             ps.executeUpdate();
             
         } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateData(String value, String label, String setValue){
+
+        // Update specific course in Course-table
+
+        Connection connection = DbConnection.getConnection();
+        String sql = "UPDATE course SET " + label + " = " + setValue + " WHERE id = " + value;
+        
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.executeUpdate();
+            
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
