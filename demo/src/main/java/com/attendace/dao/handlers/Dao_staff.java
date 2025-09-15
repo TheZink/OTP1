@@ -1,14 +1,50 @@
-package com.attendace.dao;
+package com.attendace.dao.handlers;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.Map;
 
+import com.attendace.dao.Handler;
+import com.attendace.dao.Request;
+import com.attendace.dao.requests.RequestDao;
+import com.attendace.dao.requests.RequestType;
 import com.attendace.datasource.DbConnection;
 
-public class Dao_staff {
+public class Dao_staff extends Handler {
+
+    // This method check if handler can process the request
+
+    @Override
+    public boolean canProcess(Request request){
+        return request.getDao() == RequestDao.STAFF;
+    }
+
+    // This method check, if handler can process type of request
+
+    @Override
+    public Object process(Request request){
+        Map<String, Object> data = request.getData(); //Fetch data from request
+
+        if (request.getType() == RequestType.GETALLDATA){
+            return getAllData();
+        }
+
+        else if (request.getType() ==RequestType.GETDATA){
+            String username = (String) data.get("username");
+            return getData(username);
+        }
+
+        else if (request.getType() == RequestType.SIGNIN){
+            String username = (String) data.get("username");
+            String password = (String) data.get("password");
+            return checkLogin(username, password);
+        }
+
+        return null;
+    }
 
     public ArrayList<String> getAllData(){
 
@@ -62,12 +98,37 @@ public class Dao_staff {
                 data.add(rs.getDate("created_at").toString());
             }
 
-            
         } catch (SQLException e){
-            e.printStackTrace();;
+            e.printStackTrace();
         }
         
         return data;
+    }
+    
+    public boolean checkLogin(String username, String password){
+        Connection connection = DbConnection.getConnection();
+        String sql = "SELECT * FROM STAFF WHERE staff_name = ?";
+        
+        // This checks if the user exists in the database
+               
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+
+            // This checks if the password correct
+
+            if (rs.next()){
+                if (rs.getString("password") == password){
+                    return true;
+                }
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return false;
     }
 
     public void setData(String name, String role, boolean admin, String passw){
@@ -90,4 +151,5 @@ public class Dao_staff {
             e.printStackTrace();
         }
     }
+
 }
