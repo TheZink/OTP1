@@ -26,21 +26,22 @@ public class Dao_staff extends Handler {
 
     @Override
     public Object process(Request request){
-        Map<String, Object> data = request.getData(); //Fetch data from request
+        Map<String, Object> object = request.getData(); //Fetch data from request
 
         if (request.getType() == RequestType.GETALLDATA){
             return getAllData();
         }
 
         else if (request.getType() ==RequestType.GETDATA){
-            String username = (String) data.get("username");
-            return getData(username);
+            return getData(object);
+        }
+
+        else if (request.getType() == RequestType.SETDATA){
+            setData(object);
         }
 
         else if (request.getType() == RequestType.SIGNIN){
-            String username = (String) data.get("username");
-            String password = (String) data.get("password");
-            return checkLogin(username, password);
+            return checkLogin(object);
         }
 
         return null;
@@ -74,19 +75,18 @@ public class Dao_staff extends Handler {
         return data;
     }
 
-    public ArrayList<String> getData(String userName){
+    // Fetch specific user from Staff-table
+    public ArrayList<String> getData(Map<String, Object> object){
 
-        // Fetch specific user from Staff-table
-        // Method return row id, name, role, admin-boolean, password and timestamp
+        String username = (String) object.get("user_name");
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT * FROM STAFF WHERE staff_name = ?";
 
-
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, userName);
+            ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
@@ -105,7 +105,35 @@ public class Dao_staff extends Handler {
         return data;
     }
     
-    public boolean checkLogin(String username, String password){
+    // Set staff data to the Staff-table
+    public void setData(Map<String, Object> object){
+
+        String username = (String) object.get("staff_name");
+        String role = (String) object.get("staff_role");
+        boolean admin = (boolean) object.get("staff_admin");
+        String passw = (String) object.get("user_passw");
+
+        Connection connection = DbConnection.getConnection();
+        String sql = "INSERT INTO STAFF (staff_name, staff_role, staff_admin, staff_passw) VALUES (?, ?, ?, ?)";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+            ps.setString(2, role);
+            ps.setBoolean(3, admin);
+            ps.setString(4, passw);
+
+            ps.executeUpdate();
+            
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public boolean checkLogin(Map<String, Object> object){
+        String username = (String) object.get("username");
+        String password = (String) object.get("password");
+
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT * FROM STAFF WHERE staff_name = ?";
         
@@ -129,27 +157,6 @@ public class Dao_staff extends Handler {
         }
 
         return false;
-    }
-
-    public void setData(String name, String role, boolean admin, String passw){
-
-        // Set staff data to the Staff-table
-
-        Connection connection = DbConnection.getConnection();
-        String sql = "INSERT INTO STAFF (staff_name, staff_role, staff_admin, staff_passw) VALUES (?, ?, ?, ?)";
-
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, name);
-            ps.setString(2, role);
-            ps.setBoolean(3, admin);
-            ps.setString(4, passw);
-
-            ps.executeUpdate();
-            
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 
 }
