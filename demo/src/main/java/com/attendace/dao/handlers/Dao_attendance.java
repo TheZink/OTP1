@@ -154,7 +154,7 @@ public class Dao_attendance extends Handler {
         // Update specific attendance in Attendance-table
 
         Connection connection = DbConnection.getConnection();
-        String sql = "UPDATE attendance SET atten_status = " + setValue + " WHERE id = " + value;
+        String sql = "UPDATE attendance SET " + label + " = " + setValue + " WHERE id = " + value;
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
