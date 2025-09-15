@@ -49,35 +49,45 @@ public class Dao_user extends Handler {
     }
     
     // Fetch all users from Users-table.
-    public ArrayList<String> getAllData(){
+    public ArrayList<ArrayList<String>> getAllData(){
      
-        ArrayList<String> data = new ArrayList<>();
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM USERS ORDER BY id DESC LIMIT 1";
+        String sql = "SELECT * FROM USERS ORDER BY id ASC";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                data.add(Integer.toString(rs.getInt("id")));
-                data.add(rs.getString("user_name"));
-                data.add(Integer.toString(rs.getInt("user_student_id")));
-                data.add(rs.getString("user_degree"));
-                data.add(rs.getDate("pvm").toString());
+                
+                // Encapsulate each row in its own array and add to the main data list
+                ArrayList<String> row = new ArrayList<>(); 
+
+                row.add(Integer.toString(rs.getInt("id")));
+                row.add(rs.getString("user_name"));
+                row.add(Integer.toString(rs.getInt("user_student_id")));
+                row.add(rs.getString("user_degree"));
+                row.add(rs.getTime("created_at").toString());
+                
+                data.add(row);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return data;
+        // This check the result of the query
+        if(data.isEmpty()){
+            return null;}
+        else {
+            return data;}       
     }
 
     // Fetch specific user from Users-table
     public ArrayList<String> getData(Map<String, Object> object){
 
-        String username = (String) object.get("user_name");
+        String username = (String) object.get("username");
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
@@ -94,16 +104,19 @@ public class Dao_user extends Handler {
                 data.add(rs.getString("user_name"));
                 data.add(Integer.toString(rs.getInt("user_student_id")));
                 data.add(rs.getString("user_degree"));
-                data.add(rs.getString("user_password"));
+                data.add(rs.getString("user_passw"));
                 data.add(rs.getDate("created_at").toString());
             }
 
-            
         } catch (SQLException e){
             e.printStackTrace();;
         }
-        
-        return data;
+
+        // This check the result of the query
+        if(data.isEmpty()){
+            return null;}
+        else {
+            return data;}   
     }
 
     // Set users data to the table

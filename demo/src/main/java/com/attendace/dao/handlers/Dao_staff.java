@@ -47,32 +47,40 @@ public class Dao_staff extends Handler {
         return null;
     }
 
-    public ArrayList<String> getAllData(){
+    // Fetch all staff from Staff-table.
+    public ArrayList<ArrayList<String>> getAllData(){
 
-        // Fetch all staff from Staff-table.
-        // Method return row id, name, role, admin-boolean and timestamp
-        
-        ArrayList<String> data = new ArrayList<>();
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM STAFF ORDER BY id DESC LIMIT 1";
+        String sql = "SELECT * FROM STAFF ORDER BY id ASC";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                data.add(Integer.toString(rs.getInt("id")));
-                data.add(rs.getString("staff_name"));
-                data.add(rs.getString("staff_role"));
-                data.add(Boolean.toString(rs.getBoolean("staff_admin")));
-                data.add(rs.getDate("created_at").toString());
+                
+                // Encapsulate each row in its own array and add to the main data list
+                ArrayList<String> row = new ArrayList<>();
+
+                row.add(Integer.toString(rs.getInt("id")));
+                row.add(rs.getString("staff_name"));
+                row.add(rs.getString("staff_role"));
+                row.add(Boolean.toString(rs.getBoolean("staff_admin")));
+                row.add(rs.getTime("created_at").toString());
+
+                data.add(row);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return data;
+        // This check the result of the query
+        if(data.isEmpty()){
+            return null;}
+        else {
+            return data;}  
     }
 
     // Fetch specific user from Staff-table
@@ -95,14 +103,18 @@ public class Dao_staff extends Handler {
                 data.add(rs.getString("staff_role"));
                 data.add(Boolean.toString(rs.getBoolean("staff_admin")));
                 data.add(rs.getString("staff_passw"));
-                data.add(rs.getDate("created_at").toString());
+                data.add(rs.getTime("created_at").toString());
             }
 
         } catch (SQLException e){
             e.printStackTrace();
         }
         
-        return data;
+        // This check the result of the query
+        if(data.isEmpty()){
+            return null;}
+        else {
+            return data;}  
     }
     
     // Set staff data to the Staff-table
@@ -147,7 +159,7 @@ public class Dao_staff extends Handler {
             // This checks if the password correct
 
             if (rs.next()){
-                if (rs.getString("password").equals(password)){
+                if (rs.getString("staff_passw").equals(password)){
                     return true;
                 }
             }
@@ -158,5 +170,4 @@ public class Dao_staff extends Handler {
 
         return false;
     }
-
 }
