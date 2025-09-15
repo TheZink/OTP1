@@ -147,7 +147,7 @@ public class Dao_staff extends Handler {
             // This checks if the password correct
 
             if (rs.next()){
-                if (rs.getString("password") == password){
+                if (rs.getString("password").equals(password)){
                     return true;
                 }
             }
