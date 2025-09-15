@@ -106,14 +106,13 @@ public class Dao_user extends Handler {
         return data;
     }
 
-    
     // Set users data to the table
     public void setData(Map<String, Object> object){
         
-        String username = (String) object.get("user_name");
-        int studentId = (int) object.get("user_student_id");
-        String degree = (String) object.get("user_degree");
-        String passw = (String) object.get("user_passw");
+        String username = (String) object.get("username");
+        int studentId = (int) object.get("student_id");
+        String degree = (String) object.get("degree");
+        String passw = (String) object.get("password");
         
         Connection connection = DbConnection.getConnection();
         String sql = "INSERT INTO USERS (user_name, user_student_id, user_degree, user_passw) VALUES (?, ?, ?, ?)";
@@ -153,7 +152,7 @@ public class Dao_user extends Handler {
 
     public boolean checkLogin(Map<String, Object> data){
     
-        String username = (String) data.get("user_name");
+        String username = (String) data.get("username");
         String password = (String) data.get("password");
     
         Connection connection = DbConnection.getConnection();
