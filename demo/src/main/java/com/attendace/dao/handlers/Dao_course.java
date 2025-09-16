@@ -19,7 +19,6 @@ public class Dao_course extends Handler {
 
     @Override
     public boolean canProcess(Request request){
-        System.out.println("Dao rquest");
         return request.getDao() == RequestDao.COURSE;
     }
 
@@ -27,7 +26,6 @@ public class Dao_course extends Handler {
 
     @Override
     public Object process(Request request){
-        System.out.println("Type Request");
         Map<String, Object> object = request.getData(); //Fetch data from request
 
         if (request.getType() == RequestType.GETALLDATA){
@@ -96,39 +94,48 @@ public class Dao_course extends Handler {
     }
 
     // Fetch specific course from Course-table
-    public ArrayList<String> getData(Map<String, Object> object){
+    public ArrayList<ArrayList<String>> getData(Map<String, Object> object){
 
         String value = (String) object.get("value");
         String label = (String) object.get("label");
 
-        ArrayList<String> data = new ArrayList<>();
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM COURSE WHERE " + label + " = ?";
+        String sql = "SELECT * FROM COURSE WHERE " + label + " LIKE ?";
 
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, value);
+            ps.setString(1, value + "%");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
-                data.add(Integer.toString(rs.getInt("id")));
-                data.add(rs.getString("course_name"));
-                data.add(rs.getString("course_topic"));
-                data.add(rs.getString("course_desc"));
-                data.add(Boolean.toString(rs.getBoolean("attendance_avaible")));
-                data.add(rs.getString("attendance_key"));
-                data.add(Integer.toString(rs.getInt("min_attendance")));
-                data.add(Integer.toString(rs.getInt("max_attendance")));
-                data.add(Boolean.toString(rs.getBoolean("course_active")));
-                data.add(rs.getDate("created_at").toString());
+
+                ArrayList<String> row = new ArrayList<>();
+
+                row.add(Integer.toString(rs.getInt("id")));
+                row.add(rs.getString("course_name"));
+                row.add(rs.getString("course_topic"));
+                row.add(rs.getString("course_desc"));
+                row.add(Boolean.toString(rs.getBoolean("attendance_avaible")));
+                row.add(rs.getString("attendance_key"));
+                row.add(Integer.toString(rs.getInt("min_attendance")));
+                row.add(Integer.toString(rs.getInt("max_attendance")));
+                row.add(Boolean.toString(rs.getBoolean("course_active")));
+                row.add(rs.getDate("created_at").toString());
+
+                data.add(row);
             }
 
         } catch (SQLException e){
             e.printStackTrace();
         }
         
-        return data;
+        if (data.isEmpty()){
+            return null;
+        } else {
+            return data;
+        }
     }
     
     // Set course data to the Course-table
@@ -144,9 +151,9 @@ public class Dao_course extends Handler {
         boolean course_active = (boolean) object.get("course_active");
 
         Connection connection = DbConnection.getConnection();
-        String sql = "INSERT INTO STAFF (course_name, course_topic, course_desc, " + 
-                        "attendance_avaible, attendance_key, min_attendance, max_attendance, " +
-                        "course_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Course (course_name, course_topic, course_desc, " + 
+                    "attendance_avaible, attendance_key, min_attendance, max_attendance, " +
+                    "course_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -157,7 +164,7 @@ public class Dao_course extends Handler {
             ps.setString(5, attend_key);
             ps.setInt(6, min_attend);
             ps.setInt(7, max_attend);
-            ps.setBoolean(4, course_active);
+            ps.setBoolean(8, course_active);
 
             ps.executeUpdate();
             
@@ -169,12 +176,12 @@ public class Dao_course extends Handler {
     // Update specific course in Course-table
     public void updateData(Map<String, Object> object){
 
-        String value = (String) object.get("value");
+        int value = (int) object.get("value");
         String label = (String) object.get("label");
         String setValue = (String) object.get("setValue");
 
         Connection connection = DbConnection.getConnection();
-        String sql = "UPDATE course SET " + label + " = " + setValue + " WHERE id = " + value;
+        String sql = "UPDATE course SET " + label + " = '" + setValue + "' WHERE id =" + value;
         
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
