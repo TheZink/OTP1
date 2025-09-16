@@ -31,7 +31,7 @@ public class Dao_staffTest {
         Dao_staff handler = new Dao_staff();
         Map<String, Object> object = new HashMap<>();
         Request request = new Request(RequestDao.STAFF, RequestType.GETALLDATA, object);
-        assertNotNull(handler.canProcess(request));
+        assertNotNull(handler.handle(request));
     }
 
     @Test
@@ -40,7 +40,7 @@ public class Dao_staffTest {
         Map<String, Object> object = new HashMap<>();
         object.put("username", "Olli Opettaja");
         Request request = new Request(RequestDao.STAFF, RequestType.GETDATA, object);
-        assertNotNull(handler.canProcess(request));
+        assertNotNull(handler.handle(request));
     }
 
     @Test
