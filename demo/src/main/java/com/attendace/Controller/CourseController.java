@@ -6,7 +6,7 @@ public class CourseController {
     private CourseModel courseModel;
 
 
-    //add dao later
+    //Add dao later
     public CourseController() {
     }
     public void createCourse(String courseName, String courseTopic, String courseDesc, int minAttendance, int maxAttendance) {
