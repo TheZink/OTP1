@@ -19,6 +19,7 @@ public class Dao_course extends Handler {
 
     @Override
     public boolean canProcess(Request request){
+        System.out.println("Dao rquest");
         return request.getDao() == RequestDao.COURSE;
     }
 
@@ -26,6 +27,7 @@ public class Dao_course extends Handler {
 
     @Override
     public Object process(Request request){
+        System.out.println("Type Request");
         Map<String, Object> object = request.getData(); //Fetch data from request
 
         if (request.getType() == RequestType.GETALLDATA){
@@ -51,39 +53,46 @@ public class Dao_course extends Handler {
         return null;
     }
 
-    public ArrayList<String> getAllData(){
-
-        // Fetch all courses from Course-table.
-
-        // Method return row id, name, topic, description, attendance-status, attendance-key, 
-        // min-, max-attendance, course-activity and timestamp
+    // Fetch all courses from Course-table.
+    public ArrayList<ArrayList<String>> getAllData(){
         
-        ArrayList<String> data = new ArrayList<>();
+        ArrayList<ArrayList<String> > data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM COURSE ORDER BY id DESC LIMIT 1";
+        String sql = "SELECT * FROM COURSE ORDER BY id ASC";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                data.add(Integer.toString(rs.getInt("id")));
-                data.add(rs.getString("course_name"));
-                data.add(rs.getString("course_topic"));
-                data.add(rs.getString("course_desc"));
-                data.add(Boolean.toString(rs.getBoolean("attendance_avaible")));
-                data.add(Integer.toString(rs.getInt("attendance_key")));
-                data.add(Integer.toString(rs.getInt("min_attendance")));
-                data.add(Integer.toString(rs.getInt("max_attendance")));
-                data.add(Boolean.toString(rs.getBoolean("course_active")));
-                data.add(rs.getDate("created_at").toString());
+
+                // Encapsulate each row in its own array and add to the main data list
+                ArrayList<String> row = new ArrayList<>();
+
+                row.add(Integer.toString(rs.getInt("id")));
+                row.add(rs.getString("course_name"));
+                row.add(rs.getString("course_topic"));
+                row.add(rs.getString("course_desc"));
+                row.add(Boolean.toString(rs.getBoolean("attendance_avaible")));
+                row.add(Integer.toString(rs.getInt("attendance_key")));
+                row.add(Integer.toString(rs.getInt("min_attendance")));
+                row.add(Integer.toString(rs.getInt("max_attendance")));
+                row.add(Boolean.toString(rs.getBoolean("course_active")));
+                row.add(rs.getDate("created_at").toString());
+
+                data.add(row);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return data;
+        // This check the result of the query
+        if (data.isEmpty()) {
+            return null;
+        } else {
+            return data;
+        }
     }
 
     // Fetch specific course from Course-table
