@@ -66,4 +66,14 @@ public class Dao_attendanceTest {
         Request request = new Request(RequestDao.ATTENDANCE, RequestType.UPDATEDATA, object);
         assertNotNull(handler.handle(request));
     }
+
+    @Test
+    void testRemoveData(){
+        Dao_attendance handler = new Dao_attendance();
+        Map<String, Object> object = new HashMap<>();
+        object.put("value", 2);
+        object.put("label", "id");
+        Request request = new Request(RequestDao.ATTENDANCE, RequestType.REMOVEDATA, object);
+        assertNotNull(handler.handle(request));
+    }
 }
