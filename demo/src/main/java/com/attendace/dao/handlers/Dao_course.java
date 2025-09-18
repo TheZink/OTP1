@@ -15,11 +15,17 @@ import com.attendace.datasource.DbConnection;
 
 public class Dao_course extends Handler {
 
-// This method check if handler can process the request
+    // This method check if handler can process the request
 
     @Override
-    public boolean canProcess(Request request){
-        return request.getDao() == RequestDao.COURSE;
+    public boolean canProcess(Request request) {
+        // If handler cannot process this request, set next handler and return false
+        if (request.getDao() != RequestDao.COURSE) {
+            setNextHandler(new Dao_attendance());
+            return false;
+        } else {
+            return true;
+        }
     }
 
     // This method check, if handler can process type of request
