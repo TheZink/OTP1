@@ -48,7 +48,11 @@ public class Dao_course extends Handler {
             return true;
         }
 
-        return null;
+        else if (request.getType() == RequestType.REMOVEDATA){
+            removeData(object);
+        }
+
+        return false;
     }
 
     // Fetch all courses from Course-table.
@@ -188,6 +192,22 @@ public class Dao_course extends Handler {
             ps.executeUpdate();
             
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeData(Map<String, Object> object) {
+
+        int value = (int) object.get("value");
+        String label = (String) object.get("label");
+
+        Connection connection = DbConnection.getConnection();
+        String sql = "DELETE FROM Course WHERE " + label + "  =  " + value;
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.executeQuery();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
