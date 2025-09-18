@@ -45,7 +45,11 @@ public class Dao_user extends Handler {
             return checkLogin(data);
         }
 
-        return null;
+        else if (request.getType() == RequestType.REMOVEDATA){
+            removeData(data);
+        }
+
+        return false;
     }
     
     // Fetch all users from Users-table.
@@ -191,5 +195,21 @@ public class Dao_user extends Handler {
         }
     
         return false;
+    }
+
+    public void removeData(Map<String, Object> object) {
+
+        int value = (int) object.get("value");
+        String label = (String) object.get("label");
+
+        Connection connection = DbConnection.getConnection();
+        String sql = "DELETE FROM USERS WHERE " + label + "  =  " + value;
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
