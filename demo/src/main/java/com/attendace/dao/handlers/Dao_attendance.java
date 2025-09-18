@@ -45,7 +45,11 @@ public class Dao_attendance extends Handler {
             return true;
         }
 
-        return null;
+        else if (request.getType() == RequestType.REMOVEDATA){
+            removeData(object);
+        }
+
+        return false;
     }
 
     // Fetch all attendance from attendance-table.
@@ -164,7 +168,23 @@ public class Dao_attendance extends Handler {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.executeUpdate();
             
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeData(Map<String, Object> object) {
+
+        int value = (int) object.get("value");
+        String label = (String) object.get("label");
+
+        Connection connection = DbConnection.getConnection();
+        String sql = "DELETE FROM attendance WHERE " + label + "  =  " + value;
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.executeQuery();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }
