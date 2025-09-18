@@ -14,10 +14,17 @@ import com.attendace.dao.requests.RequestType;
 import com.attendace.datasource.DbConnection;
 
 public class Dao_attendance extends Handler {
+
+    // This method check if handler can process the request
     
     @Override
-    public boolean canProcess(Request request){
-        return request.getDao() == RequestDao.ATTENDANCE;
+    public boolean canProcess(Request request) {
+        // If handler cannot process this request, set next handler and return false
+        if (request.getDao() != RequestDao.ATTENDANCE) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     // This method check, if handler can process type of request
@@ -45,70 +52,86 @@ public class Dao_attendance extends Handler {
             return true;
         }
 
-        return null;
+        else if (request.getType() == RequestType.REMOVEDATA){
+            removeData(object);
+        }
+
+        return false;
     }
 
-    public ArrayList<String> getAllData(){
-        // Fetch all attendance from Course-table.
+    // Fetch all attendance from attendance-table.
+    public ArrayList<ArrayList<String>> getAllData(){
 
-        // Method return row id, courseId, studentId, staffId, attenStatus, attenCurrent and timestamp
-
-        ArrayList<String> data = new ArrayList<>();
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM ATTENDANCE ORDER BY id DESC LIMIT 1";
+        String sql = "SELECT * FROM ATTENDANCE ORDER BY id ASC";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()) {
-                data.add(Integer.toString(rs.getInt("id")));
-                data.add(Integer.toString(rs.getInt("course_id")));
-                data.add(Integer.toString(rs.getInt("user_id")));
-                data.add(Integer.toString(rs.getInt("staff_id")));
-                data.add(Boolean.toString(rs.getBoolean("atten_status")));
-                data.add(Integer.toString(rs.getInt("atten_current")));
-                data.add(rs.getDate("created_at").toString());
+                ArrayList<String> row = new ArrayList<>();
+                row.add(Integer.toString(rs.getInt("id")));
+                row.add(Integer.toString(rs.getInt("course_id")));
+                row.add(Integer.toString(rs.getInt("user_id")));
+                row.add(Integer.toString(rs.getInt("staff_id")));
+                row.add(Boolean.toString(rs.getBoolean("atten_status")));
+                row.add(Integer.toString(rs.getInt("atten_current")));
+                row.add(rs.getDate("created_at").toString());
+
+                data.add(row);
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        return data;
+        if (data.isEmpty()){
+            return null;
+        } else {
+            return data;
+        }
 
     }
     
     // Fetch specific attendance from Course-table
-    public ArrayList<String> getData(Map<String, Object> object) {
+    public ArrayList<ArrayList<String>> getData(Map<String, Object> object) {
 
-        String value = (String) object.get("value");
+        int value = (int) object.get("value");
         String label = (String) object.get("label");
 
-        ArrayList<String> data = new ArrayList<>();
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT * FROM ATTENDANCE WHERE "+ label +" = ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, value);
+            ps.setInt(1, value);
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
-                data.add(Integer.toString(rs.getInt("id")));
-                data.add(Integer.toString(rs.getInt("course_id")));
-                data.add(Integer.toString(rs.getInt("user_id")));
-                data.add(Integer.toString(rs.getInt("staff_id")));
-                data.add(Boolean.toString(rs.getBoolean("atten_status")));
-                data.add(Integer.toString(rs.getInt("atten_current")));
-                data.add(rs.getDate("created_at").toString());
+                ArrayList<String> row = new ArrayList<>();
+                row.add(Integer.toString(rs.getInt("id")));
+                row.add(Integer.toString(rs.getInt("course_id")));
+                row.add(Integer.toString(rs.getInt("user_id")));
+                row.add(Integer.toString(rs.getInt("staff_id")));
+                row.add(Boolean.toString(rs.getBoolean("atten_status")));
+                row.add(Integer.toString(rs.getInt("atten_current")));
+                row.add(rs.getDate("created_at").toString());
+
+                data.add(row);
             }
 
         } catch (SQLException e){
             e.printStackTrace();
         }
         
-        return data;
+        if (data.isEmpty()) {
+            return null; 
+        }else {
+            return data;
+        }
     }
 
     // Set attendance data to the Course-table
@@ -116,13 +139,12 @@ public class Dao_attendance extends Handler {
 
         int course = (int) object.get("course_id"); 
         int user = (int) object.get("user_id");
-        int staff = (int) object.get("staff_if");
+        int staff = (int) object.get("staff_id");
         boolean status = (boolean) object.get("atten_status");
         int current = (int) object.get("atten_current");
 
-
         Connection connection = DbConnection.getConnection();
-        String sql = "INSERT INTO STAFF (course_id, user_id, staff_id, atten_status, atten_current) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO attendance (course_id, user_id, staff_id, atten_status, atten_current) VALUES (?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -142,9 +164,9 @@ public class Dao_attendance extends Handler {
     // Update specific attendance in Attendance-table
     public void updateData(Map<String, Object> object){
 
-        String value = (String) object.get("value");
+        int value = (int) object.get("value");
         String label = (String) object.get("label");
-        int setValue = (int) object.get("setValue");
+        boolean setValue = (boolean) object.get("setValue");
 
         Connection connection = DbConnection.getConnection();
         String sql = "UPDATE attendance SET " + label + " = " + setValue + " WHERE id = " + value;
@@ -153,7 +175,23 @@ public class Dao_attendance extends Handler {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.executeUpdate();
             
-        } catch (Exception e) {
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void removeData(Map<String, Object> object) {
+
+        int value = (int) object.get("value");
+        String label = (String) object.get("label");
+
+        Connection connection = DbConnection.getConnection();
+        String sql = "DELETE FROM attendance WHERE " + label + "  =  " + value;
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.executeQuery();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
     }

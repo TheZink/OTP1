@@ -6,7 +6,7 @@ import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 
 public class Request{
-    private RequestDao dao;
+    private RequestDao dao; // Request for Dao handler
     private RequestType type; // Request type for Dao (GetData, GetAlldata etc.)
     private Map<String, Object> data; // Data for Dao (username, role etc.)
 

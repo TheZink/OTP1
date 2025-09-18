@@ -19,7 +19,7 @@ public class Dao_userTest {
         Dao_user handler = new Dao_user();
         Map<String, Object> data = new HashMap<>();
         Request request = new Request(RequestDao.USERS, RequestType.GETDATA, data);
-        assertEquals(true, handler.canProcess(request));
+        assertEquals(true, handler.handle(request));
     }
 
     @Test
@@ -62,5 +62,15 @@ public class Dao_userTest {
         Request request = new Request(RequestDao.USERS, RequestType.SETDATA, object);
         assertEquals(true, handler.handle(request));
 
+    }
+
+    @Test
+    void testRemoveData() {
+        Dao_user handler = new Dao_user();
+        Map<String, Object> object = new HashMap<>();
+        object.put("value", 4);
+        object.put("label", "id");
+        Request request = new Request(RequestDao.USERS, RequestType.REMOVEDATA, object);
+        assertNotNull(handler.handle(request));
     }
 }

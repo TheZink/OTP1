@@ -18,8 +18,14 @@ public class Dao_staff extends Handler {
     // This method check if handler can process the request
 
     @Override
-    public boolean canProcess(Request request){
-        return request.getDao() == RequestDao.STAFF;
+    public boolean canProcess(Request request) {
+        // If handler cannot process this request, set next handler and return false
+        if (request.getDao() != RequestDao.STAFF) {
+            setNextHandler(new Dao_course());
+            return false;
+        } else {
+            return true;
+        }
     }
 
     // This method check, if handler can process type of request
@@ -44,7 +50,11 @@ public class Dao_staff extends Handler {
             return checkLogin(object);
         }
 
-        return null;
+        else if (request.getType() == RequestType.REMOVEDATA){
+            removeData(object);
+        }
+
+        return false;
     }
 
     // Fetch all staff from Staff-table.
@@ -169,5 +179,22 @@ public class Dao_staff extends Handler {
         }
 
         return false;
+    }
+
+    public void removeData(Map<String, Object> object) {
+
+        int value = (int) object.get("value");
+        String label = (String) object.get("label");
+
+        Connection connection = DbConnection.getConnection();
+        String sql = "DELETE FROM STAFF WHERE " + label + "  =  " + value;
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.executeQuery();
+            System.out.println(ps);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
