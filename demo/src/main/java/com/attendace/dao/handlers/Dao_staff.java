@@ -18,8 +18,14 @@ public class Dao_staff extends Handler {
     // This method check if handler can process the request
 
     @Override
-    public boolean canProcess(Request request){
-        return request.getDao() == RequestDao.STAFF;
+    public boolean canProcess(Request request) {
+        // If handler cannot process this request, set next handler and return false
+        if (request.getDao() != RequestDao.STAFF) {
+            setNextHandler(new Dao_course());
+            return false;
+        } else {
+            return true;
+        }
     }
 
     // This method check, if handler can process type of request
