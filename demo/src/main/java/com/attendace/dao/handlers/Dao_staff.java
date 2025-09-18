@@ -44,7 +44,11 @@ public class Dao_staff extends Handler {
             return checkLogin(object);
         }
 
-        return null;
+        else if (request.getType() == RequestType.REMOVEDATA){
+            removeData(object);
+        }
+
+        return false;
     }
 
     // Fetch all staff from Staff-table.
@@ -169,5 +173,22 @@ public class Dao_staff extends Handler {
         }
 
         return false;
+    }
+
+    public void removeData(Map<String, Object> object) {
+
+        int value = (int) object.get("value");
+        String label = (String) object.get("label");
+
+        Connection connection = DbConnection.getConnection();
+        String sql = "DELETE FROM STAFF WHERE " + label + "  =  " + value;
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.executeQuery();
+            System.out.println(ps);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }
