@@ -7,25 +7,13 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-import com.attendace.dao.handlers.Dao_attendance;
-import com.attendace.dao.handlers.Dao_course;
-import com.attendace.dao.handlers.Dao_staff;
-import com.attendace.dao.handlers.Dao_user;
+import com.attendace.dao.handlers.DefaultHandler;
 import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 
 public class HandlerTest {
 
-    Handler userHandler = new Dao_user();
-    Handler staffHandler = new Dao_staff();
-    Handler courseHandler = new Dao_course();
-    Handler attendanceHandler = new Dao_attendance();
-
-    { 
-        userHandler.setNextHandler(staffHandler);
-        staffHandler.setNextHandler(courseHandler);
-        courseHandler.setNextHandler(attendanceHandler);
-    }
+    Handler useHandlers = new DefaultHandler();
 
     @Test
     void testAddStudent(){
@@ -35,7 +23,7 @@ public class HandlerTest {
         object.put("degree", "I'm the engineer");
         object.put("password", "12345");
         Request request = new Request(RequestDao.USERS, RequestType.SETDATA,object);
-        assertNotNull(userHandler.handle(request));
+        assertNotNull(useHandlers.handle(request));
     }
 
     @Test
@@ -46,7 +34,7 @@ public class HandlerTest {
         object.put("isAdmin", true);
         object.put("password", "12345");
         Request request = new Request(RequestDao.STAFF, RequestType.SETDATA, object);
-        assertNotNull(userHandler.handle(request));
+        assertNotNull(useHandlers.handle(request));
     }
 
     @Test
@@ -61,7 +49,7 @@ public class HandlerTest {
         object.put("max_attendance", 30);
         object.put("course_active", true);
         Request request = new Request(RequestDao.COURSE, RequestType.SETDATA, object);
-        assertNotNull(userHandler.handle(request));
+        assertNotNull(useHandlers.handle(request));
     }
 
     @Test
@@ -73,6 +61,6 @@ public class HandlerTest {
         object.put("atten_status", false);
         object.put("atten_current", 1);
         Request request = new Request(RequestDao.ATTENDANCE, RequestType.SETDATA, object);
-        assertNotNull(userHandler.handle(request));
+        assertNotNull(useHandlers.handle(request));
     }
 }
