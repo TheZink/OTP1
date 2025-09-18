@@ -73,4 +73,14 @@ public class Dao_courseTest {
         System.out.println(handler.handle(request));
         assertEquals(true, handler.handle(request));
     }
+
+    @Test
+    void testRemoveData() {
+        Dao_course handler = new Dao_course();
+        Map<String, Object> object = new HashMap<>();
+        object.put("value", 7);
+        object.put("label", "id");
+        Request request = new Request(RequestDao.COURSE, RequestType.REMOVEDATA, object);
+        assertNotNull(handler.handle(request));
+    }
 }
