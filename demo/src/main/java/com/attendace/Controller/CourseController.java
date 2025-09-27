@@ -5,6 +5,14 @@ import com.attendace.Model.CourseModel;
 public class CourseController {
     private CourseModel courseModel;
 
+    //FOR TEST, ADD FXML TAGS LATER
+    private String courseName;
+    private String courseTopic;
+    private String courseDesc;
+    private int minAttendance;
+
+
+
 
     //Add dao later
     public CourseController() {
