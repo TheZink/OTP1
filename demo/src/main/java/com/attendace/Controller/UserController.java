@@ -15,7 +15,6 @@ public class UserController {
     private UserModel user;
     private DefaultHandler handler;
     private Request request;
-    private Dao_user userDao;
     private Map<String, Object> data;
 
 
@@ -28,6 +27,8 @@ public class UserController {
         this.handler = new DefaultHandler();
     }
 
+
+    //ActionEvent event parameter later, strings used for testing only
     public void loginUser(String username, String password) {
         data = new HashMap<>();
         data.put("username", username);
@@ -43,6 +44,7 @@ public class UserController {
         }
     }
 
+    //ActionEvent event parameter later, strings used for testing only
     public void createUser(int studentId, String name, String password, String userDegree) {
         data = new HashMap<>();
         data.put("student_id", studentId);

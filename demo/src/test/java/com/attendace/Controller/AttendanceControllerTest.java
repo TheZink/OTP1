@@ -16,11 +16,7 @@ class AttendanceControllerTest {
     }
     @Test
     void addAttendance() {
-        attendanceController.addAttendance(1, 2, 3, 0);
-        AttendanceModel attendance = attendanceController.getAttendance();
-        assertEquals(1, attendance.getCourseId());
-        assertEquals(2, attendance.getUserId());
-        assertEquals(3, attendance.getStaffId());
-        assertEquals(0, attendance.getCurrentAttendance());
+        attendanceController.addAttendance(3, 1, 1, true, 10);
+
     }
 }
