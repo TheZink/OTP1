@@ -24,8 +24,6 @@ public class MainEngine {
     }
 
     public void runEngine() throws IOException {
-        //emailfield.getScene().getWindow().hide();
-
         Parent root = FXMLLoader.load(
                 Objects.requireNonNull(getClass().getResource("/fxml/ProjectInterface.fxml"))
         );

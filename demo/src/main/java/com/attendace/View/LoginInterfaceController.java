@@ -40,6 +40,7 @@ public class LoginInterfaceController extends Application {
         String password = passwordfield.getText();
 
         if(userController.loginUser(email, password)) {
+            emailfield.getScene().getWindow().hide();
             engine.runEngine();
         } else {
             System.out.println("Failed to login");
