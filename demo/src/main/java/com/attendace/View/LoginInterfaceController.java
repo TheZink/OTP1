@@ -1,5 +1,7 @@
 package com.attendace.View;
 
+import com.attendace.Controller.UserController;
+import com.attendace.Engine.MainEngine;
 import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -13,7 +15,9 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class LoginInterfaceController extends Application {
-    MainInterfaceController mainInterfaceController = new MainInterfaceController();
+    //MainInterfaceController mainInterfaceController = new MainInterfaceController();
+    MainEngine engine = new MainEngine();
+    UserController userController = new UserController();
 
     @FXML
     private TextField emailfield;
@@ -35,17 +39,11 @@ public class LoginInterfaceController extends Application {
         String email = emailfield.getText();
         String password = passwordfield.getText();
 
-        emailfield.getScene().getWindow().hide();
-
-        Parent root = FXMLLoader.load(
-                Objects.requireNonNull(getClass().getResource("/fxml/ProjectInterface.fxml"))
-        );
-
-        Stage stage = new Stage();
-        stage.setTitle("Interface");
-        stage.setScene(new Scene(root));
-        stage.showAndWait();
-
-        mainInterfaceController.initialize();
+        if(userController.loginUser(email, password)) {
+            emailfield.getScene().getWindow().hide();
+            engine.runEngine();
+        } else {
+            System.out.println("Failed to login");
+        }
     }
 }
