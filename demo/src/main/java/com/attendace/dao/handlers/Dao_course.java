@@ -82,7 +82,7 @@ public class Dao_course extends Handler {
                 row.add(rs.getString("course_topic"));
                 row.add(rs.getString("course_desc"));
                 row.add(Boolean.toString(rs.getBoolean("attendance_avaible")));
-                row.add(Integer.toString(rs.getInt("attendance_key")));
+                row.add(rs.getString("attendance_key"));
                 row.add(Integer.toString(rs.getInt("min_attendance")));
                 row.add(Integer.toString(rs.getInt("max_attendance")));
                 row.add(Boolean.toString(rs.getBoolean("course_active")));

@@ -65,7 +65,6 @@ public class Dao_staffTest {
 
         Request request = new Request(RequestDao.STAFF, RequestType.SETDATA, object);
         assertEquals(null, handler.handle(request));
-
     }
 
     @Test
