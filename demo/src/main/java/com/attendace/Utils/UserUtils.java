@@ -1,7 +1,6 @@
 package com.attendace.Utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
@@ -18,10 +17,11 @@ public class UserUtils {
     // This methods check, if username exist in the database. 
     public Map<String, Object> checkUser(Map<String, Object> object){
         Request request = new Request(RequestDao.USERS, RequestType.GETDATA, object);
-        boolean existing = (boolean) handler.handle(request);
+        Object result = handler.handle(request);
+        boolean exists = (result instanceof ArrayList) && !((ArrayList<?>) result).isEmpty();
 
        // If name exist, add randomly selected 2-digit suffix to the name
-        if (existing) {
+        if (exists) {
             Random random = new Random();
             String username = (String) object.get("username");
             String modify = username + random.nextInt(1, 99);
@@ -37,11 +37,12 @@ public class UserUtils {
 
     // This methods check, if username exist in the database. 
     public Map<String, Object> checkStaff(Map<String, Object> object){
-        Request request = new Request(RequestDao.STAFF, RequestType.GETDATA, object);
-        boolean existing = (boolean) handler.handle(request);
+        Request request = new Request(RequestDao.USERS, RequestType.GETDATA, object);
+        Object result = handler.handle(request);
+        boolean exists = (result instanceof ArrayList) && !((ArrayList<?>) result).isEmpty();
 
        // If name exist, add randomly selected 2-digit suffix to the name
-        if (existing) {
+        if (exists) {
             Random random = new Random();
             String username = (String) object.get("username");
             String modify = username + random.nextInt(1, 99);
