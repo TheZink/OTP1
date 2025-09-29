@@ -47,14 +47,6 @@ public class UserController {
     }
 
 
-    public boolean removeUser(int value, String label) {
-        data = new HashMap<>();
-        data.put("value", value);
-        data.put("label", label);
-        request = new Request(RequestDao.USERS, RequestType.REMOVEDATA, data);
-        return (boolean) handler.handle(request);
-    }
-
 
     public ArrayList<String> getUser(String username) {
         data = new HashMap<>();
@@ -68,5 +60,13 @@ public class UserController {
         data = new HashMap<>();
         request = new Request(RequestDao.USERS, RequestType.GETALLDATA, data);
         return (ArrayList<String>) handler.handle(request);
+    }
+
+    public boolean removeUser(int value, String label) {
+        data = new HashMap<>();
+        data.put("value", value);
+        data.put("label", label);
+        request = new Request(RequestDao.USERS, RequestType.REMOVEDATA, data);
+        return (boolean) handler.handle(request);
     }
 }
