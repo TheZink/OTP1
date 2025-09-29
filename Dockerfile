@@ -2,8 +2,10 @@ FROM maven:latest
 LABEL authors="Veikko, Ilkka, Daniel"
 
 WORKDIR /app
-COPY demo/pom.xml /app
-COPY demo /app
+
+COPY demo/pom.xml .
+COPY demo/src ./src
 
 RUN mvn package
-CMD ["java", "-jar", "target\demo-1.0-SNAPSHOT.jar"]
+
+CMD ["java", "-jar", "target/demo-1.0-SNAPSHOT.jar"]
