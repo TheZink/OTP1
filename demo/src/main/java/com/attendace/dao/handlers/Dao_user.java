@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.attendace.Utils.UserUtils;
 import com.attendace.dao.Handler;
 import com.attendace.dao.Request;
 import com.attendace.dao.requests.RequestDao;
@@ -130,7 +131,11 @@ public class Dao_user extends Handler {
     }
 
     // Set users data to the table
-    public void setData(Map<String, Object> object){
+    public void setData(Map<String, Object> data){
+
+        // Before setting user data to the database, check the username.
+        UserUtils user = new UserUtils();
+        Map<String, Object> object = user.checkUser(data);
         
         String username = (String) object.get("username");
         int studentId = (int) object.get("student_id");
