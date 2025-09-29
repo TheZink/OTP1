@@ -40,6 +40,7 @@ public class LoginInterfaceController extends Application {
         Parent root = FXMLLoader.load(
                 Objects.requireNonNull(getClass().getResource("/fxml/ProjectInterface.fxml"))
         );
+
         Stage stage = new Stage();
         stage.setTitle("Interface");
         stage.setScene(new Scene(root));
