@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Map;
 
+import com.attendace.Utils.UserUtils;
 import com.attendace.dao.Handler;
 import com.attendace.dao.Request;
 import com.attendace.dao.requests.RequestDao;
@@ -103,7 +104,6 @@ public class Dao_user extends Handler {
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT * FROM USERS WHERE user_name = ?";
 
-
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, username);
@@ -130,8 +130,12 @@ public class Dao_user extends Handler {
     }
 
     // Set users data to the table
-    public void setData(Map<String, Object> object){
-        
+    public void setData(Map<String, Object> data){
+
+        // Before setting user data to the database, check username
+        UserUtils user = new UserUtils();
+        Map<String, Object> object = user.checkUser(data);
+
         String username = (String) object.get("username");
         int studentId = (int) object.get("student_id");
         String degree = (String) object.get("degree");
@@ -157,7 +161,6 @@ public class Dao_user extends Handler {
     public void updateData(String name, int id, String degree, String passw) {
         Connection connection = DbConnection.getConnection();
         String sql = "UPDATE USERS SET user_name = ?, user_student_id = ?, user_degree = ?, user_passw = ? WHERE id = ?";
-        
         
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
