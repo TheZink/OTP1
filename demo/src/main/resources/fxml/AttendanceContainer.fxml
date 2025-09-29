@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="80.0" prefWidth="561.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Text fx:id="coursename" fill="#171717" layoutX="14.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Testi Heikki" wrappingWidth="283.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0">
+         <font>
+            <Font name="System Bold" size="17.0" />
+         </font>
+      </Text>
+      <Text fx:id="coursename1" fill="#171717" layoutX="271.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="29500002" textAlignment="RIGHT" wrappingWidth="283.13671875" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
+         <font>
+            <Font name="System Italic" size="15.0" />
+         </font>
+      </Text>
+      <Text fx:id="coursename11" fill="#171717" layoutX="5.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meteorologi" wrappingWidth="283.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="27.0">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Text>
+   </children>
+</AnchorPane>
