@@ -14,12 +14,12 @@ public class UserUtils {
 
     Handler handler = new DefaultHandler();
     
-    // This methods check, if username exist in the database. 
+    // This method checks if the username exists in the database. 
     public Map<String, Object> checkUser(Map<String, Object> object){
         Request request = new Request(RequestDao.USERS, RequestType.GETDATA, object);
         ArrayList<String> result = (ArrayList<String>) handler.handle(request);
 
-       // If name exist, add randomly selected 2-digit suffix to the name
+       // If the name exists, add a randomly selected 2-digit suffix to the name.
         if (result != null && !result.isEmpty()) {
             Random random = new Random();
             String username = (String) object.get("username");
@@ -34,12 +34,12 @@ public class UserUtils {
         }
     }
 
-    // This methods check, if username exist in the database. 
+    // This method checks if the username exists in the database. 
     public Map<String, Object> checkStaff(Map<String, Object> object){
         Request request = new Request(RequestDao.STAFF, RequestType.GETDATA, object);
         ArrayList<String> result = (ArrayList<String>) handler.handle(request);
 
-       // If name exist, add randomly selected 2-digit suffix to the name
+       // If the name exists, add a randomly selected 2-digit suffix to the name.
         if (result != null && !result.isEmpty()) {
             Random random = new Random();
             String username = (String) object.get("username");
