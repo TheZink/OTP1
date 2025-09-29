@@ -1,4 +1,3 @@
 .vscode/
 .env
-.target/
-demo/target
+/demo/target/
