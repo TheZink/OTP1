@@ -56,7 +56,7 @@ pipeline {
 
         stage('Build Docker Image') {
             steps {
-                 bat 'docker build -t %DOCKERHUB_REPO%:%DOCKER_IMAGE_TAG% .'
+                 bat 'docker build -f demo/pom.xml -t %DOCKERHUB_REPO%:%DOCKER_IMAGE_TAG% .'
             }
         }
 
