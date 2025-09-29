@@ -23,7 +23,6 @@ public class CourseController {
     private int minAttendance;
 
 
-    //Add dao later
     public CourseController() {
         this.handler = new DefaultHandler();
     }
