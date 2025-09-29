@@ -17,11 +17,10 @@ public class UserUtils {
     // This methods check, if username exist in the database. 
     public Map<String, Object> checkUser(Map<String, Object> object){
         Request request = new Request(RequestDao.USERS, RequestType.GETDATA, object);
-        Object result = handler.handle(request);
-        boolean exists = (result instanceof ArrayList) && !((ArrayList<?>) result).isEmpty();
+        ArrayList<String> result = (ArrayList<String>) handler.handle(request);
 
        // If name exist, add randomly selected 2-digit suffix to the name
-        if (exists) {
+        if (result != null && !result.isEmpty()) {
             Random random = new Random();
             String username = (String) object.get("username");
             String modify = username + random.nextInt(1, 99);
@@ -37,12 +36,11 @@ public class UserUtils {
 
     // This methods check, if username exist in the database. 
     public Map<String, Object> checkStaff(Map<String, Object> object){
-        Request request = new Request(RequestDao.USERS, RequestType.GETDATA, object);
-        Object result = handler.handle(request);
-        boolean exists = (result instanceof ArrayList) && !((ArrayList<?>) result).isEmpty();
+        Request request = new Request(RequestDao.STAFF, RequestType.GETDATA, object);
+        ArrayList<String> result = (ArrayList<String>) handler.handle(request);
 
        // If name exist, add randomly selected 2-digit suffix to the name
-        if (exists) {
+        if (result != null && !result.isEmpty()) {
             Random random = new Random();
             String username = (String) object.get("username");
             String modify = username + random.nextInt(1, 99);
