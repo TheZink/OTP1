@@ -23,7 +23,7 @@ public class UserUtils {
         if (result != null && !result.isEmpty()) {
             Random random = new Random();
             String username = (String) object.get("username");
-            String modify = username + random.nextInt(1, 99);
+            String modify = username + random.nextInt(98) + 1;
 
             object.put("username", modify);
             return object;
@@ -43,7 +43,7 @@ public class UserUtils {
         if (result != null && !result.isEmpty()) {
             Random random = new Random();
             String username = (String) object.get("username");
-            String modify = username + random.nextInt(1, 99);
+            String modify = username + random.nextInt(98) + 1;
 
             object.put("username", modify);
             return object;

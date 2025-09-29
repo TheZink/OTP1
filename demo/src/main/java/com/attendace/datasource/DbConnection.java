@@ -13,7 +13,7 @@ public class DbConnection {
         if (connection == null){
             try {
                 //CHANGE TO UR OWN USER DB ACCOUNT.
-                connection = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/courseDB?user=root&password=root");
+                connection = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/courseDB?user=user&password=pass");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

@@ -3,8 +3,7 @@ LABEL authors="Veikko, Ilkka, Daniel"
 
 WORKDIR /app
 
-COPY demo/pom.xml .
-COPY demo/src ./src
+COPY demo /app
 
 RUN mvn package
 
