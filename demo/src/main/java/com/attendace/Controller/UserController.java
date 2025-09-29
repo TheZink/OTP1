@@ -29,7 +29,7 @@ public class UserController {
 
 
     //ActionEvent event parameter later, strings used for testing only
-    public void loginUser(String username, String password) {
+    public boolean loginUser(String username, String password) {
         data = new HashMap<>();
         data.put("username", username);
         data.put("password", password);
@@ -39,8 +39,10 @@ public class UserController {
         //CHANGE STAGE HERE?
         if(login) {
             System.out.println("Logging in succeeded");
+            return true;
         } else {
             System.out.println("Logging in failed.");
+            return false;
         }
     }
 
