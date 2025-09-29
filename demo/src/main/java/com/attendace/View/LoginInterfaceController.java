@@ -12,8 +12,8 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.util.Objects;
 
-public class LoginController extends Application {
-    MainPageController mainPageController = new MainPageController();
+public class LoginInterfaceController extends Application {
+    MainInterfaceController mainInterfaceController = new MainInterfaceController();
 
     @FXML
     private TextField emailfield;
@@ -45,6 +45,6 @@ public class LoginController extends Application {
         stage.setScene(new Scene(root));
         stage.showAndWait();
 
-        mainPageController.initialize();
+        mainInterfaceController.initialize();
     }
 }

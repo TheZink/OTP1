@@ -6,7 +6,7 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 
-public class MainPageController {
+public class MainInterfaceController {
     @FXML
     private GridPane coursegrid;
 

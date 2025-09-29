@@ -1,9 +1,9 @@
 package com.attendace;
 
-import com.attendace.View.LoginController;
+import com.attendace.View.LoginInterfaceController;
 
 public class Main {
     public static void main(String[] args) {
-        LoginController.launch(LoginController.class);
+        LoginInterfaceController.launch(LoginInterfaceController.class);
     }
 }
