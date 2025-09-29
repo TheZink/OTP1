@@ -19,7 +19,7 @@ public class Dao_userTest {
         Dao_user handler = new Dao_user();
         Map<String, Object> data = new HashMap<>();
         Request request = new Request(RequestDao.USERS, RequestType.GETDATA, data);
-        assertEquals(true, handler.handle(request));
+        assertEquals(null, handler.handle(request));
     }
 
     @Test

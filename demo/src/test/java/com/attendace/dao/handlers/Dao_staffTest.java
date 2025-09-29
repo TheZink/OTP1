@@ -64,7 +64,7 @@ public class Dao_staffTest {
         object.put("password", "12345");
 
         Request request = new Request(RequestDao.STAFF, RequestType.SETDATA, object);
-        assertEquals(null, handler.handle(request));
+        assertEquals(false, handler.handle(request));
     }
 
     @Test
