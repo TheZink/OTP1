@@ -19,15 +19,14 @@ class CourseControllerTest {
     @Test
     void createCourse() {
 
-        courseController.createCourse("Testinimi",
+        assertTrue(courseController.createCourse("Testinimicourse",
                 "testitipic",
                 "testidesc",
                 true,
                 "erw",
                 10,
                 20,
-                true);
-
+                true));
     }
     @Test
     void updateCourse() {

@@ -1,30 +1,39 @@
 package com.attendace.Controller;
 
-import com.attendace.Model.UserModel;
-import com.attendace.dao.handlers.Dao_user;
-import com.attendace.dao.handlers.DefaultHandler;
+import com.sun.jna.platform.win32.PsapiUtil;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class UserControllerTest {
-    private UserController userController;
-    private UserModel userModel;
+    UserController userController;
 
     @BeforeEach
-    void setup() {
+    void setUp() {
         userController = new UserController();
     }
+
     @Test
     void loginUser() {
-        userController.loginUser("Jukka Junitti", "Salasana12345");
-
+        assertTrue(userController.loginUser("Jaakko", "testi"));
     }
 
     @Test
     void createUser() {
-         userController.createUser(123, "Jaakko", "testi", "insinööri");
+        assertTrue(userController.createUser(124,
+                "testinimi",
+                "lol",
+                "insinööri"));
+    }
+
+    @Test
+    void getUser() {
+
+    }
+    @Test
+    void getAllUsers() {
+        System.out.println(userController.getAllUsers());
 
     }
 }
