@@ -6,4 +6,4 @@ COPY pom.xml /app
 COPY . /app
 
 RUN mvn package
-CMD ["java", "-jar", "target\myapp.jar"]
+CMD ["java", "-jar", "target\demo-1.0-SNAPSHOT.jar"]
