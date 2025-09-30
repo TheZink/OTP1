@@ -1,6 +1,7 @@
 package com.attendace.Controller;
 
 
+import com.attendace.Utils.LoginUtils;
 import com.attendace.dao.Request;
 import com.attendace.dao.handlers.DefaultHandler;
 import com.attendace.dao.requests.RequestDao;
@@ -12,11 +13,13 @@ import java.util.Map;
 
 public class StaffController {
     private DefaultHandler handler;
+    private LoginUtils login;
     private Request request;
     private Map<String, Object> data;
 
     public StaffController() {
         this.handler = new DefaultHandler();
+        this.login = new LoginUtils();
     }
 
 
@@ -25,7 +28,7 @@ public class StaffController {
         data.put("username", username);
         data.put("password", password);
         request = new Request(RequestDao.STAFF, RequestType.SIGNIN, data);
-        return (boolean) handler.handle(request);
+        return (boolean) login.login(data);
     }
 
     //RETURNS FALSE EVEN THOUGH USER CAN BE CREATED?
