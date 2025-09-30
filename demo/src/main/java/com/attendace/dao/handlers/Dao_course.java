@@ -35,6 +35,7 @@ public class Dao_course extends Handler {
         Map<String, Object> object = request.getData(); //Fetch data from request
 
         if (request.getType() == RequestType.GETALLDATA){
+
             return getAllData();
         }
 

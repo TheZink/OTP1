@@ -178,7 +178,7 @@ public class Dao_user extends Handler {
 
     public boolean checkLogin(Map<String, Object> data){
 
-        System.out.println("i am here");
+
         String username = (String) data.get("username");
         String password = (String) data.get("password");
     
