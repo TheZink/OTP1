@@ -40,10 +40,15 @@ public class UserController {
     }
 
 
-    //NOT FINISHED CHECK DAO UPDATE FUNCTION, USE MAP AND NOT string PARAMETERS ->
     public boolean updateUser(String name, int id, String degree, String password) {
         data = new HashMap<>();
-        return false;
+        data.put("name", name);
+        data.put("id", id);
+        data.put("degree", degree);
+        data.put("password", password);
+
+        request = new Request(RequestDao.USERS, RequestType.UPDATEDATA, data);
+        return (boolean) handler.handle(request);
     }
 
 
