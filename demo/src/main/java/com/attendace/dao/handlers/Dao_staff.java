@@ -50,6 +50,10 @@ public class Dao_staff extends Handler {
         else if (request.getType() == RequestType.SIGNIN){
             return checkLogin(object);
         }
+        else if (request.getType() == RequestType.UPDATEDATA){
+            updateData(object);
+            return true;
+        }
 
         else if (request.getType() == RequestType.REMOVEDATA){
             removeData(object);
@@ -185,6 +189,31 @@ public class Dao_staff extends Handler {
 
         return false;
     }
+    public void updateData(Map<String, Object> object) {
+
+        int id = (int) object.get("id");
+        String name = (String) object.get("name");
+        String role = (String) object.get("role");
+        String passw = (String) object.get("password");
+
+
+        Connection connection = DbConnection.getConnection();
+        String sql = "UPDATE STAFF SET staff_name = ?, id = ?, staff_role = ?, staff_passw = ? WHERE id = ?";
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, name);
+            ps.setInt(2, id);
+            ps.setString(3, role);
+            ps.setString(4, passw);
+            ps.setInt(5, id);
+            ps.executeUpdate();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void removeData(Map<String, Object> object) {
 
