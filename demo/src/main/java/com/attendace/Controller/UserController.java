@@ -1,6 +1,7 @@
 package com.attendace.Controller;
 
 import com.attendace.Model.UserModel;
+import com.attendace.Utils.LoginUtils;
 import com.attendace.dao.Request;
 import com.attendace.dao.handlers.Dao_user;
 import com.attendace.dao.handlers.DefaultHandler;
@@ -15,19 +16,20 @@ public class UserController {
 
     private UserModel user;
     private DefaultHandler handler;
+    private LoginUtils login;
     private Request request;
     private Map<String, Object> data;
 
     public UserController() {
         this.handler = new DefaultHandler();
+        this.login = new LoginUtils();
     }
 
     public boolean loginUser(String username, String password) {
         data = new HashMap<>();
         data.put("username", username);
         data.put("password", password);
-        request = new Request(RequestDao.USERS, RequestType.SIGNIN, data);
-        return (boolean) handler.handle(request);
+        return (boolean) login.login(data);
     }
     public boolean createUser(int studentId, String name, String password, String userDegree) {
         data = new HashMap<>();
