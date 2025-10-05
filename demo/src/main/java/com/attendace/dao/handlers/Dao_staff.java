@@ -225,7 +225,7 @@ public class Dao_staff extends Handler {
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.executeQuery();
+            ps.executeUpdate();
             System.out.println(ps);
         } catch (SQLException e) {
             e.printStackTrace();

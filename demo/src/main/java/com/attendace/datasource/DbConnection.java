@@ -9,11 +9,16 @@ public class DbConnection {
 
     // If connection is null, method will try to create connection to the database when called
 
+    private static final String URL = "jdbc:mysql://localhost:3306/courseDB";
+    private static final String USER = "user";
+    private static final String PASSWORD = "pass";
+
     public static Connection getConnection(){
         if (connection == null){
             try {
                 //CHANGE TO UR OWN USER DB ACCOUNT.
-                connection = DriverManager.getConnection("jdbc:mariadb://127.0.0.1:3306/courseDB?user=user&password=pass");
+                //"jdbc:mariadb://127.0.0.1:3306/courseDB?user=user&password=pass"
+                connection = DriverManager.getConnection(URL, USER, PASSWORD);
             } catch (SQLException e) {
                 e.printStackTrace();
             }

@@ -213,7 +213,7 @@ public class Dao_course extends Handler {
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.executeQuery();
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

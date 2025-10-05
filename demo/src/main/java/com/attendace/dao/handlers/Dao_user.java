@@ -232,7 +232,7 @@ public class Dao_user extends Handler {
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.executeQuery();
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
