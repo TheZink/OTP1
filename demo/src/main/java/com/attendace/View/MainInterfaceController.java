@@ -12,9 +12,9 @@ public class MainInterfaceController {
 
     public void initialize() throws IOException {
         CourseContainer courseContainer = new CourseContainer();
-        coursegrid.add(courseContainer.getNode(), 1, 1);
+        coursegrid.add(courseContainer.getNode(), 0, 0);
 
         CourseContainer courseContainer2 = new CourseContainer();
-        coursegrid.add(courseContainer2.getNode(), 1, 2);
+        coursegrid.add(courseContainer2.getNode(), 0, 1);
     }
 }
