@@ -76,24 +76,23 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                        sh "docker build -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG} ."
                     } else {
-                        bat "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                        bat "docker build -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG} ."
                     }
                 }
             }
         }
 
         stage('Push Docker Image to Docker Hub') {
-            steps {
-                 withCredentials([usernamePassword(credentialsId: "${DOCKERHUB_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
-                      bat '''
-                           docker login -u %DOCKER_USER% -p %DOCKER_PASS%
-                           docker push %DOCKERHUB_REPO%:%DOCKER_IMAGE_TAG%
-                      '''
-                 }
-            }
-        }
+                    steps {
+                        script {
+                            docker.withRegistry('https://index.docker.io/v1/', env.DOCKERHUB_CREDENTIALS_ID) {
+                                docker.image("${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG}").push()
+                            }
+                        }
+                    }
+                }
     }
 
     post {
