@@ -52,6 +52,11 @@ public class Dao_user extends Handler {
             return checkLogin(data);
         }
 
+        else if (request.getType() == RequestType.UPDATEDATA){
+            updateData(data);
+            return true;
+        }
+
         else if (request.getType() == RequestType.REMOVEDATA){
             removeData(data);
         }
@@ -157,8 +162,17 @@ public class Dao_user extends Handler {
             e.printStackTrace();
         }
     }
-    
-    public void updateData(String name, int id, String degree, String passw) {
+
+
+
+    public void updateData(Map<String, Object> object) {
+
+        int id = (int) object.get("id");
+        String name = (String) object.get("name");
+        String degree = (String) object.get("degree");
+        String passw = (String) object.get("password");
+
+
         Connection connection = DbConnection.getConnection();
         String sql = "UPDATE USERS SET user_name = ?, user_student_id = ?, user_degree = ?, user_passw = ? WHERE id = ?";
         
@@ -176,9 +190,10 @@ public class Dao_user extends Handler {
         }
     }
 
+
     public boolean checkLogin(Map<String, Object> data){
 
-        System.out.println("i am here");
+
         String username = (String) data.get("username");
         String password = (String) data.get("password");
     
