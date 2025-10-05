@@ -16,7 +16,7 @@ RUN mkdir -p /javafx-sdk \
     && rm -rf /javafx-sdk/javafx-sdk-21.0.2 javafx.zip
 
 
- COPY demo/target/demo-1.0-SNAPSHOT.jar app.jar
+ COPY demo/target/demo-1.0-SNAPSHOT-shaded.jar app.jar
 
  #COPY target/*.jar app.jar
 # Set X11 display (Windows host with Xming/X11)
