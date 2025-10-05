@@ -2,10 +2,8 @@ package com.attendace.View;
 
 import com.attendace.Controller.CourseController;
 import com.attendace.View.Classes.CourseContainer;
-import com.sun.jna.platform.win32.PsapiUtil;
 import javafx.fxml.FXML;
 import javafx.scene.layout.GridPane;
-import org.checkerframework.checker.units.qual.C;
 
 import java.io.IOException;
 
