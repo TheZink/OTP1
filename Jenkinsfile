@@ -24,17 +24,7 @@ pipeline {
             }
         }
 
-        stage('Test') {
-                    steps {
-                        script {
-                            if (isUnix()) {
-                                sh 'mvn -f demo/pom.xml test'
-                            } else {
-                                bat 'mvn -f demo/pom.xml test'
-                            }
-                        }
-                    }
-                }
+
 
         stage('Code Coverage') {
             steps {
