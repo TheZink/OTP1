@@ -24,21 +24,27 @@ pipeline {
             }
         }
 
-        stage('build') {
-            steps {
-                bat 'mvn -f demo/pom.xml clean install'
-            }
-        }
-
         stage('Test') {
             steps {
-                bat 'mvn -f demo/pom.xml test'
+                script {
+                    if (isUnix()) {
+                        sh 'mvn -f demo/pom.xml test'
+                    } else {
+                        bat 'mvn -f demo/pom.xml test'
+                    }
+                }
             }
         }
 
         stage('Code Coverage') {
             steps {
-                bat 'mvn -f demo/pom.xml jacoco:report'
+                script {
+                    if (isUnix()) {
+                        sh 'mvn -f demo/pom.xml jacoco:report'
+                    } else {
+                        bat 'mvn -f demo/pom.xml jacoco:report'
+                    }
+                }
             }
         }
 
@@ -54,9 +60,27 @@ pipeline {
             }
         }
 
+        stage('Build') {
+            steps {
+                script {
+                    if (isUnix()) {
+                        sh 'mvn -f demo/pom.xml clean package -DskipTests'
+                    } else {
+                        bat 'mvn -f demo/pom.xml clean package -DskipTests'
+                    }
+                }
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
-                 bat 'docker build -t %DOCKERHUB_REPO%:%DOCKER_IMAGE_TAG% .'
+                script {
+                    if (isUnix()) {
+                        sh "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                    } else {
+                        bat "docker build -t ${DOCKER_IMAGE}:${DOCKER_TAG} ."
+                    }
+                }
             }
         }
 
@@ -69,6 +93,11 @@ pipeline {
                       '''
                  }
             }
+        }
+    post {
+        always {
+            junit(testResults: '**/target/surefire-reports/*.xml', allowEmptyResults: true)
+            jacoco(execPattern: '**/target/jacoco.exec', classPattern: '**/target/classes', sourcePattern: '**/src/main/java', inclusionPattern: '**/*.class', exclusionPattern: '')
         }
     }
 }
