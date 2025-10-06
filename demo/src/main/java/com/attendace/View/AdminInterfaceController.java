@@ -9,12 +9,7 @@ import com.attendace.dao.requests.RequestType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
-import javax.swing.Action;
-
-import javafx.beans.Observable;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -26,43 +21,48 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
-public class AdminInterfaceController extends Application {
+public class AdminInterfaceController {
 
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/AdminPage.fxml"));
-        primaryStage.setTitle("Admin Interface");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
-    }
+    // For testing only
+    // @Override
+    // public void start(Stage primaryStage) throws Exception {
+    //     Parent root = FXMLLoader.load(getClass().getResource("/fxml/AdminPage.fxml"));
+    //     primaryStage.setTitle("Admin Interface");
+    //     primaryStage.setScene(new Scene(root));
+    //     primaryStage.show();
+    // }
 
     Handler handler = new DefaultHandler();
     Map<String, Object> object = new HashMap<>();
 
     @FXML
-    Button viewStaff, createStaff, modifyStaff, deleteStaff;
+    Button viewStaff, createStaff, modifyStaff;
 
     @FXML
-    Button viewStudent, createStudent, modifyStudent, deleteStudent;
+    Button viewStudent, createStudent, modifyStudent;
 
     @FXML
-    Button viewCourse, createCourse, modifyCourse, deleteCourse;
+    Button viewCourse, createCourse, modifyCourse;
 
     @FXML
     Button viewAtten, modifyAtten;
 
     @FXML
-    Button saveButton, cancelButton;
+    Button saveButton, cancelButton, deleteButton, modifyButton;
 
     @FXML
     private ListView<String> listView;
 
-    // -- VIEW HANDLERS -- 
+    private String viewing = null;
+
+    // -- VIEW BUTTON HANDLERS -- 
     
     @FXML
     private void handleViewStaff(ActionEvent event) {
 
         listView.getItems().clear();
+
+        viewing = "staff";
 
         Request request = new Request(RequestDao.STAFF, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
@@ -86,6 +86,8 @@ public class AdminInterfaceController extends Application {
 
         listView.getItems().clear();
 
+        viewing = "student";
+
         Request request = new Request(RequestDao.USERS, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
 
@@ -105,8 +107,10 @@ public class AdminInterfaceController extends Application {
 
     @FXML
     private void handleViewCourses(ActionEvent event) {
-        
+
         listView.getItems().clear();
+
+        viewing = "courses";
 
         Request request = new Request(RequestDao.COURSE, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
@@ -130,6 +134,8 @@ public class AdminInterfaceController extends Application {
 
         listView.getItems().clear();
 
+        viewing = "attendance";
+
         Request request = new Request(RequestDao.ATTENDANCE, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
 
@@ -147,7 +153,152 @@ public class AdminInterfaceController extends Application {
         }
     }
 
+    // -- CREATION BUTTON HANDLERS --
 
+    @FXML
+    private void handleCreateStaff(ActionEvent event){
+        System.out.println("'Create staff' button pressed");
 
+        try{
 
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminStaffCreation.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Create Staff");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            handleViewStaff(event);
+
+        } catch (Exception e){
+            e.getMessage();
+        }
+    }
+
+    @FXML
+    private void handleCreateStudent(ActionEvent event){
+        System.out.println("'Create student' button pressed");
+
+        try{
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminStudentCreation.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Create student");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            handleViewStudent(event);
+
+        } catch (Exception e){
+            e.getMessage();
+        }
+    }
+
+    @FXML
+    private void handleCreateCourse(ActionEvent event){
+        System.out.println("'Create course' pressed");
+
+        try{
+
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminCourseCreation.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Create course");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            handleViewCourses(event);
+
+        } catch (Exception e){
+            e.getMessage();
+        }
+    }
+
+        // -- DELETE HANDLER --
+
+    @FXML
+    private void handleDelete(ActionEvent event){
+        System.out.println("'Delete' button pressed");
+
+        if (viewing.equals("student")) {
+            System.out.println("Viewing students. Delete entry");
+            String item = listView.getSelectionModel().getSelectedItem();
+    
+            if (item == null) return; // Nothing selected
+            if (item.startsWith("ID")) return; // First row selected
+
+            String[] parts = item.trim().split("\\s+"); // Fetch selected row
+            int id = Integer.parseInt(parts[0]); // Fetch row id
+    
+            Map<String, Object> object = new HashMap<>();
+            object.put("value", id);
+            object.put("label", "id");
+    
+            Request request = new Request(RequestDao.USERS, RequestType.REMOVEDATA, object);
+            handler.handle(request);
+    
+            handleViewStudent(event);
+        }
+
+        else if (viewing.equals("staff")) {
+            System.out.println("Viewing students. Delete entry");
+            String item = listView.getSelectionModel().getSelectedItem();
+    
+            if (item == null) return; // Nothing selected
+            if (item.startsWith("ID")) return; // First row selected
+
+            String[] parts = item.trim().split("\\s+"); // Fetch selected row
+            int id = Integer.parseInt(parts[0]); // Fetch row id
+    
+            Map<String, Object> object = new HashMap<>();
+            object.put("value", id);
+            object.put("label", "id");
+    
+            Request request = new Request(RequestDao.STAFF, RequestType.REMOVEDATA, object);
+            handler.handle(request);
+    
+            handleViewStaff(event);
+        }
+
+        else if (viewing.equals("courses")) {
+            System.out.println("Viewing courses. Delete entry");
+            String item = listView.getSelectionModel().getSelectedItem();
+    
+            if (item == null) return; // Nothing selected
+            if (item.startsWith("ID")) return; // First row selected
+
+            String[] parts = item.trim().split("\\s+"); // Fetch selected row
+            int id = Integer.parseInt(parts[0]); // Fetch row id
+    
+            Map<String, Object> object = new HashMap<>();
+            object.put("value", id);
+            object.put("label", "id");
+    
+            Request request = new Request(RequestDao.COURSE, RequestType.REMOVEDATA, object);
+            handler.handle(request);
+    
+            handleViewCourses(event);
+        }
+
+        else if (viewing.equals("attendance")) {
+            System.out.println("Viewing attendance. Delete entry");
+            String item = listView.getSelectionModel().getSelectedItem();
+    
+            if (item == null) return; // Nothing selected
+            if (item.startsWith("ID")) return; // First row selected
+
+            String[] parts = item.trim().split("\\s+"); // Fetch selected row
+            int id = Integer.parseInt(parts[0]); // Fetch row id
+    
+            Map<String, Object> object = new HashMap<>();
+            object.put("value", id);
+            object.put("label", "id");
+    
+            Request request = new Request(RequestDao.ATTENDANCE, RequestType.REMOVEDATA, object);
+            handler.handle(request);
+    
+            handleViewAttendance(event);
+        }
+    }
 }
