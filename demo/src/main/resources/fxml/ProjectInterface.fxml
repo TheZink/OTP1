@@ -157,7 +157,7 @@
                <children>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;">
                      <children>
-                        <Text layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student" wrappingWidth="288.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <Text fx:id="statuslabel" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student" wrappingWidth="288.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
@@ -176,7 +176,7 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;" GridPane.rowIndex="1">
                      <children>
-                        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Degree Program" wrappingWidth="288.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <Text fx:id="rolelabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Degree Program" wrappingWidth="288.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>

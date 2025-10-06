@@ -23,12 +23,12 @@ public class StaffController {
     }
 
 
-    public boolean loginStaff(String username, String password) {
+    public String loginStaff(String username, String password) {
         data = new HashMap<>();
         data.put("username", username);
         data.put("password", password);
         request = new Request(RequestDao.STAFF, RequestType.SIGNIN, data);
-        return (boolean) login.login(data);
+        return (String) login.login(data);
     }
 
     //RETURNS FALSE EVEN THOUGH USER CAN BE CREATED?
