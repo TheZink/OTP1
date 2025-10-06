@@ -2,6 +2,7 @@ package com.attendace.View;
 
 import com.attendace.Controller.CourseController;
 import com.attendace.Engine.MainEngine;
+import com.attendace.Model.StaffModel;
 import com.attendace.Model.UserModel;
 import com.attendace.View.Classes.CourseContainer;
 import javafx.animation.FadeTransition;
@@ -45,6 +46,12 @@ public class MainInterfaceController {
 
     @FXML
     private Text degreelabel;
+
+    @FXML
+    private Text rolelabel;
+
+    @FXML
+    private Text statuslabel;
 
     @FXML
     private GridPane participatingcoursesgrid;
@@ -100,9 +107,21 @@ public class MainInterfaceController {
     }
 
     public void fillprofiledata(UserModel user) {
+        statuslabel.setText("Student");
+        rolelabel.setText("Degree In");
+
         usernamelabel.setText(user.getName());
         degreelabel.setText(user.getUserDegree());
         studentidlabel.setText(String.valueOf(user.getStudentId()));
+    }
+
+    public void fillprofiledatastaff(StaffModel user) {
+        statuslabel.setText("Staff");
+        rolelabel.setText("Role");
+
+        usernamelabel.setText(user.getName());
+        degreelabel.setText(user.getStaffRole());
+        studentidlabel.setText("");
     }
 
     private void createattendancelist(ArrayList<Object> course) throws IOException {

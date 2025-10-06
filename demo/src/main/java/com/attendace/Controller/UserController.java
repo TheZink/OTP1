@@ -25,11 +25,11 @@ public class UserController {
         this.login = new LoginUtils();
     }
 
-    public boolean loginUser(String username, String password) {
+    public String loginUser(String username, String password) {
         data = new HashMap<>();
         data.put("username", username);
         data.put("password", password);
-        return (boolean) login.login(data);
+        return (String) login.login(data);
     }
     public boolean createUser(int studentId, String name, String password, String userDegree) {
         data = new HashMap<>();

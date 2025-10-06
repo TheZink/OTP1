@@ -14,7 +14,7 @@ public class StaffModel {
         this.staffRole = staffRole;
 
     }
-    public int getStudentId() {
+    public int getStaffId() {
         return staffId;
     }
 
@@ -22,7 +22,7 @@ public class StaffModel {
         return name;
     }
 
-    public String getUserDegree() {
+    public String getStaffRole() {
         return staffRole;
     }
 }
