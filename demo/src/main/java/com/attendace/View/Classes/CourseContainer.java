@@ -3,6 +3,7 @@ package com.attendace.View.Classes;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Text;
@@ -25,14 +26,14 @@ public class CourseContainer {
         Text courseteachertext = (Text) root.lookup("#courseteacher");
         courseteachertext.setText("Opettaja: " + "NULL");
 
-        for (Object obj : course) {
-            System.out.println(obj);
-        }
-
         this.node = root;
     }
 
     public Node getNode() {
         return node;
+    }
+
+    public Button getAttendaceButton() {
+        return (Button) node.lookup("#attendancebutton");
     }
 }
