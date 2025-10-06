@@ -88,14 +88,14 @@ public class Dao_course_staff_join extends Handler {
     public ArrayList<Integer> getData(Map<String, Object> object){
         System.out.println("olen täällä");
 
-        Integer course_id = (Integer) object.get("id");
+        Integer staffId = (Integer) object.get("id");
 
         ArrayList<Integer> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT course_id FROM course_staff_join WHERE staff_id = ?";
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, course_id);
+            ps.setInt(1, staffId);
             ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 data.add(Integer.valueOf(Integer.toString(rs.getInt("course_id"))));

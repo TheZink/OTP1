@@ -44,6 +44,7 @@ class CourseControllerTest {
     }
     @Test
     void getStaffsCourses() {
-        System.out.println(courseController.getStaffsCourses(1));
+        //System.out.println(courseController.getStaffsCourses(1));
+        System.out.println(courseController.getCourseById(1));
     }
 }
