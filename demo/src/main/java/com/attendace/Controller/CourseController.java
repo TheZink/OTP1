@@ -69,4 +69,18 @@ public class CourseController {
         request = new Request(RequestDao.COURSE, RequestType.GETDATA, data);
         return (ArrayList<String>) handler.handle(request);
     }
+    public ArrayList<String> getCourseById(int course_id) {
+        data = new HashMap<>();
+        data.put("course_id", course_id);
+
+        request = new Request(RequestDao.COURSE, RequestType.GETDATABYID, data);
+        return (ArrayList<String>) handler.handle(request);
+    }
+
+    public ArrayList<Integer> getStaffsCourses(int staffId) {
+        data = new HashMap<>();
+        data.put("id", staffId);
+        request = new Request(RequestDao.STAFF_COURSE_JOIN, RequestType.GETDATA, data);
+        return (ArrayList<Integer>) handler.handle(request);
+    }
 }

@@ -4,5 +4,6 @@ public enum RequestDao {
     USERS,
     STAFF,
     COURSE,
-    ATTENDANCE
+    ATTENDANCE,
+    STAFF_COURSE_JOIN
 }

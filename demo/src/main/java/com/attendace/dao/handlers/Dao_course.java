@@ -42,6 +42,9 @@ public class Dao_course extends Handler {
         else if (request.getType() ==RequestType.GETDATA){
             return getData(object);
         }
+        else if (request.getType() ==RequestType.GETDATABYID){
+            return getDataById(object);
+        }
 
         else if (request.getType() == RequestType.SETDATA){
             setData(object);
@@ -103,6 +106,54 @@ public class Dao_course extends Handler {
             return data;
         }
     }
+
+
+    public ArrayList<ArrayList<String>> getDataById(Map<String, Object> object){
+
+        Integer course_id = (Integer) object.get("course_id");
+
+
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
+
+        Connection connection = DbConnection.getConnection();
+        String sql = "SELECT * FROM COURSE WHERE id = ?";
+
+
+        try {
+            PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setInt(1, course_id);
+            ResultSet rs = ps.executeQuery();
+
+            while (rs.next()){
+
+                ArrayList<String> row = new ArrayList<>();
+
+                row.add(Integer.toString(rs.getInt("id")));
+                row.add(rs.getString("course_name"));
+                row.add(rs.getString("course_topic"));
+                row.add(rs.getString("course_desc"));
+                row.add(Boolean.toString(rs.getBoolean("attendance_avaible")));
+                row.add(rs.getString("attendance_key"));
+                row.add(Integer.toString(rs.getInt("min_attendance")));
+                row.add(Integer.toString(rs.getInt("max_attendance")));
+                row.add(Boolean.toString(rs.getBoolean("course_active")));
+                row.add(rs.getDate("created_at").toString());
+
+                data.add(row);
+            }
+
+        } catch (SQLException e){
+            e.printStackTrace();
+        }
+
+        if (data.isEmpty()){
+            return null;
+        } else {
+            return data;
+        }
+    }
+
+
 
     // Fetch specific course from Course-table
     public ArrayList<ArrayList<String>> getData(Map<String, Object> object){
