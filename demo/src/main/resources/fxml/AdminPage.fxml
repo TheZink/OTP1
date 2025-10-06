@@ -46,7 +46,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox prefHeight="619.0" prefWidth="1166.0" style="-fx-background-color: #d6d6d6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.attendace.View.MainInterfaceController">
+<VBox prefHeight="619.0" prefWidth="1166.0" style="-fx-background-color: #d6d6d6;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.attendace.View.AdminInterfaceController">
    <children>
       <HBox alignment="CENTER" prefHeight="55.0" prefWidth="1153.0" spacing="10.0">
          <children>
@@ -106,7 +106,7 @@
                   <Insets bottom="10.0" left="10.0" top="10.0" />
                </padding>
                <content>
-                  <ListView fx:id="viewList" prefHeight="560.0" prefWidth="731.0" />
+                  <ListView fx:id="listView" prefHeight="560.0" prefWidth="731.0" />
                </content>
             </ScrollPane>
             <AnchorPane layoutX="721.0" prefHeight="581.0" prefWidth="433.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="720.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -160,12 +160,12 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="viewCourse" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View courses" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="5">
+                        <Button fx:id="viewCourse" mnemonicParsing="false" onAction="#handleViewCourses" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View courses" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="5">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="viewStaff" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View staff" textAlignment="CENTER" textFill="WHITE">
+                        <Button fx:id="viewStaff" mnemonicParsing="false" onAction="#handleViewStaff" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View staff" textAlignment="CENTER" textFill="WHITE">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
@@ -185,7 +185,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="viewUsers" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View student" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1">
+                        <Button fx:id="viewUsers" mnemonicParsing="false" onAction="#handleViewStudent" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View student" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
@@ -200,7 +200,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="viewAtten" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View Attendance" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                        <Button fx:id="viewAtten" mnemonicParsing="false" onAction="#handleViewAttendance" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View Attendance" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
