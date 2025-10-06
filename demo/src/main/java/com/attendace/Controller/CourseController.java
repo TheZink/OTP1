@@ -55,10 +55,10 @@ public class CourseController {
     }
 
 
-    public ArrayList<String> getAllCourses() {
+    public ArrayList<ArrayList<Object>> getAllCourses() {
         data = new HashMap<>();
         request = new Request(RequestDao.COURSE, RequestType.GETALLDATA, data);
-        return (ArrayList<String>) handler.handle(request);
+        return (ArrayList<ArrayList<Object>>) handler.handle(request);
     }
 
 
