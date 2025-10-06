@@ -60,6 +60,8 @@ public class Dao_staff extends Handler {
         }
 
         return false;
+
+
     }
 
     // Fetch all staff from Staff-table.

@@ -5,6 +5,8 @@ import com.attendace.dao.handlers.Dao_course;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.ArrayList;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CourseControllerTest {
@@ -32,5 +34,16 @@ class CourseControllerTest {
     void updateCourse() {
 
 
+    }
+    @Test
+    void getAllCourses() {
+        ArrayList x = courseController.getAllCourses();
+        //ArrayList x1 = x.get(0);
+        System.out.println(x.get(0));
+        //System.out.println(courseController.getAllCourses());
+    }
+    @Test
+    void getStaffsCourses() {
+        System.out.println(courseController.getStaffsCourses(1));
     }
 }
