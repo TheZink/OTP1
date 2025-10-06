@@ -1,7 +1,9 @@
 package com.attendace.Engine;
 
 import com.attendace.Controller.CourseController;
+import com.attendace.Controller.StaffController;
 import com.attendace.Controller.UserController;
+import com.attendace.Model.StaffModel;
 import com.attendace.Model.UserModel;
 import com.attendace.View.MainInterfaceController;
 import javafx.application.Platform;
@@ -18,26 +20,16 @@ public class MainEngine {
     MainInterfaceController mainInterfaceController;
     CourseController courseController;
     UserController userController;
+    StaffController staffController;
 
     public MainEngine() {
 
     }
 
-    public void runEngine(String username) throws IOException {
+    public void runEngine(String username, String status) throws IOException {
         courseController = new CourseController();
         userController = new UserController();
-
-        ArrayList<String> fetcheduser = userController.getUser(username);
-
-        if (fetcheduser.size() == 0) {
-            throw new IOException("User not found");
-        }
-
-        UserModel user = new UserModel(
-                Integer.parseInt(fetcheduser.get(2)),
-                fetcheduser.get(1),
-                fetcheduser.get(3)
-        );
+        staffController = new StaffController();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProjectInterface.fxml"));
         Parent root = loader.load();
@@ -51,15 +43,44 @@ public class MainEngine {
         Platform.runLater(() -> {
             mainInterfaceController = loader.getController();
 
-            ArrayList<ArrayList<Object>> courses = courseController.getAllCourses();
+            if (status.equals("Staff")) {
+                ArrayList<String> fetcheduser = staffController.getStaff(username);
 
-            try {
-                mainInterfaceController.fillcourses(courses);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
+                StaffModel user = new StaffModel(
+                        Integer.parseInt(fetcheduser.get(0)),
+                        fetcheduser.get(1),
+                        fetcheduser.get(2)
+                );
+
+                ArrayList<ArrayList<Object>> courses = courseController.getAllCourses();
+
+                try {
+                    mainInterfaceController.fillcourses(courses);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                mainInterfaceController.fillprofiledatastaff(user);
+
+            } else if (status.equals("User")) {
+                ArrayList<String> fetcheduser = userController.getUser(username);
+
+                UserModel user = new UserModel(
+                        Integer.parseInt(fetcheduser.get(2)),
+                        fetcheduser.get(1),
+                        fetcheduser.get(3)
+                );
+
+                ArrayList<ArrayList<Object>> courses = courseController.getAllCourses();
+
+                try {
+                    mainInterfaceController.fillcourses(courses);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+                mainInterfaceController.fillprofiledata(user);
             }
-
-            mainInterfaceController.fillprofiledata(user);
         });
     }
 }
