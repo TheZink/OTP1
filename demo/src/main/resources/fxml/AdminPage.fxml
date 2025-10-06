@@ -130,37 +130,27 @@
                       <RowConstraints minHeight="10.0" prefHeight="20.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                      <children>
-                        <Button fx:id="createStaff" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Create staff" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER">
+                        <Button fx:id="createStaff" mnemonicParsing="false" onAction="#handleCreateStaff" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Create staff" textAlignment="CENTER" textFill="WHITE" GridPane.halignment="CENTER" GridPane.rowIndex="3" GridPane.valignment="CENTER">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="deleteStaff" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Delete staff" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="3">
+                        <Button fx:id="deleteButton" mnemonicParsing="false" onAction="#handleDelete" prefHeight="87.0" prefWidth="330.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Delete entry" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="7">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="modifyStaff" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Modify staff" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="2">
+                        <Button fx:id="modifyButton" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Modify entry" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="7">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="createStudent" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Create student" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
+                        <Button fx:id="createStudent" mnemonicParsing="false" onAction="#handleCreateStudent" prefHeight="48.0" prefWidth="225.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Create student" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="4">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="deleteStudent" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Delete student" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="modifyStudent" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Modify student" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="2">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="viewCourse" mnemonicParsing="false" onAction="#handleViewCourses" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View courses" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="5">
+                        <Button fx:id="viewCourse" mnemonicParsing="false" onAction="#handleViewCourses" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View courses" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="1">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
@@ -170,17 +160,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="createCourse" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Create course" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="6">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="modifyCourse" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Modify course" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="7">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="deleteCourse" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Delete course" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="8">
+                        <Button fx:id="createCourse" mnemonicParsing="false" onAction="#handleCreateCourse" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Create course" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="3">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
@@ -200,12 +180,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="viewAtten" mnemonicParsing="false" onAction="#handleViewAttendance" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View Attendance" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="modifyAtten" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Modify Attendance" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="6">
+                        <Button fx:id="viewAtten" mnemonicParsing="false" onAction="#handleViewAttendance" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View Attendance" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="1">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
