@@ -20,7 +20,7 @@ pipeline {
         stage('checking') {
             steps {
                 echo 'Building...'
-                git branch:'main', url:'https://github.com/TheZink/OTP1.git'
+                git branch:'main', url:'https://github.com/TheZink/OTP1.git', cleanBeforeCheckout: true
             }
         }
 
