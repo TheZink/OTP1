@@ -9,7 +9,8 @@ public class DbConnection {
 
     // If connection is null, method will try to create connection to the database when called
     // jdbc:mysql://localhost:3306
-    private static final String URL = "jdbc:mysql://host.docker.internal:3306/courseDB";
+    // jdbc:mysql://host.docker.internal:3306
+    private static final String URL = "jdbc:mysql://localhost:3306/courseDB";
     private static final String USER = "user";
     private static final String PASSWORD = "pass";
 
