@@ -1,25 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane prefHeight="80.0" prefWidth="561.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Text fx:id="coursename" fill="#171717" layoutX="14.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Testi Heikki" wrappingWidth="283.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0">
+      <Text fx:id="attendancename" fill="#171717" layoutX="14.0" layoutY="20.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Testi Heikki" wrappingWidth="283.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0">
          <font>
             <Font name="System Bold" size="17.0" />
          </font>
       </Text>
-      <Text fx:id="coursename1" fill="#171717" layoutX="271.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="29500002" textAlignment="RIGHT" wrappingWidth="283.13671875" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
+      <Text fx:id="attendanceid" fill="#171717" layoutX="271.0" layoutY="19.0" strokeType="OUTSIDE" strokeWidth="0.0" text="29500002" textAlignment="RIGHT" wrappingWidth="283.13671875" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="5.0">
          <font>
             <Font name="System Italic" size="15.0" />
          </font>
       </Text>
-      <Text fx:id="coursename11" fill="#171717" layoutX="5.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meteorologi" wrappingWidth="283.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="27.0">
+      <Text fx:id="attendancedegree" fill="#171717" layoutX="5.0" layoutY="41.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Meteorologi" wrappingWidth="283.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="27.0">
          <font>
             <Font size="15.0" />
          </font>
       </Text>
+      <MenuButton fx:id="attendancemenu" layoutX="451.0" layoutY="38.0" mnemonicParsing="false" text="Attendance" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Absent" />
+            <MenuItem mnemonicParsing="false" text="Present" />
+         </items>
+      </MenuButton>
    </children>
 </AnchorPane>
