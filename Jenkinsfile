@@ -24,8 +24,6 @@ pipeline {
             }
         }
 
-
-
         stage('Code Coverage') {
             steps {
                 script {
