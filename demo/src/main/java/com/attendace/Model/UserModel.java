@@ -5,14 +5,12 @@ public class UserModel {
 
     private int studentId;
     private String name;
-    private String password;
     private String userDegree;
 
 
-    public UserModel(int studentId, String name, String password, String userDegree) {
+    public UserModel(int studentId, String name, String userDegree) {
         this.studentId = studentId;
         this.name = name;
-        this.password = password;
         this.userDegree = userDegree;
 
     }

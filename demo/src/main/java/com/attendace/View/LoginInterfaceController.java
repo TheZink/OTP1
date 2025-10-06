@@ -36,12 +36,12 @@ public class LoginInterfaceController extends Application {
     }
 
     public void AttemptLogin() throws IOException {
-        String email = emailfield.getText();
+        String username = emailfield.getText();
         String password = passwordfield.getText();
 
-        if(userController.loginUser(email, password)) {
+        if (userController.loginUser(username, password)) {
             emailfield.getScene().getWindow().hide();
-            engine.runEngine();
+            engine.runEngine(username);
         } else {
             System.out.println("Failed to login");
         }
