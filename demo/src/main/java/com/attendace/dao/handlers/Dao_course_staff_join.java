@@ -20,7 +20,6 @@ public class Dao_course_staff_join extends Handler {
     public boolean canProcess(Request request) {
         // If handler cannot process this request, set next handler and return false
         if (request.getDao() != RequestDao.STAFF_COURSE_JOIN) {
-            setNextHandler(new Dao_attendance());
             return false;
         } else {
             return true;
