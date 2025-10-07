@@ -60,7 +60,7 @@
                         <Font size="14.0" />
                      </font>
                   </Button>
-                  <Button fx:id="adminpanel" minHeight="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: #727272;" text="ADMIN PANEL" textAlignment="CENTER" textFill="#727272">
+                  <Button fx:id="adminpanel" minHeight="-Infinity" mnemonicParsing="false" onAction="#handleAdminButton" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: #727272;" text="ADMIN PANEL" textAlignment="CENTER" textFill="#727272">
                      <font>
                         <Font size="14.0" />
                      </font>

@@ -7,6 +7,7 @@ import com.attendace.Model.UserModel;
 import com.attendace.View.Classes.CourseContainer;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -173,6 +174,19 @@ public class MainInterfaceController {
                     throw new RuntimeException(e);
                 }
             });
+        }
+    }
+
+    public void handleAdminButton(ActionEvent event) {
+        try{
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminPage.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Create Staff");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (Exception e){
+            e.getMessage();
         }
     }
 }
