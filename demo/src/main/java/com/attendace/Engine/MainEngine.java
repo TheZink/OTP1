@@ -44,15 +44,20 @@ public class MainEngine {
             mainInterfaceController = loader.getController();
 
             if (status.equals("Staff")) {
+
                 ArrayList<String> fetcheduser = staffController.getStaff(username);
 
                 StaffModel user = new StaffModel(
                         Integer.parseInt(fetcheduser.get(0)),
                         fetcheduser.get(1),
-                        fetcheduser.get(2)
+                        fetcheduser.get(2),
+                        fetcheduser.get(3)
                 );
+                mainInterfaceController.renderAdminButton(user);
 
                 ArrayList<ArrayList<Object>> courses = courseController.getAllCourses();
+
+                System.out.println("Olenko admin?"+ user.getAdminStatus());
 
                 try {
                     mainInterfaceController.fillcourses(courses);
@@ -64,6 +69,7 @@ public class MainEngine {
 
             } else if (status.equals("User")) {
                 ArrayList<String> fetcheduser = userController.getUser(username);
+                mainInterfaceController.disableAdminButton();
 
                 UserModel user = new UserModel(
                         Integer.parseInt(fetcheduser.get(2)),
