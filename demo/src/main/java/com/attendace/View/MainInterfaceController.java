@@ -60,6 +60,22 @@ public class MainInterfaceController {
     @FXML
     private Text studentidlabel;
 
+    @FXML
+    private Button adminpanel;
+
+
+
+    public void renderAdminButton(StaffModel staff) {
+        if(Objects.equals(staff.getAdminStatus(), "false")) {
+            disableAdminButton();
+
+        }
+    }
+    public void disableAdminButton() {
+        adminpanel.setVisible(false);
+    }
+
+
 
     public void showprofile() throws IOException {
         profilebutton.setDisable(true);
