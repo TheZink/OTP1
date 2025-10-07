@@ -1,6 +1,5 @@
 package com.attendace.dao.handlers;
 
-import com.attendace.Utils.UserUtils;
 import com.attendace.dao.Handler;
 import com.attendace.dao.Request;
 import com.attendace.dao.requests.RequestDao;
