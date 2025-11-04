@@ -2,6 +2,20 @@
 
 All project sprintreviews can be found under the [doc](https://github.com/TheZink/OTP1/tree/main/doc) folder
 
+## Localisation Instructions
+
+Currently, the application localisation works by selecting one of 4 language from a drop down menu. These languages include:
+- English
+- Finnish
+- Japanese
+- Persian
+
+Language change happens while logging in and will be in effect while using the application. Admins will also see the language change in the adminpanel.
+
+## Localisation Resources
+
+For localisation, translations have been provided from [Google Translate](https://translate.google.fi/?sl=auto&tl=fi&op=translate) and [DeepL](https://www.deepl.com/en/translator)
+
 ## Other resources
 
 [Trello](https://trello.com/b/5WAxql7T/product-backlog-board)
