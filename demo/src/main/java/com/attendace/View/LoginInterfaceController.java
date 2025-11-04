@@ -76,7 +76,17 @@ public class LoginInterfaceController extends Application {
         Translator.setLocale("fi", "FI");
         translatepage();
     }
+    @FXML
+    public void langjp() {
+        Translator.setLocale("ja", "JP");
+        translatepage();
+    }
 
+    @FXML
+    public void langir() {
+        Translator.setLocale("fa", "IR");
+        translatepage();
+    }
     public void AttemptLogin() throws IOException {
         String username = emailfield.getText();
         String password = passwordfield.getText();
