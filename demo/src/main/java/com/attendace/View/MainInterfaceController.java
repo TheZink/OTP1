@@ -74,11 +74,13 @@ public class MainInterfaceController {
     public void translatepage() {
         profilebutton.setText(Translator.getString("main.profileButton"));
         coursesbutton.setText(Translator.getString("main.coursesButton"));
+        adminpanel.setText(Translator.getString("main.adminButton"));
 
         //PROFILE PAGE, STATUS LABEL SHOULD BE FETCHED FROM DATABASE?
         statuslabel.setText("Student");
         rolelabel.setText(Translator.getString("profile.roleLabel"));
         participatingIn.setText(Translator.getString("profile.participatingIn"));
+
     }
 
     public void renderAdminButton(StaffModel staff) {

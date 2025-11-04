@@ -45,6 +45,8 @@
               <items>
                 <MenuItem fx:id="englishmenu" mnemonicParsing="false" onAction="#langeng" text="English" />
                 <MenuItem fx:id="finnishmenu" mnemonicParsing="false" onAction="#langfin" text="Finnish" />
+                 <MenuItem fx:id="japanesemenu" mnemonicParsing="false" onAction="#langjp" text="Japanese" />
+                 <MenuItem fx:id="persianmenu" mnemonicParsing="false" onAction="#langir" text="Persian" />
               </items>
             </MenuButton>
          </children>
