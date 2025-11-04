@@ -10,7 +10,7 @@ Currently, the application localisation works by selecting one of 4 language fro
 - Japanese
 - Persian
 
-Language change happens while logging in and will be in effect while using the application. Admins will also see the language change in the adminpanel.
+Language change happens while logging in and will be in effect while using the application. Admins will also see the language change in the adminpanel. Language cannot be changed afterwards while using the application.
 
 ## Localisation Resources
 
