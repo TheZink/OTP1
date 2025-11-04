@@ -42,6 +42,7 @@ public class MainEngine {
 
         Platform.runLater(() -> {
             mainInterfaceController = loader.getController();
+            mainInterfaceController.translatepage();
 
             if (status.equals("Staff")) {
 

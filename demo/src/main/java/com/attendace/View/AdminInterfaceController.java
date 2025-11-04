@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.attendace.localisation.Translator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +20,8 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class AdminInterfaceController {
@@ -55,7 +58,25 @@ public class AdminInterfaceController {
 
     private String viewing = null;
 
-    // -- VIEW BUTTON HANDLERS -- 
+    // -- VIEW BUTTON HANDLERS --
+
+    public void TranslatePage() {
+        viewStaff.setText(Translator.getString("admin.viewstaff"));
+        createStaff.setText(Translator.getString("admin.createstaff"));
+
+        viewStudent.setText(Translator.getString("admin.viewstudent"));
+        createStudent.setText(Translator.getString("admin.createstudent"));
+
+        viewCourse.setText(Translator.getString("admin.viewcourse"));
+        createCourse.setText(Translator.getString("admin.createcourse"));
+
+        viewAtten.setText(Translator.getString("admin.viewattendance"));
+
+        saveButton.setText(Translator.getString("admin.savebutton"));
+        cancelButton.setText(Translator.getString("admin.cancelbutton"));
+        deleteButton.setText(Translator.getString("admin.deletebutton"));
+        modifyButton.setText(Translator.getString("admin.modifybutton"));
+    }
     
     @FXML
     private void handleViewStaff(ActionEvent event) {
@@ -166,9 +187,30 @@ public class AdminInterfaceController {
             Stage stage = new Stage();
             stage.setTitle("Create Staff");
             stage.setScene(new Scene(root));
-            stage.showAndWait();
+            stage.show();
 
             handleViewStaff(event);
+
+            TextField namefield = (TextField) root.lookup("#namefield");
+            namefield.setPromptText(Translator.getString("createstaff.name"));
+
+            TextField rolefield = (TextField) root.lookup("#rolefield");
+            rolefield.setPromptText(Translator.getString("createstaff.role"));
+
+            TextField passwordfield = (TextField) root.lookup("#passwordfield");
+            passwordfield.setPromptText(Translator.getString("createstaff.password"));
+
+            Text isadmin = (Text) root.lookup("#isAdmin");
+            isadmin.setText(Translator.getString("createstaff.isadmin"));
+
+            Text useractive = (Text) root.lookup("#useractive");
+            useractive.setText(Translator.getString("useractive"));
+
+            Button saveButton = (Button) root.lookup("#saveButton");
+            saveButton.setText(Translator.getString("create"));
+
+            Button cancelButton = (Button) root.lookup("#cancelButton");
+            cancelButton.setText(Translator.getString("cancel"));
 
         } catch (Exception e){
             e.getMessage();
@@ -186,9 +228,30 @@ public class AdminInterfaceController {
             Stage stage = new Stage();
             stage.setTitle("Create student");
             stage.setScene(new Scene(root));
-            stage.showAndWait();
+            stage.show();
 
             handleViewStudent(event);
+
+            TextField passfield = (TextField) root.lookup("#studentPasswField");
+            passfield.setPromptText(Translator.getString("createstudent.password"));
+
+            TextField idfield = (TextField) root.lookup("#studentId");
+            idfield.setPromptText(Translator.getString("createstudent.studentid"));
+
+            TextField namefield = (TextField) root.lookup("#studentName");
+            namefield.setPromptText(Translator.getString("createstudent.name"));
+
+            TextField degreefield = (TextField) root.lookup("#studentDegree");
+            degreefield.setPromptText(Translator.getString("createstudent.studentdegree"));
+
+            Text useractive = (Text) root.lookup("#useractive");
+            useractive.setText(Translator.getString("useractive"));
+
+            Button saveButton = (Button) root.lookup("#saveButton");
+            saveButton.setText(Translator.getString("create"));
+
+            Button cancelButton = (Button) root.lookup("#cancelButton");
+            cancelButton.setText(Translator.getString("cancel"));
 
         } catch (Exception e){
             e.getMessage();
@@ -206,10 +269,39 @@ public class AdminInterfaceController {
             Stage stage = new Stage();
             stage.setTitle("Create course");
             stage.setScene(new Scene(root));
-            stage.showAndWait();
+            stage.show();
 
             handleViewCourses(event);
 
+            TextField namefield = (TextField) root.lookup("#courseName");
+            namefield.setPromptText(Translator.getString("createcourse.coursename"));
+
+            TextField topicfield = (TextField) root.lookup("#courseTopic");
+            topicfield.setPromptText(Translator.getString("createcourse.topic"));
+
+            TextField descriptionfield = (TextField) root.lookup("#courseDesc");
+            descriptionfield.setPromptText(Translator.getString("createcourse.description"));
+
+            TextField minattend = (TextField) root.lookup("#minCourseAttend");
+            minattend.setPromptText(Translator.getString("createcourse.minattend"));
+
+            TextField maxattend = (TextField) root.lookup("#maxCourseAttend");
+            maxattend.setPromptText(Translator.getString("createcourse.maxattend"));
+
+            TextField codeattend =  (TextField) root.lookup("#courseAttendCode");
+            codeattend.setPromptText(Translator.getString("createcourse.codeattend"));
+
+            Text coursactive = (Text) root.lookup("#courseActive");
+            coursactive.setText(Translator.getString("createcourse.coursactive"));
+
+            Text isattend = (Text) root.lookup("#attendCourseActive");
+            isattend.setText(Translator.getString("createcourse.isattend"));
+
+            Button saveButton = (Button) root.lookup("#saveButton");
+            saveButton.setText(Translator.getString("create"));
+
+            Button cancelButton = (Button) root.lookup("#cancelButton");
+            cancelButton.setText(Translator.getString("cancel"));
         } catch (Exception e){
             e.getMessage();
         }

@@ -165,7 +165,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="viewUsers" mnemonicParsing="false" onAction="#handleViewStudent" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View student" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1">
+                        <Button fx:id="viewStudent" mnemonicParsing="false" onAction="#handleViewStudent" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="View student" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
