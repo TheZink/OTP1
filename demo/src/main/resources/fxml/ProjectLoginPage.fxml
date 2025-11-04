@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.PasswordField?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -16,7 +18,7 @@
                   <Font name="System Bold" size="19.0" />
                </font>
             </Button>
-            <Text fill="#171717" layoutX="20.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="482.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="23.4970703125">
+            <Text fx:id="usernametext" fill="#171717" layoutX="20.0" layoutY="44.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Username" wrappingWidth="482.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="23.4970703125">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
@@ -25,12 +27,12 @@
                <font>
                   <Font size="18.0" />
                </font></TextField>
-            <Text fill="#171717" layoutX="20.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="482.0">
+            <Text fx:id="passwordtext" fill="#171717" layoutX="20.0" layoutY="142.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Password" wrappingWidth="482.0">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
             </Text>
-            <Text fill="#d00000" layoutX="20.0" layoutY="227.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Failed to Login: Wrong Password or Email!" textAlignment="CENTER" wrappingWidth="482.0">
+            <Text fx:id="failedtext" fill="#d00000" layoutX="20.0" layoutY="227.0" opacity="0.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Failed to Login: Wrong Password or Username!" textAlignment="CENTER" wrappingWidth="482.0">
                <font>
                   <Font size="19.0" />
                </font>
@@ -39,6 +41,12 @@
                <font>
                   <Font size="18.0" />
                </font></PasswordField>
+            <MenuButton fx:id="languagemenu" layoutX="403.0" layoutY="11.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="98.0" text="Language" AnchorPane.rightAnchor="20.0">
+              <items>
+                <MenuItem fx:id="englishmenu" mnemonicParsing="false" onAction="#langeng" text="English" />
+                <MenuItem fx:id="finnishmenu" mnemonicParsing="false" onAction="#langfin" text="Finnish" />
+              </items>
+            </MenuButton>
          </children>
       </AnchorPane>
    </children>
