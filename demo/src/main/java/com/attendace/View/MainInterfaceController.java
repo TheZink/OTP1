@@ -27,6 +27,8 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainInterfaceController {
+    private AdminInterfaceController admininterfaceController;
+
     @FXML
     private GridPane coursegrid;
 
@@ -200,7 +202,12 @@ public class MainInterfaceController {
             Stage stage = new Stage();
             stage.setTitle("Create Staff");
             stage.setScene(new Scene(root));
-            stage.showAndWait();
+            stage.show();
+
+            Platform.runLater(() -> {
+                admininterfaceController = fxmlLoader.getController();
+                admininterfaceController.TranslatePage();
+            });
         } catch (Exception e){
             e.getMessage();
         }

@@ -25,8 +25,8 @@
       </Text>
       <MenuButton fx:id="attendancemenu" layoutX="451.0" layoutY="38.0" mnemonicParsing="false" text="Attendance" AnchorPane.bottomAnchor="10.0" AnchorPane.rightAnchor="10.0">
          <items>
-            <MenuItem mnemonicParsing="false" text="Absent" />
-            <MenuItem mnemonicParsing="false" text="Present" />
+            <MenuItem fx:id="absent" mnemonicParsing="false" text="Absent" />
+            <MenuItem fx:id="present" mnemonicParsing="false" text="Present" />
          </items>
       </MenuButton>
    </children>

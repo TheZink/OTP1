@@ -1,5 +1,6 @@
 package com.attendace.View.Classes;
 
+import com.attendace.localisation.Translator;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
@@ -19,6 +20,9 @@ public class CourseContainer {
         Parent root = FXMLLoader.load(
                 Objects.requireNonNull(getClass().getResource("/fxml/CourseContainer.fxml"))
         );
+
+        Button coursebutton = (Button) root.lookup("#attendancebutton");
+        coursebutton.setText(Translator.getString("course.button"));
 
         Text coursenametext = (Text) root.lookup("#coursename");
         coursenametext.setText(String.valueOf(course.get(1)));

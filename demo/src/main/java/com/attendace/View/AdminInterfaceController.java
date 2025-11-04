@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.attendace.localisation.Translator;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -19,6 +20,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class AdminInterfaceController {
@@ -55,7 +57,25 @@ public class AdminInterfaceController {
 
     private String viewing = null;
 
-    // -- VIEW BUTTON HANDLERS -- 
+    // -- VIEW BUTTON HANDLERS --
+
+    public void TranslatePage() {
+        viewStaff.setText(Translator.getString("admin.viewstaff"));
+        createStaff.setText(Translator.getString("admin.createstaff"));
+
+        viewStudent.setText(Translator.getString("admin.viewstudent"));
+        createStudent.setText(Translator.getString("admin.createstudent"));
+
+        viewCourse.setText(Translator.getString("admin.viewcourse"));
+        createCourse.setText(Translator.getString("admin.createcourse"));
+
+        viewAtten.setText(Translator.getString("admin.viewattendance"));
+
+        saveButton.setText(Translator.getString("admin.savebutton"));
+        cancelButton.setText(Translator.getString("admin.cancelbutton"));
+        deleteButton.setText(Translator.getString("admin.deletebutton"));
+        modifyButton.setText(Translator.getString("admin.modifybutton"));
+    }
     
     @FXML
     private void handleViewStaff(ActionEvent event) {
@@ -166,7 +186,7 @@ public class AdminInterfaceController {
             Stage stage = new Stage();
             stage.setTitle("Create Staff");
             stage.setScene(new Scene(root));
-            stage.showAndWait();
+            stage.show();
 
             handleViewStaff(event);
 
@@ -186,9 +206,12 @@ public class AdminInterfaceController {
             Stage stage = new Stage();
             stage.setTitle("Create student");
             stage.setScene(new Scene(root));
-            stage.showAndWait();
+            stage.show();
 
             handleViewStudent(event);
+
+            TextField passfield = (TextField) root.lookup("#studentPasswField");
+            passfield.setText(Translator.getString("createstudent.password"));
 
         } catch (Exception e){
             e.getMessage();
@@ -206,7 +229,7 @@ public class AdminInterfaceController {
             Stage stage = new Stage();
             stage.setTitle("Create course");
             stage.setScene(new Scene(root));
-            stage.showAndWait();
+            stage.show();
 
             handleViewCourses(event);
 
