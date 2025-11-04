@@ -5,14 +5,17 @@ import com.attendace.Engine.MainEngine;
 import com.attendace.Model.StaffModel;
 import com.attendace.Model.UserModel;
 import com.attendace.View.Classes.CourseContainer;
+import com.attendace.localisation.Translator;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
@@ -58,12 +61,23 @@ public class MainInterfaceController {
     private GridPane participatingcoursesgrid;
 
     @FXML
+    private Text participatingIn;
+
+    @FXML
     private Text studentidlabel;
 
     @FXML
     private Button adminpanel;
 
+    public void translatepage() {
+        profilebutton.setText(Translator.getString("main.profileButton"));
+        coursesbutton.setText(Translator.getString("main.coursesButton"));
 
+        //PROFILE PAGE, STATUS LABEL SHOULD BE FETCHED FROM DATABASE?
+        statuslabel.setText("Student");
+        rolelabel.setText(Translator.getString("profile.roleLabel"));
+        participatingIn.setText(Translator.getString("profile.participatingIn"));
+    }
 
     public void renderAdminButton(StaffModel staff) {
         if(Objects.equals(staff.getAdminStatus(), "false")) {
@@ -124,8 +138,7 @@ public class MainInterfaceController {
     }
 
     public void fillprofiledata(UserModel user) {
-        statuslabel.setText("Student");
-        rolelabel.setText("Degree In");
+
 
         usernamelabel.setText(user.getName());
         degreelabel.setText(user.getUserDegree());
@@ -133,8 +146,9 @@ public class MainInterfaceController {
     }
 
     public void fillprofiledatastaff(StaffModel user) {
-        statuslabel.setText("Staff");
-        rolelabel.setText("Role");
+
+        statuslabel.setText(Translator.getString("staff.status"));
+        rolelabel.setText(Translator.getString("staff.role"));
 
         usernamelabel.setText(user.getName());
         degreelabel.setText(user.getStaffRole());
@@ -206,3 +220,5 @@ public class MainInterfaceController {
         }
     }
 }
+
+
