@@ -5,10 +5,14 @@ import com.attendace.dao.Request;
 import com.attendace.dao.handlers.DefaultHandler;
 import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
+import com.attendace.Utils.CryptoUtils;
+
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.swing.Action;
 
 import com.attendace.localisation.Translator;
 
@@ -42,6 +46,8 @@ public class AdminInterfaceController {
 
     Handler handler = new DefaultHandler();
     Map<String, Object> object = new HashMap<>();
+
+    CryptoUtils crypto = new CryptoUtils();
 
     @FXML
     Button viewStaff, createStaff, modifyStaff;
@@ -386,6 +392,101 @@ public class AdminInterfaceController {
             handler.handle(request);
             handleViewAttendance(event);
         }
+    }
+
+    //  --MODIFY HANDLER--
+
+    public void handleModify(ActionEvent event){
+        ObservableList<String> selectedRow = tableView.getSelectionModel().getSelectedItem();
+
+        // Throw error, if row is not selected
+        if (selectedRow == null || selectedRow.isEmpty()){
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, "No item selected");
+            alert.showAndWait();
+            return;
+        }
+
+        int rowId;
+
+        try {
+            rowId = Integer.parseInt(selectedRow.get(0).trim());
+        } catch (NumberFormatException e) {
+            new Alert(Alert.AlertType.ERROR, "Error fetching id from table");
+        }
+
+        try {
+            String fxmlPath;
+
+            if (viewing.equals("student")) { fxmlPath = "/fxml/AdminStudentCreation.fxml";}
+            else if (viewing.equals("staff")) { fxmlPath = "/fxml/AdminStaffCreation.fxml"; }
+            // else if (viewing.equals("course")) { fxmlPath = "/fxml/AdminCourseCreation.fxml"; }
+            // else if (viewing.equals("degree")) { fxmlPath = "/fxml/AdminCourseCreation.fxml"; }
+            else { new Alert(Alert.AlertType.INFORMATION, "Edit is not possible for this entry"); return; }
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
+            Parent root = loader.load();
+
+            // Studentcreation
+            if (viewing.equals("student")){
+                ((TextField) root.lookup("#studentName")).setText(selectedRow.get(1));
+                ((TextField) root.lookup("#studentId")).setText(selectedRow.get(2));
+                ((TextField) root.lookup("#studentDegree")).setText(selectedRow.get(2));
+
+                TextField passField = (TextField) root.lookup("#studentPasswField");
+                passField.setPromptText("Change password. Leave blank to keep current password");
+            }
+
+            // Staffcreation
+            else if(viewing.equals("staff")){
+                ((TextField) root.lookup("#namefield")).setText(selectedRow.get(1));
+                ((TextField) root.lookup("#rolefield")).setText(selectedRow.get(2));
+                ((TextField) root.lookup("#passwordfield")).setText("Cannot change password");
+
+                TextField passField = (TextField) root.lookup("#studentPasswField");
+                passField.setPromptText("Change password. Leave blank to keep current password");
+
+                javafx.scene.control.CheckBox adminCheck = (javafx.scene.control.CheckBox) root.lookup("#isAdmin");
+
+                // Check selected row 'isAdmin' boolean
+                if (selectedRow.get(3).equals("1")){
+                    adminCheck.setSelected(true);
+                } else {
+                    adminCheck.setSelected(false);
+                }
+            }
+
+            // Replace SaveButton action to update data and pass to the DAO
+            Button save = (Button) root.lookup("#SaveButton");
+
+            save.setOnAction(event -> {
+                Map<String, Object> object = new HashMap<>();
+                object.put("id", rowId);
+
+                if(viewing.equals("student")) {
+                    object.put("name", ((TextField) root.lookup("#namefield")).getText());
+                    object.put("degree", ((TextField) root.lookup("#studentDegree")).getText());
+
+                    TextField passField = (TextField) root.lookup("#studentPasswField");
+
+                    // If password is inputed, hash it and store it. Otherwise store only null-value
+                    if (passField != null){
+                        String newPass = crypto.hash(passField.getText());
+                        object.put("password", newPass);
+                    } else {
+                        object.put("password", null);
+                    }
+
+                }
+
+            });
+
+
+
+        } catch (Exception e){
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Error opening dialog " + e.getMessage());
+        }
+
     }
 
     // TableView formatter
