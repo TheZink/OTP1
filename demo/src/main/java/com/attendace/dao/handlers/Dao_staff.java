@@ -200,7 +200,7 @@ public class Dao_staff extends Handler {
 
 
         Connection connection = DbConnection.getConnection();
-        String sql = "UPDATE STAFF SET staff_name = ?, id = ?, staff_role = ?, staff_passw = ? WHERE id = ?";
+        String sql = "UPDATE STAFF SET staff_name = ?, id = ?, staff_role = ?, staff_passw = COALESCE(NULLIF(?,'')) WHERE id = ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
