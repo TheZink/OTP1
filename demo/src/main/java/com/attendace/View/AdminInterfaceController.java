@@ -12,7 +12,6 @@ import java.util.Map;
 
 import com.attendace.localisation.Translator;
 
-import javafx.application.Application;
 import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -30,16 +29,16 @@ import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class AdminInterfaceController extends Application{ //Remove "Application" after testing
+public class AdminInterfaceController {
 
     // For testing only. Extends Application
-    @Override
-    public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("/fxml/AdminPage.fxml"));
-        primaryStage.setTitle("Admin Interface");
-        primaryStage.setScene(new Scene(root));
-        primaryStage.show();
-    }
+    // @Override
+    // public void start(Stage primaryStage) throws Exception {
+    //     Parent root = FXMLLoader.load(getClass().getResource("/fxml/AdminPage.fxml"));
+    //     primaryStage.setTitle("Admin Interface");
+    //     primaryStage.setScene(new Scene(root));
+    //     primaryStage.show();
+    // }
 
     Handler handler = new DefaultHandler();
     Map<String, Object> object = new HashMap<>();
@@ -80,6 +79,9 @@ public class AdminInterfaceController extends Application{ //Remove "Application
         createCourse.setText(Translator.getString("admin.createcourse"));
 
         viewAtten.setText(Translator.getString("admin.viewattendance"));
+        
+        viewDegree.setText(Translator.getString("admin.viewdegree"));
+        createDegree.setText(Translator.getString("admin.createdegree"));
 
         saveButton.setText(Translator.getString("admin.savebutton"));
         cancelButton.setText(Translator.getString("admin.cancelbutton"));
@@ -100,7 +102,7 @@ public class AdminInterfaceController extends Application{ //Remove "Application
             index.remove(4);
         }
 
-        String[] headers = new String[] {"ID", "Name", "Role", "Is Admin", "Created at"};
+        String[] headers = new String[] {Translator.getString("tableview.id"), Translator.getString("tableview.name"), Translator.getString("tableview.role"), Translator.getString("tableview.admin"), Translator.getString("tableview.time")};
         tablaViewFormatter(tableView, data, headers);
     }
 
@@ -117,7 +119,7 @@ public class AdminInterfaceController extends Application{ //Remove "Application
             index.remove(4);
         }
        
-        String[] headers = new String[] {"ID", "Name", "Student ID", "Degree", "Created at"};
+        String[] headers = new String[] {Translator.getString("tableview.id"), Translator.getString("tableview.name"), Translator.getString("tableview.studId"), Translator.getString("tableview.degree"), Translator.getString("tableview.time")};
         tablaViewFormatter(tableView, data, headers);
     }
 
@@ -129,7 +131,7 @@ public class AdminInterfaceController extends Application{ //Remove "Application
         Request request = new Request(RequestDao.COURSE, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
 
-        String[] headers = new String[] {"ID", "Name", "Topic", "Description", "Attendance avaible", "Attendance password", "Min attendance", "Max attendance", "Active", "Created at"};
+        String[] headers = new String[] {Translator.getString("tableview.id"), Translator.getString("tableview.name"), Translator.getString("tableview.topic"), Translator.getString("tableview.desc"), Translator.getString("tableview.attenAv"), Translator.getString("tableview.attenKey"), Translator.getString("tableview.minAtt"), Translator.getString("tableview.maxAtt"), Translator.getString("tableview.active"), Translator.getString("tableview.time")};
         tablaViewFormatter(tableView, data, headers);
     }
 
@@ -141,7 +143,7 @@ public class AdminInterfaceController extends Application{ //Remove "Application
         Request request = new Request(RequestDao.ATTENDANCE, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
 
-        String[] headers = new String[] {"ID", "Course ID", "Student ID", "Staff ID", "Handled", "Current", "Created"};
+        String[] headers = new String[] {Translator.getString("tableview.id"), Translator.getString("tableview.courId"), Translator.getString("tableview.studId"), Translator.getString("tableview.staffId"), Translator.getString("tableview.handl"), Translator.getString("tableview.curr"), Translator.getString("tableview.time")};
         tablaViewFormatter(tableView, data, headers);
     }
 
@@ -152,7 +154,7 @@ public class AdminInterfaceController extends Application{ //Remove "Application
         Request request = new Request(RequestDao.DEGREE, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
 
-        String[] headers = new String[] {"ID", "Name", "ECTS"};
+        String[] headers = new String[] {Translator.getString("tableview.id"), Translator.getString("tableview.name"), Translator.getString("tableview.ects")};
         tablaViewFormatter(tableView, data, headers);
     }
 
