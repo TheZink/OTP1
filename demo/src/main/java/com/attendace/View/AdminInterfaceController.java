@@ -11,6 +11,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.attendace.localisation.Translator;
+
+import javafx.application.Application;
+import javafx.beans.property.ReadOnlyStringWrapper;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -18,22 +21,25 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
-import javafx.scene.control.ListView;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
-public class AdminInterfaceController {
+public class AdminInterfaceController extends Application{ //Remove "Application" after testing
 
-    // For testing only
-    // @Override
-    // public void start(Stage primaryStage) throws Exception {
-    //     Parent root = FXMLLoader.load(getClass().getResource("/fxml/AdminPage.fxml"));
-    //     primaryStage.setTitle("Admin Interface");
-    //     primaryStage.setScene(new Scene(root));
-    //     primaryStage.show();
-    // }
+    // For testing only. Extends Application
+    @Override
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/AdminPage.fxml"));
+        primaryStage.setTitle("Admin Interface");
+        primaryStage.setScene(new Scene(root));
+        primaryStage.show();
+    }
 
     Handler handler = new DefaultHandler();
     Map<String, Object> object = new HashMap<>();
@@ -48,13 +54,16 @@ public class AdminInterfaceController {
     Button viewCourse, createCourse, modifyCourse;
 
     @FXML
+    Button viewDegree, createDegree;
+
+    @FXML
     Button viewAtten, modifyAtten;
 
     @FXML
     Button saveButton, cancelButton, deleteButton, modifyButton;
 
     @FXML
-    private ListView<String> listView;
+    private TableView<ObservableList<String>> tableView;
 
     private String viewing = null;
 
@@ -81,97 +90,70 @@ public class AdminInterfaceController {
     @FXML
     private void handleViewStaff(ActionEvent event) {
 
-        listView.getItems().clear();
-
         viewing = "staff";
 
         Request request = new Request(RequestDao.STAFF, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
 
-        ObservableList<String> items = FXCollections.observableArrayList();
-        String displayColumn = String.format("%s\t %s\t %s\t %s",
-                            "ID", "Name", "Role","Is admin","Created at");
-        items.add(displayColumn);
-
-        for (ArrayList<String> row : data) {
-            String displayUser = String.format("%s\t %s\t %s\t %s", 
-                                row.get(0), row.get(1), row.get(2), row.get(3));
-            items.add(displayUser);
-
-        listView.setItems(items);
+        // Remove unwanted elements
+        for (ArrayList<String> index : data){
+            index.remove(4);
         }
+
+        String[] headers = new String[] {"ID", "Name", "Role", "Is Admin", "Created at"};
+        tablaViewFormatter(tableView, data, headers);
     }
 
     @FXML
     private void handleViewStudent(ActionEvent event) {
-
-        listView.getItems().clear();
 
         viewing = "student";
 
         Request request = new Request(RequestDao.USERS, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
 
-        ObservableList<String> items = FXCollections.observableArrayList();
-        String displayColumn = String.format("%s\t %s\t %s\t %s",
-                            "ID", "Name", "Student ID","Degree","Created at");
-        items.add(displayColumn);
-
-        for (ArrayList<String> row : data) {
-            String displayUser = String.format("%s\t %s\t %s\t %s", 
-                                row.get(0), row.get(1), row.get(2), row.get(3));
-            items.add(displayUser);
-
-        listView.setItems(items);
+        // Remove unwanted elements
+        for (ArrayList<String> index : data){
+            index.remove(4);
         }
+       
+        String[] headers = new String[] {"ID", "Name", "Student ID", "Degree", "Created at"};
+        tablaViewFormatter(tableView, data, headers);
     }
 
     @FXML
     private void handleViewCourses(ActionEvent event) {
-
-        listView.getItems().clear();
 
         viewing = "courses";
 
         Request request = new Request(RequestDao.COURSE, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
 
-        ObservableList<String> items = FXCollections.observableArrayList();
-        String displayColumn = String.format("%s\t %s\t %s\t %s\t %s\t %s",
-                            "ID", "Course name", "Course topic","Course description", "Course is active", "Course created");
-        items.add(displayColumn);
-
-        for (ArrayList<String> row : data) {
-            String displayUser = String.format("%s\t %s\t %s\t %s\t %s\t %s", 
-                                row.get(0), row.get(1), row.get(2), row.get(3), row.get(8), row.get(9));
-            items.add(displayUser);
-
-        listView.setItems(items);
-        }
+        String[] headers = new String[] {"ID", "Name", "Topic", "Description", "Attendance avaible", "Attendance password", "Min attendance", "Max attendance", "Active", "Created at"};
+        tablaViewFormatter(tableView, data, headers);
     }
 
     @FXML
     private void handleViewAttendance(ActionEvent event){
-
-        listView.getItems().clear();
 
         viewing = "attendance";
 
         Request request = new Request(RequestDao.ATTENDANCE, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
 
-        ObservableList<String> items = FXCollections.observableArrayList();
-        String displayColumn = String.format("%s\t %s\t %s\t %s\t %s\t %s\t %s",
-                            "ID", "Course ID", "Student ID", "Staff ID", "Attendance handled", "Attendance current", "Attendance created");
-        items.add(displayColumn);
+        String[] headers = new String[] {"ID", "Course ID", "Student ID", "Staff ID", "Handled", "Current", "Created"};
+        tablaViewFormatter(tableView, data, headers);
+    }
 
-        for (ArrayList<String> row : data) {
-            String displayUser = String.format("%s\t %s\t %s\t %s\t %s\t %s\t %s", 
-                                row.get(0), row.get(1), row.get(2), row.get(3), row.get(4), row.get(5), row.get(6));
-            items.add(displayUser);
+    @FXML
+    private void handleViewDegrees(ActionEvent event) {
+        viewing = "degree";
 
-        listView.setItems(items);
-        }
+        Request request = new Request(RequestDao.DEGREE, RequestType.GETALLDATA, object);
+        ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
+
+        String[] headers = new String[] {"ID", "Name", "ECTS"};
+        tablaViewFormatter(tableView, data, headers);
     }
 
     // -- CREATION BUTTON HANDLERS --
@@ -307,90 +289,116 @@ public class AdminInterfaceController {
         }
     }
 
+    @FXML
+    private void handleCreateDegree(ActionEvent event){
+        System.out.println("'Create Degree' pressed");
+    }
+
         // -- DELETE HANDLER --
 
     @FXML
     private void handleDelete(ActionEvent event){
         System.out.println("'Delete' button pressed");
 
+        ObservableList<String> selectedRow = tableView.getSelectionModel().getSelectedItem();
+
+        if (selectedRow == null || selectedRow.isEmpty()){
+            System.out.println("Nothing selected");
+            return;
+        }
+
+        // Promt user for confirmation
+        Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
+        confirm.setTitle("Confirm deletion");
+        confirm.setHeaderText(null);
+        confirm.setContentText("Are you sure, you want to delete this entry?");
+        confirm.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
+
+        ButtonType choise = confirm.showAndWait().orElse(ButtonType.NO);
+        if (choise != ButtonType.YES){
+            System.out.println("Deletion canselled");
+            return;
+        }
+
+
+        String idColumn = selectedRow.get(0).trim();
+        int id;
+
+        try {
+            id = Integer.parseInt(idColumn);
+        } catch (NumberFormatException e){
+            System.out.println("Selected id is not valid");
+            return;
+        }
+        
+        Map<String, Object> object = new HashMap<>();
+        object.put("value", id);
+        object.put("label", "id");
+
         if (viewing.equals("student")) {
             System.out.println("Viewing students. Delete entry");
-            String item = listView.getSelectionModel().getSelectedItem();
-    
-            if (item == null) return; // Nothing selected
-            if (item.startsWith("ID")) return; // First row selected
-
-            String[] parts = item.trim().split("\\s+"); // Fetch selected row
-            int id = Integer.parseInt(parts[0]); // Fetch row id
-    
-            Map<String, Object> object = new HashMap<>();
-            object.put("value", id);
-            object.put("label", "id");
-    
             Request request = new Request(RequestDao.USERS, RequestType.REMOVEDATA, object);
             handler.handle(request);
-    
             handleViewStudent(event);
         }
 
         else if (viewing.equals("staff")) {
-            System.out.println("Viewing students. Delete entry");
-            String item = listView.getSelectionModel().getSelectedItem();
-    
-            if (item == null) return; // Nothing selected
-            if (item.startsWith("ID")) return; // First row selected
-
-            String[] parts = item.trim().split("\\s+"); // Fetch selected row
-            int id = Integer.parseInt(parts[0]); // Fetch row id
-    
-            Map<String, Object> object = new HashMap<>();
-            object.put("value", id);
-            object.put("label", "id");
-    
+            System.out.println("Viewing staff. Delete entry");
             Request request = new Request(RequestDao.STAFF, RequestType.REMOVEDATA, object);
             handler.handle(request);
-    
             handleViewStaff(event);
         }
 
         else if (viewing.equals("courses")) {
             System.out.println("Viewing courses. Delete entry");
-            String item = listView.getSelectionModel().getSelectedItem();
-    
-            if (item == null) return; // Nothing selected
-            if (item.startsWith("ID")) return; // First row selected
-
-            String[] parts = item.trim().split("\\s+"); // Fetch selected row
-            int id = Integer.parseInt(parts[0]); // Fetch row id
-    
-            Map<String, Object> object = new HashMap<>();
-            object.put("value", id);
-            object.put("label", "id");
-    
             Request request = new Request(RequestDao.COURSE, RequestType.REMOVEDATA, object);
             handler.handle(request);
-    
             handleViewCourses(event);
         }
 
         else if (viewing.equals("attendance")) {
             System.out.println("Viewing attendance. Delete entry");
-            String item = listView.getSelectionModel().getSelectedItem();
-    
-            if (item == null) return; // Nothing selected
-            if (item.startsWith("ID")) return; // First row selected
-
-            String[] parts = item.trim().split("\\s+"); // Fetch selected row
-            int id = Integer.parseInt(parts[0]); // Fetch row id
-    
-            Map<String, Object> object = new HashMap<>();
-            object.put("value", id);
-            object.put("label", "id");
-    
             Request request = new Request(RequestDao.ATTENDANCE, RequestType.REMOVEDATA, object);
             handler.handle(request);
-    
             handleViewAttendance(event);
         }
+    }
+
+    // TableView formatter
+
+    private void tablaViewFormatter(TableView<ObservableList<String>> table, ArrayList<ArrayList<String>> data, String[] headers){
+        table.getColumns().clear(); // Clear Tableview, when method is called
+
+        int columns = 0;
+
+        if (headers != null){
+            columns = headers.length;
+        } else if (!data.isEmpty()) {
+            columns = data.get(0).size();
+        }
+
+        // Set TableView columns title
+        for (int i = 0; i < columns; i++){
+            int columnIndex = i;
+            String columnTitle = (headers != null && i < headers.length) ? headers[i] : ("Column " + (i + 1)); // If title is empty, use default name
+            TableColumn<ObservableList<String>, String> col = new TableColumn<>(columnTitle);
+
+            col.setCellValueFactory(cellData -> {
+                ObservableList<String> row = cellData.getValue();
+                String value = (columnIndex < row.size()) ? row.get(columnIndex) : ""; // If column value is empty, use empty value
+                return new ReadOnlyStringWrapper(value);
+            });
+
+            table.getColumns().add(col);
+        }
+
+        // Set TableView columns value
+        ObservableList<ObservableList<String>> rows = FXCollections.observableArrayList();
+        for (ArrayList<String> row : data){
+            rows.add(FXCollections.observableArrayList(row));
+        }
+
+        table.setItems(rows);
+
     }
 }
