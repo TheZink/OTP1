@@ -169,7 +169,7 @@ public class AdminInterfaceController extends Application{ //Remove "Application
             Stage stage = new Stage();
             stage.setTitle("Create Staff");
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.showAndWait();
 
             handleViewStaff(event);
 
@@ -210,7 +210,7 @@ public class AdminInterfaceController extends Application{ //Remove "Application
             Stage stage = new Stage();
             stage.setTitle("Create student");
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.showAndWait();
 
             handleViewStudent(event);
 
@@ -251,7 +251,7 @@ public class AdminInterfaceController extends Application{ //Remove "Application
             Stage stage = new Stage();
             stage.setTitle("Create course");
             stage.setScene(new Scene(root));
-            stage.show();
+            stage.showAndWait();
 
             handleViewCourses(event);
 
@@ -289,9 +289,24 @@ public class AdminInterfaceController extends Application{ //Remove "Application
         }
     }
 
+
     @FXML
     private void handleCreateDegree(ActionEvent event){
         System.out.println("'Create Degree' pressed");
+
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminDegreeCreation.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setTitle("Create degree");
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+
+            handleViewDegrees(event);
+           
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
 
         // -- DELETE HANDLER --
@@ -359,6 +374,13 @@ public class AdminInterfaceController extends Application{ //Remove "Application
         else if (viewing.equals("attendance")) {
             System.out.println("Viewing attendance. Delete entry");
             Request request = new Request(RequestDao.ATTENDANCE, RequestType.REMOVEDATA, object);
+            handler.handle(request);
+            handleViewAttendance(event);
+        }
+
+        else if (viewing.equals("degree")){
+            System.out.println("Viewing degree. Delete entry");
+            Request request = new Request(RequestDao.DEGREE, RequestType.REMOVEDATA, object);
             handler.handle(request);
             handleViewAttendance(event);
         }
