@@ -27,6 +27,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
@@ -398,6 +399,7 @@ public class AdminInterfaceController {
 
     public void handleModify(ActionEvent event){
         ObservableList<String> selectedRow = tableView.getSelectionModel().getSelectedItem();
+        int rowId;
 
         // Throw error, if row is not selected
         if (selectedRow == null || selectedRow.isEmpty()){
@@ -406,12 +408,12 @@ public class AdminInterfaceController {
             return;
         }
 
-        int rowId;
 
         try {
             rowId = Integer.parseInt(selectedRow.get(0).trim());
         } catch (NumberFormatException e) {
             new Alert(Alert.AlertType.ERROR, "Error fetching id from table");
+            return;
         }
 
         try {
@@ -430,7 +432,8 @@ public class AdminInterfaceController {
             if (viewing.equals("student")){
                 ((TextField) root.lookup("#studentName")).setText(selectedRow.get(1));
                 ((TextField) root.lookup("#studentId")).setText(selectedRow.get(2));
-                ((TextField) root.lookup("#studentDegree")).setText(selectedRow.get(2));
+                ((TextField) root.lookup("#studentDegree")).setText(selectedRow.get(3));
+                ((Button) root.lookup("#saveButton")).setText("Update");
 
                 TextField passField = (TextField) root.lookup("#studentPasswField");
                 passField.setPromptText("Change password. Leave blank to keep current password");
@@ -440,15 +443,17 @@ public class AdminInterfaceController {
             else if(viewing.equals("staff")){
                 ((TextField) root.lookup("#namefield")).setText(selectedRow.get(1));
                 ((TextField) root.lookup("#rolefield")).setText(selectedRow.get(2));
-                ((TextField) root.lookup("#passwordfield")).setText("Cannot change password");
+                ((Button) root.lookup("#saveButton")).setText("Update");
 
-                TextField passField = (TextField) root.lookup("#studentPasswField");
+                TextField passField = (TextField) root.lookup("#passwordfield");
                 passField.setPromptText("Change password. Leave blank to keep current password");
 
                 javafx.scene.control.CheckBox adminCheck = (javafx.scene.control.CheckBox) root.lookup("#isAdmin");
+                System.out.println(adminCheck);
 
                 // Check selected row 'isAdmin' boolean
-                if (selectedRow.get(3).equals("1")){
+                // TODO:
+                if (selectedRow.get(3).equals(true)){
                     adminCheck.setSelected(true);
                 } else {
                     adminCheck.setSelected(false);
@@ -456,37 +461,81 @@ public class AdminInterfaceController {
             }
 
             // Replace SaveButton action to update data and pass to the DAO
-            Button save = (Button) root.lookup("#SaveButton");
+            Button save = (Button) root.lookup("#saveButton");
 
-            save.setOnAction(event -> {
+            save.setOnAction( ev -> {
                 Map<String, Object> object = new HashMap<>();
                 object.put("id", rowId);
+                System.out.println("RowId on " + rowId);
 
+                // Studentcreation dialog
                 if(viewing.equals("student")) {
-                    object.put("name", ((TextField) root.lookup("#namefield")).getText());
+                    object.put("name", ((TextField) root.lookup("#studentName")).getText());
                     object.put("degree", ((TextField) root.lookup("#studentDegree")).getText());
 
                     TextField passField = (TextField) root.lookup("#studentPasswField");
-
-                    // If password is inputed, hash it and store it. Otherwise store only null-value
+                    
+                    // If password is inputed, hash it and store it. Otherwise store only null-value. Null-value wont change password
                     if (passField != null){
                         String newPass = crypto.hash(passField.getText());
                         object.put("password", newPass);
                     } else {
                         object.put("password", null);
                     }
+                    
+                }
+                
+                // Staffcreation dialog
+                else if(viewing.equals("staff")) {
+                    object.put("name", ((TextField) root.lookup("#namefield")).getText());
+                    object.put("role", ((TextField) root.lookup("#rolefield")).getText());
+                    
+                    TextField passField = (TextField) root.lookup("#passwordfield");
+                    javafx.scene.control.CheckBox adminCheck = (javafx.scene.control.CheckBox) root.lookup("#isAdmin");
+                    System.out.println(passField);
+                    
+                    // If password is inputed, hash it and store it. Otherwise store only null-value. Null-value wont change password
+                    if (passField.getText() != null && !passField.getText().isBlank()){
+                        String newPass = crypto.hash(passField.getText());
+                        object.put("password", newPass);
+                    } else {
+                        object.put("password", null);
+                    }
 
+                    // If Administrator checkbox is selected, store true-value
+                    if(adminCheck.isSelected()){
+                        object.put("isAdmin", true);
+                    } else {
+                        object.put("isAdmin", false);
+                    }
                 }
 
+                Request request = null;
+
+                // Select correct request type from viewing-variable
+                if (viewing.equals("student")) { request = new Request(RequestDao.USERS, RequestType.UPDATEDATA, object); }
+                else if (viewing.equals("staff")) { request = new Request(RequestDao.STAFF, RequestType.UPDATEDATA, object); }
+                else if (viewing.equals("courses")) { request = new Request(RequestDao.STAFF, RequestType.UPDATEDATA, object); }
+                else if (viewing.equals("degree")) { request = new Request(RequestDao.STAFF, RequestType.UPDATEDATA, object); }
+                else if (viewing.equals("attendance")) { request = new Request(RequestDao.STAFF, RequestType.UPDATEDATA, object); }
+
+                System.out.println("Objektin sisältö");
+                System.out.println(object);
+                handler.handle(request);
+                Stage s = (Stage) save.getScene().getWindow();
+                s.close();
             });
 
+            Stage stage = new Stage();
+            stage.setTitle("Modify entry in " + viewing);
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
 
 
         } catch (Exception e){
             e.printStackTrace();
             new Alert(Alert.AlertType.ERROR, "Error opening dialog " + e.getMessage());
         }
-
     }
 
     // TableView formatter
