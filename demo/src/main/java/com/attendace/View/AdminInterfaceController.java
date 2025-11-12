@@ -31,6 +31,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
@@ -327,20 +328,19 @@ public class AdminInterfaceController {
         ObservableList<String> selectedRow = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedRow == null || selectedRow.isEmpty()){
-            System.out.println("Nothing selected");
+            new Alert(Alert.AlertType.INFORMATION, Translator.getString("deletion.noselect"));
             return;
         }
 
         // Promt user for confirmation
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle("Confirm deletion");
+        confirm.setTitle(Translator.getString("deletion.confirmtitle"));
         confirm.setHeaderText(null);
-        confirm.setContentText("Are you sure, you want to delete this entry?");
+        confirm.setContentText(Translator.getString("deletion.confirm"));
         confirm.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
 
-        ButtonType choise = confirm.showAndWait().orElse(ButtonType.NO);
-        if (choise != ButtonType.YES){
-            System.out.println("Deletion canselled");
+        ButtonType choice = confirm.showAndWait().orElse(ButtonType.NO);
+        if (choice != ButtonType.YES){
             return;
         }
 
@@ -351,7 +351,8 @@ public class AdminInterfaceController {
         try {
             id = Integer.parseInt(idColumn);
         } catch (NumberFormatException e){
-            System.out.println("Selected id is not valid");
+            new Alert(Alert.AlertType.ERROR, Translator.getString("deletion.errorfetch") + 
+            " " + e.getMessage());
             return;
         }
         
@@ -403,7 +404,7 @@ public class AdminInterfaceController {
 
         // Throw error, if row is not selected
         if (selectedRow == null || selectedRow.isEmpty()){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, "No item selected");
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, Translator.getString("modif.noselect"));
             alert.showAndWait();
             return;
         }
@@ -412,7 +413,8 @@ public class AdminInterfaceController {
         try {
             rowId = Integer.parseInt(selectedRow.get(0).trim());
         } catch (NumberFormatException e) {
-            new Alert(Alert.AlertType.ERROR, "Error fetching id from table");
+            new Alert(Alert.AlertType.ERROR, Translator.getString("modif.errorfetch" + 
+            " " + e.getMessage()));
             return;
         }
 
@@ -433,27 +435,27 @@ public class AdminInterfaceController {
                 ((TextField) root.lookup("#studentName")).setText(selectedRow.get(1));
                 ((TextField) root.lookup("#studentId")).setText(selectedRow.get(2));
                 ((TextField) root.lookup("#studentDegree")).setText(selectedRow.get(3));
-                ((Button) root.lookup("#saveButton")).setText("Update");
+                ((Button) root.lookup("#saveButton")).setText(Translator.getString("modif.updateBtn"));
 
                 TextField passField = (TextField) root.lookup("#studentPasswField");
-                passField.setPromptText("Change password. Leave blank to keep current password");
+                passField.setPromptText(Translator.getString("modif.password"));
             }
 
             // Staffcreation
             else if(viewing.equals("staff")){
                 ((TextField) root.lookup("#namefield")).setText(selectedRow.get(1));
                 ((TextField) root.lookup("#rolefield")).setText(selectedRow.get(2));
-                ((Button) root.lookup("#saveButton")).setText("Update");
+                ((Button) root.lookup("#saveButton")).setText(Translator.getString("modif.updateBtn"));
 
                 TextField passField = (TextField) root.lookup("#passwordfield");
-                passField.setPromptText("Change password. Leave blank to keep current password");
+                passField.setPromptText(Translator.getString("modif.password"));
 
                 javafx.scene.control.CheckBox adminCheck = (javafx.scene.control.CheckBox) root.lookup("#isAdmin");
-                System.out.println(adminCheck);
+                adminCheck.setText(Translator.getString("createstaff.isadmin"));
 
                 // Check selected row 'isAdmin' boolean
                 // TODO:
-                if (selectedRow.get(3).equals(true)){
+                if (selectedRow.get(3).equals("true")){
                     adminCheck.setSelected(true);
                 } else {
                     adminCheck.setSelected(false);
@@ -466,7 +468,6 @@ public class AdminInterfaceController {
             save.setOnAction( ev -> {
                 Map<String, Object> object = new HashMap<>();
                 object.put("id", rowId);
-                System.out.println("RowId on " + rowId);
 
                 // Studentcreation dialog
                 if(viewing.equals("student")) {
@@ -475,7 +476,8 @@ public class AdminInterfaceController {
 
                     TextField passField = (TextField) root.lookup("#studentPasswField");
                     
-                    // If password is inputed, hash it and store it. Otherwise store only null-value. Null-value wont change password
+                    // If password is inputed, hash it and store it. Otherwise store only null-value. 
+                    // Null-value wont change password
                     if (passField != null){
                         String newPass = crypto.hash(passField.getText());
                         object.put("password", newPass);
@@ -519,22 +521,20 @@ public class AdminInterfaceController {
                 else if (viewing.equals("degree")) { request = new Request(RequestDao.STAFF, RequestType.UPDATEDATA, object); }
                 else if (viewing.equals("attendance")) { request = new Request(RequestDao.STAFF, RequestType.UPDATEDATA, object); }
 
-                System.out.println("Objektin sisältö");
-                System.out.println(object);
                 handler.handle(request);
                 Stage s = (Stage) save.getScene().getWindow();
                 s.close();
             });
 
             Stage stage = new Stage();
-            stage.setTitle("Modify entry in " + viewing);
+            stage.setTitle(Translator.getString("modif.title") + " " + viewing);
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
 
         } catch (Exception e){
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR, "Error opening dialog " + e.getMessage());
+            new Alert(Alert.AlertType.ERROR, Translator.getString("modif.errordial") + ". " + e.getMessage());
         }
     }
 
