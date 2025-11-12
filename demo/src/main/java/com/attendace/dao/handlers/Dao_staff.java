@@ -197,16 +197,17 @@ public class Dao_staff extends Handler {
         String name = (String) object.get("name");
         String role = (String) object.get("role");
         String passw = (String) object.get("password");
+        boolean admin = (boolean) object.get("isAdmin");
 
-
+        System.out.println("Objektin sisältö: " + object);
         Connection connection = DbConnection.getConnection();
-        String sql = "UPDATE STAFF SET staff_name = ?, id = ?, staff_role = ?, staff_passw = COALESCE(NULLIF(?,'')) WHERE id = ?";
+        String sql = "UPDATE STAFF SET staff_name = ?, staff_role = ?, staff_admin = ?, staff_passw = COALESCE(NULLIF(?,''), staff_passw) WHERE id = ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
             ps.setString(1, name);
-            ps.setInt(2, id);
-            ps.setString(3, role);
+            ps.setString(2, role);
+            ps.setBoolean(3, admin);
             ps.setString(4, passw);
             ps.setInt(5, id);
             ps.executeUpdate();
