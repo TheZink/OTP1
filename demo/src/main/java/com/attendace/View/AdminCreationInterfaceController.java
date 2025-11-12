@@ -39,6 +39,10 @@ public class AdminCreationInterfaceController {
     @FXML
     private CheckBox courseActive, attendCourseActive;
 
+    // For degree interface
+    @FXML
+    private TextField degreefield, ectsfield;
+
     // For all interfaces
     @FXML
     private Button saveButton, cancelButton;
@@ -125,6 +129,25 @@ public class AdminCreationInterfaceController {
         object.put("course_active", courseActive.isSelected());
 
         Request request = new Request(RequestDao.COURSE, RequestType.SETDATA, object);
+        handler.handle(request);
+
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
+    }
+
+    // -- Degree creation handler --
+
+    @FXML
+    private void handleSaveDegree(ActionEvent event){
+        System.out.println("'Create' button pressed");
+        Map<String, Object> object = new HashMap<>();
+
+        String degreeName = degreefield.getText();
+        int ects = ectsfield.getText().isEmpty() ? 0 : Integer.parseInt(ectsfield.getText());
+
+        object.put("degreeName", degreeName);
+        object.put("degreeEcts", ects);
+
+        Request request = new Request(RequestDao.DEGREE, RequestType.SETDATA, object);
         handler.handle(request);
 
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();

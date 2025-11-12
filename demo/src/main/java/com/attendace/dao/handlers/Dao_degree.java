@@ -7,22 +7,20 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.attendace.Utils.UserUtils;
 import com.attendace.dao.Handler;
 import com.attendace.dao.Request;
 import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 import com.attendace.datasource.DbConnection;
 
-public class Dao_staff extends Handler {
+public class Dao_degree extends Handler {
 
     // This method check if handler can process the request
 
     @Override
     public boolean canProcess(Request request) {
         // If handler cannot process this request, set next handler and return false
-        if (request.getDao() != RequestDao.STAFF) {
-            setNextHandler(new Dao_course());
+        if (request.getDao() != RequestDao.DEGREE) {
             return false;
         } else {
             return true;
@@ -47,9 +45,6 @@ public class Dao_staff extends Handler {
             setData(object);
         }
 
-        else if (request.getType() == RequestType.SIGNIN){
-            return checkLogin(object);
-        }
         else if (request.getType() == RequestType.UPDATEDATA){
             updateData(object);
             return true;
@@ -64,12 +59,12 @@ public class Dao_staff extends Handler {
 
     }
 
-    // Fetch all staff from Staff-table.
+    // Fetch all degree from Degree-table.
     public ArrayList<ArrayList<String>> getAllData(){
 
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM STAFF ORDER BY id ASC";
+        String sql = "SELECT * FROM DEGREE ORDER BY id ASC";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
@@ -81,10 +76,8 @@ public class Dao_staff extends Handler {
                 ArrayList<String> row = new ArrayList<>();
 
                 row.add(Integer.toString(rs.getInt("id")));
-                row.add(rs.getString("staff_name"));
-                row.add(rs.getString("staff_role"));
-                row.add(Boolean.toString(rs.getBoolean("staff_admin")));
-                row.add(rs.getTime("created_at").toString());
+                row.add(rs.getString("degree_name"));
+                row.add(Integer.toString(rs.getInt("degree_ects")));
 
                 data.add(row);
             }
@@ -100,27 +93,25 @@ public class Dao_staff extends Handler {
             return data;}  
     }
 
-    // Fetch specific user from Staff-table
+    // Fetch specific user from Degree-table
     public ArrayList<String> getData(Map<String, Object> object){
 
-        String username = (String) object.get("username");
+        String value = (String) object.get("value");
+        String label = (String) object.get("label");
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM STAFF WHERE staff_name = ?";
+        String sql = "SELECT * FROM DEGREE WHERE " + label + " LIKE ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, username);
+            ps.setString(1, value + "%");
             ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
                 data.add(Integer.toString(rs.getInt("id")));
-                data.add(rs.getString("staff_name"));
-                data.add(rs.getString("staff_role"));
-                data.add(Boolean.toString(rs.getBoolean("staff_admin")));
-                data.add(rs.getString("staff_passw"));
-                data.add(rs.getTime("created_at").toString());
+                data.add(rs.getString("degree_name"));
+                data.add(Integer.toString(rs.getInt("degree_ects")));
             }
 
         } catch (SQLException e){
@@ -134,27 +125,19 @@ public class Dao_staff extends Handler {
             return data;}  
     }
     
-    // Set staff data to the Staff-table
-    public void setData(Map<String, Object> data){
+    // Set staff data to the Degree-table
+    public void setData(Map<String, Object> object){
 
-        // Before setting user data to the database, check username
-        UserUtils user = new UserUtils();
-        Map<String, Object> object = user.checkStaff(data);
-
-        String username = (String) object.get("username");
-        String role = (String) object.get("role");
-        boolean isAdmin = (boolean) object.get("isAdmin");
-        String passw = (String) object.get("password");
+        String degreeName = (String) object.get("degreeName");
+        int degreeEcts = (int) object.get("degreeEcts");
 
         Connection connection = DbConnection.getConnection();
-        String sql = "INSERT INTO STAFF (staff_name, staff_role, staff_admin, staff_passw) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO DEGREE (degree_name, degree_ects) VALUES (?, ?)";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, username);
-            ps.setString(2, role);
-            ps.setBoolean(3, isAdmin);
-            ps.setString(4, passw);
+            ps.setString(1, degreeName);
+            ps.setInt(2, degreeEcts);
 
             ps.executeUpdate();
             
@@ -163,53 +146,20 @@ public class Dao_staff extends Handler {
         }
     }
 
-    public boolean checkLogin(Map<String, Object> object){
-        String username = (String) object.get("username");
-        String password = (String) object.get("password");
-
-        Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM STAFF WHERE staff_name = ?";
-        
-        // This checks if the user exists in the database
-               
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, username);
-            ResultSet rs = ps.executeQuery();
-
-            // This checks if the password correct
-
-            if (rs.next()){
-                if (rs.getString("staff_passw").equals(password)){
-                    return true;
-                }
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return false;
-    }
     public void updateData(Map<String, Object> object) {
 
         int id = (int) object.get("id");
-        String name = (String) object.get("name");
-        String role = (String) object.get("role");
-        String passw = (String) object.get("password");
-        boolean admin = (boolean) object.get("isAdmin");
+        String degreeName = (String) object.get("degreeName");
+        int degreeEcts = (int) object.get("degreeEcts");
 
-        System.out.println("Objektin sisältö: " + object);
         Connection connection = DbConnection.getConnection();
-        String sql = "UPDATE STAFF SET staff_name = ?, staff_role = ?, staff_admin = ?, staff_passw = COALESCE(NULLIF(?,''), staff_passw) WHERE id = ?";
+        String sql = "UPDATE DEGREE SET degree_name = ?, degree_ects = ? WHERE id = ?";
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, name);
-            ps.setString(2, role);
-            ps.setBoolean(3, admin);
-            ps.setString(4, passw);
-            ps.setInt(5, id);
+            ps.setString(1, degreeName);
+            ps.setInt(2, degreeEcts);
+            ps.setInt(3, id);
             ps.executeUpdate();
 
         } catch (Exception e) {
@@ -224,7 +174,7 @@ public class Dao_staff extends Handler {
         String label = (String) object.get("label");
 
         Connection connection = DbConnection.getConnection();
-        String sql = "DELETE FROM STAFF WHERE " + label + "  =  " + value;
+        String sql = "DELETE FROM DEGREE WHERE " + label + "  =  " + value;
 
         try {
             PreparedStatement ps = connection.prepareStatement(sql);

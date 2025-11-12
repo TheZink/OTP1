@@ -174,7 +174,7 @@ public class Dao_user extends Handler {
 
 
         Connection connection = DbConnection.getConnection();
-        String sql = "UPDATE USERS SET user_name = ?, user_student_id = ?, user_degree = ?, user_passw = ? WHERE id = ?";
+        String sql = "UPDATE USERS SET user_name = ?, user_student_id = ?, user_degree = ?, user_passw = COALESCE(NULLIF(?,''), user_passw) WHERE id = ?";
         
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
