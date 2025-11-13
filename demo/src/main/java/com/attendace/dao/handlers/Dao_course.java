@@ -238,15 +238,32 @@ public class Dao_course extends Handler {
     // Update specific course in Course-table
     public void updateData(Map<String, Object> object){
 
-        int value = (int) object.get("value");
-        String label = (String) object.get("label");
-        String setValue = (String) object.get("setValue");
-
+        int id = (int) object.get("id");
+        String couresName = (String) object.get("courseName");
+        String couresTopic = (String) object.get("courseTopic");
+        String couresDesc = (String) object.get("courseDesc");
+        Boolean attendAvaib = (Boolean) object.get("attendAvaib");
+        String attendKey = (String) object.get("attendKey");
+        int attendMin = (int) object.get("attendMin");
+        int attendMax = (int) object.get("attendMax");
+        Boolean courseActive = (Boolean) object.get("courseActive");
+        
         Connection connection = DbConnection.getConnection();
-        String sql = "UPDATE course SET " + label + " = '" + setValue + "' WHERE id =" + value;
+        String sql = "UPDATE course SET course_name = ?, course_topic = ?, course_desc = ?, attendance_avaible = ?, " +
+                    "attendance_key= ?, min_attendance= ?, max_attendance= ?, course_active= ? WHERE id= ?";
         
         try {
             PreparedStatement ps = connection.prepareStatement(sql);
+            ps.setString(1, couresName);
+            ps.setString(2, couresTopic);
+            ps.setString(3, couresDesc);
+            ps.setBoolean(4, attendAvaib);
+            ps.setString(5, attendKey);
+            ps.setInt(6, attendMin);
+            ps.setInt(7, attendMax);
+            ps.setBoolean(8, courseActive);
+            ps.setInt(9, id);
+
             ps.executeUpdate();
             
         } catch (Exception e) {
