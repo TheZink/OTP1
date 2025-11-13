@@ -11,6 +11,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import com.attendace.localisation.Translator;
+
 
 import java.io.IOException;
 import java.lang.reflect.Array;
@@ -35,7 +37,7 @@ public class MainEngine {
         Parent root = loader.load();
 
         Stage stage = new Stage();
-        stage.setTitle("Interface");
+        stage.setTitle(Translator.getString("main.frontpageTitle"));
         stage.setResizable(false);
         stage.setScene(new Scene(root));
         stage.show();

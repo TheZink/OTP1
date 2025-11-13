@@ -67,7 +67,7 @@
                   </Button>
                </children>
             </HBox>
-            <Text fill="#727272" strokeType="OUTSIDE" strokeWidth="0.0" text="ATTENDANCE SOFTWARE" textAlignment="CENTER" underline="true" wrappingWidth="302.13671875">
+            <Text fx:id="softwareTitle" fill="#727272" strokeType="OUTSIDE" strokeWidth="0.0" text="ATTENDANCE SOFTWARE" textAlignment="CENTER" underline="true" wrappingWidth="302.13671875">
                <font>
                   <Font size="16.0" />
                </font>
