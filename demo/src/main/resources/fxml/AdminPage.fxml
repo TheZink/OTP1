@@ -154,12 +154,7 @@
                               <Font name="System Bold" size="13.0" />
                            </font>
                         </Button>
-                        <Button fx:id="saveButton" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Save" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="10">
-                           <font>
-                              <Font name="System Bold" size="13.0" />
-                           </font>
-                        </Button>
-                        <Button fx:id="cancelButton" mnemonicParsing="false" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Cancel" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="10">
+                        <Button fx:id="closeButton" mnemonicParsing="false" onAction="#handleClose" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Close" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="10">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>
@@ -175,6 +170,11 @@
                            </font>
                         </Button>
                         <Button fx:id="createDegree" mnemonicParsing="false" onAction="#handleCreateDegree" prefHeight="48.0" prefWidth="225.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Create degree" textAlignment="CENTER" textFill="WHITE" GridPane.columnIndex="1" GridPane.rowIndex="5">
+                           <font>
+                              <Font name="System Bold" size="13.0" />
+                           </font>
+                        </Button>
+                        <Button fx:id="refreshButton" mnemonicParsing="false" onAction="#handleRefresh" prefHeight="87.0" prefWidth="186.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text=" Refresh view" textAlignment="CENTER" textFill="WHITE" GridPane.rowIndex="8">
                            <font>
                               <Font name="System Bold" size="13.0" />
                            </font>

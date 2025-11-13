@@ -10,14 +10,14 @@
    <children>
       <AnchorPane layoutX="13.0" layoutY="20.0" prefHeight="380.0" prefWidth="561.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="20.0">
          <children>
-            <Button fx:id="saveButton" layoutX="510.0" layoutY="389.0" mnemonicParsing="false" onAction="#handleSaveCourse" prefHeight="46.0" prefWidth="153.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Create" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="510.0" AnchorPane.rightAnchor="14.0">
+            <Button fx:id="saveButton" layoutX="355.0" layoutY="389.0" mnemonicParsing="false" onAction="#handleSaveCourse" prefHeight="46.0" prefWidth="153.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Create" textFill="WHITE" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="355.0" AnchorPane.rightAnchor="169.0">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
             </Button>
             <TextField fx:id="courseName" layoutX="10.0" layoutY="14.0" prefHeight="39.0" prefWidth="662.0" promptText="Course name" />
             <TextField fx:id="courseTopic" accessibleRole="TEXT_FIELD" layoutX="10.0" layoutY="59.0" prefHeight="39.0" prefWidth="662.0" promptText="Course topic" />
-            <Button fx:id="cancelButton" layoutX="356.0" layoutY="389.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="46.0" prefWidth="147.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Cancel" textFill="WHITE">
+            <Button fx:id="cancelButton" layoutX="516.0" layoutY="389.0" mnemonicParsing="false" onAction="#handleCancel" prefHeight="46.0" prefWidth="147.0" style="-fx-background-color: #171717; -fx-background-radius: 5;" text="Cancel" textFill="WHITE">
                <font>
                   <Font name="System Bold" size="19.0" />
                </font>
