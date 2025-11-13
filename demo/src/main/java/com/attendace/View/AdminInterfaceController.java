@@ -32,6 +32,8 @@ import javafx.stage.Stage;
 
 public class AdminInterfaceController {
 
+
+
     // For testing only. Extends Application
     // @Override
     // public void start(Stage primaryStage) throws Exception {
@@ -45,6 +47,9 @@ public class AdminInterfaceController {
     Map<String, Object> object = new HashMap<>();
 
     CryptoUtils crypto = new CryptoUtils();
+
+    @FXML
+    Text softwareTitle;
 
     @FXML
     Button viewStaff, createStaff, modifyStaff;
@@ -72,6 +77,7 @@ public class AdminInterfaceController {
     // -- VIEW BUTTON HANDLERS --
 
     public void TranslatePage() {
+        softwareTitle.setText(Translator.getString("main.softwareTitle"));
         viewStaff.setText(Translator.getString("admin.viewstaff"));
         createStaff.setText(Translator.getString("admin.createstaff"));
 
@@ -172,7 +178,9 @@ public class AdminInterfaceController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminStaffCreation.fxml"));
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
-            stage.setTitle("Create Staff");
+
+            stage.setTitle(Translator.getString("admin.createstaff"));
+
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
@@ -213,7 +221,7 @@ public class AdminInterfaceController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminStudentCreation.fxml"));
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
-            stage.setTitle("Create student");
+            stage.setTitle(Translator.getString("admin.createstudent"));
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
@@ -254,7 +262,7 @@ public class AdminInterfaceController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminCourseCreation.fxml"));
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
-            stage.setTitle("Create course");
+            stage.setTitle(Translator.getString("admin.createcourse"));
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
@@ -302,7 +310,7 @@ public class AdminInterfaceController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminDegreeCreation.fxml"));
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
-            stage.setTitle("Create degree");
+            stage.setTitle(Translator.getString("admin.createdegree"));
             stage.setScene(new Scene(root));
             stage.showAndWait();
 

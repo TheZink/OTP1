@@ -51,25 +51,9 @@
       <HBox alignment="CENTER" prefHeight="55.0" prefWidth="1153.0" spacing="10.0">
          <children>
             <HBox prefHeight="26.0" prefWidth="454.0">
-               <children>
-                  <Button minHeight="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="160.0" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: #727272;" text="PROFILE" textAlignment="CENTER" textFill="#727272">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <Button minHeight="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="160.0" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: #727272;" text="COURSES" textAlignment="CENTER" textFill="#727272">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-                  <Button minHeight="-Infinity" mnemonicParsing="false" prefHeight="26.0" prefWidth="139.0" style="-fx-background-color: transparent; -fx-border-width: 0 0 1 0; -fx-border-color: #727272;" text="ADMIN PANEL" textAlignment="CENTER" textFill="#727272">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                  </Button>
-               </children>
+
             </HBox>
-            <Text fill="#727272" strokeType="OUTSIDE" strokeWidth="0.0" text="ATTENDANCE SOFTWARE" textAlignment="CENTER" underline="true" wrappingWidth="302.13671875">
+            <Text fx:id="softwareTitle" fill="#727272" strokeType="OUTSIDE" strokeWidth="0.0" text="ATTENDANCE SOFTWARE" textAlignment="CENTER" underline="true" wrappingWidth="302.13671875">
                <font>
                   <Font size="16.0" />
                </font>

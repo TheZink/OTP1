@@ -32,6 +32,10 @@ import java.util.Objects;
 public class MainInterfaceController {
     private AdminInterfaceController admininterfaceController;
 
+
+    @FXML
+    Text softwareTitle;
+
     @FXML
     private GridPane coursegrid;
 
@@ -72,6 +76,7 @@ public class MainInterfaceController {
     private Button adminpanel;
 
     public void translatepage() {
+        softwareTitle.setText(Translator.getString("main.softwareTitle"));
         profilebutton.setText(Translator.getString("main.profileButton"));
         coursesbutton.setText(Translator.getString("main.coursesButton"));
         adminpanel.setText(Translator.getString("main.adminButton"));
@@ -216,7 +221,7 @@ public class MainInterfaceController {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminPage.fxml"));
             Parent root = fxmlLoader.load();
             Stage stage = new Stage();
-            stage.setTitle("Create Staff");
+            stage.setTitle(Translator.getString("admin.title"));
             stage.setScene(new Scene(root));
             stage.show();
 
