@@ -19,6 +19,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -68,7 +69,7 @@ public class AdminInterfaceController {
     Button viewAtten, modifyAtten;
 
     @FXML
-    Button saveButton, cancelButton, deleteButton, modifyButton;
+    Button saveButton, cancelButton, deleteButton, modifyButton, closeButton, refreshButton;
 
     @FXML
     private TableView<ObservableList<String>> tableView;
@@ -93,10 +94,11 @@ public class AdminInterfaceController {
         viewDegree.setText(Translator.getString("admin.viewdegree"));
         createDegree.setText(Translator.getString("admin.createdegree"));
 
-        saveButton.setText(Translator.getString("admin.savebutton"));
-        cancelButton.setText(Translator.getString("admin.cancelbutton"));
         deleteButton.setText(Translator.getString("admin.deletebutton"));
         modifyButton.setText(Translator.getString("admin.modifybutton"));
+        refreshButton.setText(Translator.getString("admin.refreshbutton"));
+        closeButton.setText(Translator.getString("admin.closebutton"));
+
     }
 
     public void refreshPage(ActionEvent event){
@@ -448,26 +450,35 @@ public class AdminInterfaceController {
 
                 TextField attendCode = (TextField) root.lookup("#courseAttendCode");
 
-                if (attendCode.getText() != null && !attendCode.getText().isBlank()){
-                    attendCode.setText(selectedRow.get(5));
+                if (attendCode != null) {
+                    String attendVal = (selectedRow != null && selectedRow.size() > 5) ? selectedRow.get(5) : null;
+                    if (attendVal != null) {
+                        attendVal = attendVal.trim();
+                    }
+                    if (attendVal != null && !attendVal.isBlank() && !attendVal.equalsIgnoreCase("null")) {
+                        attendCode.setText(attendVal);
+                    } else {
+                        attendCode.clear();
+                        attendCode.setPromptText(Translator.getString("createcourse.attendcode"));
+                    }
                 } else {
-                    attendCode.setPromptText(Translator.getString("createcourse.attendcode"));
+                    System.out.println("Warning: courseAttendCode lookup returned null");
                 }
 
                 CheckBox courseActive =  ((CheckBox) root.lookup("#courseActive"));
                 courseActive.setText(Translator.getString("createcourse.coursactive"));
 
                 CheckBox attendAvaible = ((CheckBox) root.lookup("#attendCourseActive"));
-                courseActive.setText(Translator.getString("createcourse.isattend"));
+                attendAvaible.setText(Translator.getString("createcourse.isattend"));
 
 
-                if (selectedRow.get(4) == "true"){
+                if (selectedRow.get(4).equalsIgnoreCase("true")){
                     attendAvaible.setSelected(true);
                 } else {
                     attendAvaible.setSelected(false);
                 }
                 
-                if (selectedRow.get(8) == "true"){
+                if (selectedRow.get(8).equalsIgnoreCase("true")){
                     courseActive.setSelected(true);
                 } else {
                     courseActive.setSelected(false);
@@ -590,6 +601,14 @@ public class AdminInterfaceController {
             e.printStackTrace();
             System.out.println(e);
         }
+    }
+
+    public void handleRefresh(ActionEvent event) {
+        refreshPage(event);
+    }
+
+    public void handleClose(ActionEvent event){
+        ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
     }
 
     // TableView formatter
