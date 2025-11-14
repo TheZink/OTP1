@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="485.0" prefWidth="699.0" style="-fx-background-color: linear-gradient(#b5b5b5,  #d6d6d6); -fx-background-radius: 0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.attendace.View.AdminCreationInterfaceController">
+<AnchorPane prefHeight="485.0" prefWidth="699.0" style="-fx-background-color: linear-gradient(#b5b5b5,  #d6d6d6); -fx-background-radius: 0;" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.attendace.view.AdminCreationInterfaceController">
    <children>
       <AnchorPane layoutX="13.0" layoutY="20.0" prefHeight="380.0" prefWidth="561.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;" AnchorPane.bottomAnchor="16.0" AnchorPane.leftAnchor="13.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="20.0">
          <children>
