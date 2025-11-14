@@ -65,12 +65,17 @@ public class Dao_courseTest {
         Dao_course handler = new Dao_course();
         Map<String, Object> object = new HashMap<>();
 
-        object.put("value", 4);
-        object.put("label", "course_desc");
-        object.put("setValue", "Testing");
+        object.put("id", 1);
+        object.put("courseName", "Testing updateData");
+        object.put("courseTopic", "About testing");
+        object.put("courseDesc", "Course is about testing");
+        object.put("attendAvaib", true);
+        object.put("attendKey", "CATC121");
+        object.put("attendMin", 1);
+        object.put("attendMax", 100);
+        object.put("courseActive", true);
 
         Request request = new Request(RequestDao.COURSE, RequestType.UPDATEDATA, object);
-        System.out.println(handler.handle(request));
         assertEquals(true, handler.handle(request));
     }
 
