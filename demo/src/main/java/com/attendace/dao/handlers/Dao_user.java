@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Map;
 
-import com.attendace.Utils.UserUtils;
+import com.attendace.utils.UserUtils;
 import com.attendace.dao.Handler;
 import com.attendace.dao.Request;
 import com.attendace.dao.requests.RequestDao;
