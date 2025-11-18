@@ -18,7 +18,7 @@ public class DaoCourse extends Handler {
     private static final String ID = "id";
     private static final String COURSENAME = "course_name";
     private static final String COURSETOPIC = "course_topic";
-    private static final String COURSEDESC = "courde_desc";
+    private static final String COURSEDESC = "course_desc";
     private static final String ATTENDAVAIBLE = "attendance_avaible";
     private static final String ATTENDKEY = "attendance_key";
     private static final String MINATTEND = "min_attendance";

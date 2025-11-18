@@ -111,22 +111,21 @@ public class DaoStaff extends Handler {
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT id, staff_name, staff_role, staff_admin, created_at FROM STAFF WHERE staff_name = ?";
+        String sql = "SELECT id, staff_name, staff_role, staff_admin, staff_passw, created_at FROM STAFF WHERE staff_name = ?";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();){
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, username);
-
-            while (rs.next()){
-                data.add(Integer.toString(rs.getInt(ID)));
-                data.add(rs.getString(STAFFNAME));
-                data.add(rs.getString(STAFFROLE));
-                data.add(Boolean.toString(rs.getBoolean(STAFFADMIN)));
-                data.add(rs.getString(STAFFPASSWORD));
-                data.add(rs.getTime(CREATEDAT).toString());
+            try (ResultSet rs = ps.executeQuery()) {
+                while (rs.next()) {
+                    data.add(Integer.toString(rs.getInt(ID)));
+                    data.add(rs.getString(STAFFNAME));
+                    data.add(rs.getString(STAFFROLE));
+                    data.add(Boolean.toString(rs.getBoolean(STAFFADMIN)));
+                    data.add(rs.getString(STAFFPASSWORD));
+                    data.add(rs.getTime(CREATEDAT).toString());
+                }
             }
-
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         
