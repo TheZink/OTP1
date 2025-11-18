@@ -32,9 +32,11 @@ public class DbConnection {
     // This method close connection, when called
 
     public static void closeConnection(){
-        if (connection != null){
+        Connection conn = getConnection();
+
+        if (conn != null){
             try {
-                getConnection().close();
+                conn.close();
                 connection = null;
             } catch (Exception e) {
                 e.printStackTrace();

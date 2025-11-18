@@ -25,7 +25,7 @@ public class DaoAttendance extends Handler {
     private static final String VALUE = "value";
     private static final String LABEL = "label";
 
-
+    private static final List<String> allowedLabels = List.of(ID, COURSEID, USERID, STAFFID, ATTENSTATUS, ATTENCURRENT, CREATEDAT);
 
     // This method check if handler can process the request
     @Override
@@ -69,8 +69,7 @@ public class DaoAttendance extends Handler {
 
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT id, course_id, user_id, staff_id, atten_status, " +
-                    " atten_current, created_at FROM ATTENDANCE ORDER BY id ASC";
+        String sql = "SELECT id, course_id, user_id, staff_id, atten_status, atten_current, created_at FROM ATTENDANCE ORDER BY id ASC";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();){
@@ -107,7 +106,13 @@ public class DaoAttendance extends Handler {
 
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM ATTENDANCE WHERE "+ label +" = ?";
+
+
+        if (!allowedLabels.contains(label)) {
+            throw new IllegalArgumentException("Invalid column name");
+        }
+
+        String sql = "SELECT * FROM ATTENDANCE WHERE " + label + " = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();){
@@ -173,6 +178,11 @@ public class DaoAttendance extends Handler {
         boolean setValue = (boolean) object.get("setValue");
 
         Connection connection = DbConnection.getConnection();
+
+        if (!allowedLabels.contains(label)) {
+            throw new IllegalArgumentException("Invalid column name");
+        }
+
         String sql = "UPDATE attendance SET " + label + " = " + setValue + " WHERE id = " + value;
 
         try (PreparedStatement ps = connection.prepareStatement(sql);){
@@ -189,6 +199,11 @@ public class DaoAttendance extends Handler {
         String label = (String) object.get(LABEL);
 
         Connection connection = DbConnection.getConnection();
+
+        if (!allowedLabels.contains(label)) {
+            throw new IllegalArgumentException("Invalid column name");
+        }
+
         String sql = "DELETE FROM attendance WHERE " + label + "  =  " + value;
 
         try (PreparedStatement ps = connection.prepareStatement(sql);){
