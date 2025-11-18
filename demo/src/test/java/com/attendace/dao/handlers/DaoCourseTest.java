@@ -11,11 +11,11 @@ import com.attendace.dao.Request;
 import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 
-public class Dao_courseTest {
+class DaoCourseTest {
     
     @Test
     void testCanProcess() {
-        Dao_course handler = new Dao_course();
+        DaoCourse handler = new DaoCourse();
         Map<String, Object> object = new HashMap<>();
         Request request = new Request(RequestDao.COURSE, RequestType.GETALLDATA, object);
         assertEquals(true, handler.canProcess(request));
@@ -23,7 +23,7 @@ public class Dao_courseTest {
 
     @Test
     void testGetAllData() {
-        Dao_course handler = new Dao_course();
+        DaoCourse handler = new DaoCourse();
         Map<String, Object> object = new HashMap<>();
         Request request = new Request(RequestDao.COURSE, RequestType.GETALLDATA, object);
         assertNotNull(handler.handle(request));
@@ -31,7 +31,7 @@ public class Dao_courseTest {
 
     @Test
     void testGetData() {
-        Dao_course handler = new Dao_course();
+        DaoCourse handler = new DaoCourse();
         Map<String, Object> object = new HashMap<>();
         object.put("value","Python");
         object.put("label","course_name");
@@ -40,13 +40,8 @@ public class Dao_courseTest {
     }
 
     @Test
-    void testProcess() {
-
-    }
-
-    @Test
     void testSetData() {
-        Dao_course handler = new Dao_course();
+        DaoCourse handler = new DaoCourse();
         Map<String, Object> object = new HashMap<>();
         object.put("course_name", "Java Basic");
         object.put("course_topic", "Programming");
@@ -62,7 +57,7 @@ public class Dao_courseTest {
 
     @Test
     void testUpdateData() {
-        Dao_course handler = new Dao_course();
+        DaoCourse handler = new DaoCourse();
         Map<String, Object> object = new HashMap<>();
 
         object.put("id", 1);
@@ -81,7 +76,7 @@ public class Dao_courseTest {
 
     @Test
     void testRemoveData() {
-        Dao_course handler = new Dao_course();
+        DaoCourse handler = new DaoCourse();
         Map<String, Object> object = new HashMap<>();
         object.put("value", 7);
         object.put("label", "id");

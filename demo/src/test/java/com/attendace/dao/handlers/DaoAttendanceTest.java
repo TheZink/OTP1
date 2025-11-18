@@ -12,19 +12,19 @@ import com.attendace.dao.Request;
 import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 
-public class Dao_attendanceTest {
+class DaoAttendanceTest {
     @Test
     void testCanProcess() {
-        Dao_attendance handler = new Dao_attendance();
+        DaoAttendance handler = new DaoAttendance();
         Map<String, Object> object = new HashMap<>();
         Request request = new Request(RequestDao.ATTENDANCE, RequestType.GETALLDATA, object);
         assertEquals(true, handler.canProcess(request));
-
     }
 
     @Test
     void testGetAllData() {
-        Dao_attendance handler = new Dao_attendance();
+        DaoAttendance handler = new DaoAttendance();
+
         Map<String, Object> object = new HashMap<>();
         Request request = new Request(RequestDao.ATTENDANCE, RequestType.GETALLDATA, object);
         assertNotNull(handler.handle(request));
@@ -32,7 +32,8 @@ public class Dao_attendanceTest {
 
     @Test
     void testGetData() {
-        Dao_attendance handler = new Dao_attendance();
+        DaoAttendance handler = new DaoAttendance();
+
         Map<String, Object> object = new HashMap<>();
         object.put("value",2);
         object.put("label", "user_id");
@@ -41,11 +42,9 @@ public class Dao_attendanceTest {
     }
 
     @Test
-    void testProcess() {}
-
-    @Test
     void testSetData() {
-        Dao_attendance handler = new Dao_attendance();
+        DaoAttendance handler = new DaoAttendance();
+
         Map<String, Object> object = new HashMap<>();
         object.put("course_id", 1);
         object.put("user_id", 2);
@@ -58,7 +57,7 @@ public class Dao_attendanceTest {
 
     @Test
     void testUpdateData() {
-        Dao_attendance handler = new Dao_attendance();
+        DaoAttendance handler = new DaoAttendance();
         Map<String, Object> object = new HashMap<>();
         object.put("value", 1);
         object.put("label", "atten_status");
@@ -69,7 +68,7 @@ public class Dao_attendanceTest {
 
     @Test
     void testRemoveData(){
-        Dao_attendance handler = new Dao_attendance();
+        DaoAttendance handler = new DaoAttendance();
         Map<String, Object> object = new HashMap<>();
         object.put("value", 2);
         object.put("label", "id");

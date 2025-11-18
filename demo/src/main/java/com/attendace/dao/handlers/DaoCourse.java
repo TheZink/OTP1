@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.attendace.dao.Handler;
@@ -13,15 +14,27 @@ import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 import com.attendace.datasource.DbConnection;
 
-public class Dao_course extends Handler {
+public class DaoCourse extends Handler {
+    private static final String ID = "id";
+    private static final String COURSENAME = "course_name";
+    private static final String COURSETOPIC = "course_topic";
+    private static final String COURSEDESC = "courde_desc";
+    private static final String ATTENDAVAIBLE = "attendance_avaible";
+    private static final String ATTENDKEY = "attendance_key";
+    private static final String MINATTEND = "min_attendance";
+    private static final String MAXATTEND = "max_attendance";
+    private static final String COURSEACTIVE = "course_active";
+    private static final String CREATEDAT = "created_at";
+
+    private static final String VALUE = "value";
+    private static final String LABEL = "label";
 
     // This method check if handler can process the request
-
     @Override
     public boolean canProcess(Request request) {
         // If handler cannot process this request, set next handler and return false
         if (request.getDao() != RequestDao.COURSE) {
-            setNextHandler(new Dao_attendance());
+            setNextHandler(new DaoAttendance());
             return false;
         } else {
             return true;
@@ -29,69 +42,55 @@ public class Dao_course extends Handler {
     }
 
     // This method check, if handler can process type of request
-
     @Override
     public Object process(Request request){
         Map<String, Object> object = request.getData(); //Fetch data from request
 
         if (request.getType() == RequestType.GETALLDATA){
-
             return getAllData();
         }
-
         else if (request.getType() ==RequestType.GETDATA){
             return getData(object);
         }
         else if (request.getType() ==RequestType.GETDATABYID){
             return getDataById(object);
         }
-
         else if (request.getType() == RequestType.SETDATA){
             setData(object);
-
             return true;
         }
-
         else if (request.getType() == RequestType.UPDATEDATA){
             updateData(object);
-
             return true;
         }
-
         else if (request.getType() == RequestType.REMOVEDATA){
             removeData(object);
         }
-
         return false;
     }
 
-    // Fetch all courses from Course-table.
-    public ArrayList<ArrayList<String>> getAllData(){
+    // Fetch all courses from Course-table. Encapsulate each row in its own array and add to the main data list
+    public List<ArrayList<String>> getAllData(){
         
         ArrayList<ArrayList<String> > data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM COURSE ORDER BY id ASC";
+        String sql = "SELECT id, course_name, course_topic, course_desc, attendance_avaible, "+
+         " attendance_key, min_attendance, max_attendance, course_active, created_at FROM COURSE ORDER BY id ASC";
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
-
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();){
             while (rs.next()) {
-
-                // Encapsulate each row in its own array and add to the main data list
                 ArrayList<String> row = new ArrayList<>();
-
-                row.add(Integer.toString(rs.getInt("id")));
-                row.add(rs.getString("course_name"));
-                row.add(rs.getString("course_topic"));
-                row.add(rs.getString("course_desc"));
-                row.add(Boolean.toString(rs.getBoolean("attendance_avaible")));
-                row.add(rs.getString("attendance_key"));
-                row.add(Integer.toString(rs.getInt("min_attendance")));
-                row.add(Integer.toString(rs.getInt("max_attendance")));
-                row.add(Boolean.toString(rs.getBoolean("course_active")));
-                row.add(rs.getDate("created_at").toString());
-
+                row.add(Integer.toString(rs.getInt(ID)));
+                row.add(rs.getString(COURSENAME));
+                row.add(rs.getString(COURSETOPIC));
+                row.add(rs.getString(COURSEDESC));
+                row.add(Boolean.toString(rs.getBoolean(ATTENDAVAIBLE)));
+                row.add(rs.getString(ATTENDKEY));
+                row.add(Integer.toString(rs.getInt(MINATTEND)));
+                row.add(Integer.toString(rs.getInt(MAXATTEND)));
+                row.add(Boolean.toString(rs.getBoolean(COURSEACTIVE)));
+                row.add(rs.getDate(CREATEDAT).toString());
                 data.add(row);
             }
 
@@ -100,45 +99,42 @@ public class Dao_course extends Handler {
         }
 
         // This check the result of the query
-        if (data.isEmpty()) {
-            return null;
+        if(data.isEmpty()){
+            return new ArrayList<>();
         } else {
             return data;
-        }
+        }   
     }
 
+    public List<ArrayList<String>> getDataById(Map<String, Object> object){
 
-    public ArrayList<ArrayList<String>> getDataById(Map<String, Object> object){
-
-        Integer course_id = (Integer) object.get("course_id");
+        Integer courseId = (Integer) object.get("course_id");
 
 
         ArrayList<ArrayList<String>> data = new ArrayList<>();
 
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM COURSE WHERE id = ?";
+        String sql = "SELECT id, course_name, course_topic, course_desc, attendance_avaible, + " +
+                    "attendance_key, min_attendance, max_attendance, course_active, created_at FROM COURSE WHERE id = ?";
 
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setInt(1, course_id);
-            ResultSet rs = ps.executeQuery();
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();){
+
+            ps.setInt(1, courseId);
 
             while (rs.next()){
-
                 ArrayList<String> row = new ArrayList<>();
-
-                row.add(Integer.toString(rs.getInt("id")));
-                row.add(rs.getString("course_name"));
-                row.add(rs.getString("course_topic"));
-                row.add(rs.getString("course_desc"));
-                row.add(Boolean.toString(rs.getBoolean("attendance_avaible")));
-                row.add(rs.getString("attendance_key"));
-                row.add(Integer.toString(rs.getInt("min_attendance")));
-                row.add(Integer.toString(rs.getInt("max_attendance")));
-                row.add(Boolean.toString(rs.getBoolean("course_active")));
-                row.add(rs.getDate("created_at").toString());
-
+                row.add(Integer.toString(rs.getInt(ID)));
+                row.add(rs.getString(COURSENAME));
+                row.add(rs.getString(COURSETOPIC));
+                row.add(rs.getString(COURSEDESC));
+                row.add(Boolean.toString(rs.getBoolean(ATTENDAVAIBLE)));
+                row.add(rs.getString(ATTENDKEY));
+                row.add(Integer.toString(rs.getInt(MINATTEND)));
+                row.add(Integer.toString(rs.getInt(MAXATTEND)));
+                row.add(Boolean.toString(rs.getBoolean(COURSEACTIVE)));
+                row.add(rs.getDate(CREATEDAT).toString());
                 data.add(row);
             }
 
@@ -146,46 +142,42 @@ public class Dao_course extends Handler {
             e.printStackTrace();
         }
 
-        if (data.isEmpty()){
-            return null;
+        if(data.isEmpty()){
+            return new ArrayList<>();
         } else {
             return data;
         }
     }
 
-
-
     // Fetch specific course from Course-table
-    public ArrayList<ArrayList<String>> getData(Map<String, Object> object){
+    public List<ArrayList<String>> getData(Map<String, Object> object){
 
-        String value = (String) object.get("value");
-        String label = (String) object.get("label");
+        String value = (String) object.get(VALUE);
+        String label = (String) object.get(LABEL);
 
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM COURSE WHERE " + label + " LIKE ?";
+        String sql = "SELECT id, course_name, course_topic, course_desc, attendance_avaible, + " +
+            "  attendance_key, min_attendance, max_attendance, course_active, created_at FROM COURSE WHERE " + label + " LIKE ?";
 
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();){
+
             ps.setString(1, value + "%");
-            ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
-
                 ArrayList<String> row = new ArrayList<>();
-
-                row.add(Integer.toString(rs.getInt("id")));
-                row.add(rs.getString("course_name"));
-                row.add(rs.getString("course_topic"));
-                row.add(rs.getString("course_desc"));
-                row.add(Boolean.toString(rs.getBoolean("attendance_avaible")));
-                row.add(rs.getString("attendance_key"));
-                row.add(Integer.toString(rs.getInt("min_attendance")));
-                row.add(Integer.toString(rs.getInt("max_attendance")));
-                row.add(Boolean.toString(rs.getBoolean("course_active")));
-                row.add(rs.getDate("created_at").toString());
-
+                row.add(Integer.toString(rs.getInt(ID)));
+                row.add(rs.getString(COURSENAME));
+                row.add(rs.getString(COURSETOPIC));
+                row.add(rs.getString(COURSEDESC));
+                row.add(Boolean.toString(rs.getBoolean(ATTENDAVAIBLE)));
+                row.add(rs.getString(ATTENDKEY));
+                row.add(Integer.toString(rs.getInt(MINATTEND)));
+                row.add(Integer.toString(rs.getInt(MAXATTEND)));
+                row.add(Boolean.toString(rs.getBoolean(COURSEACTIVE)));
+                row.add(rs.getDate(CREATEDAT).toString());
                 data.add(row);
             }
 
@@ -193,40 +185,35 @@ public class Dao_course extends Handler {
             e.printStackTrace();
         }
         
-        if (data.isEmpty()){
-            return null;
+        if(data.isEmpty()){
+            return new ArrayList<>();
         } else {
             return data;
-        }
+        }   
     }
     
     // Set course data to the Course-table
     public void setData(Map<String, Object> object) {
 
-        String name = (String) object.get("course_name");
-        String topic = (String) object.get("course_topic");
-        String desc = (String) object.get("course_desc");
-        boolean attend_active = (boolean) object.get("attendance_avaible");
-        String attend_key = (String) object.get("attendance_key");
-        int min_attend = (int) object.get("min_attendance");
-        int max_attend = (int) object.get("max_attendance");
-        boolean course_active = (boolean) object.get("course_active");
+        boolean attendActive = (boolean) object.get(ATTENDAVAIBLE);
+        int minAttend = (int) object.get(MINATTEND);
+        int maxAttend = (int) object.get(MAXATTEND);
+        boolean courseActive = (boolean) object.get(COURSEACTIVE);
 
         Connection connection = DbConnection.getConnection();
         String sql = "INSERT INTO Course (course_name, course_topic, course_desc, " + 
                     "attendance_avaible, attendance_key, min_attendance, max_attendance, " +
                     "course_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ps.setString(1, name);
-            ps.setString(2, topic);
-            ps.setString(3, desc);
-            ps.setBoolean(4, attend_active);
-            ps.setString(5, attend_key);
-            ps.setInt(6, min_attend);
-            ps.setInt(7, max_attend);
-            ps.setBoolean(8, course_active);
+        try (PreparedStatement ps = connection.prepareStatement(sql);){
+            ps.setString(1, COURSENAME);
+            ps.setString(2, COURSETOPIC);
+            ps.setString(3, COURSEDESC);
+            ps.setBoolean(4, attendActive);
+            ps.setString(5, ATTENDKEY);
+            ps.setInt(6, minAttend);
+            ps.setInt(7, maxAttend);
+            ps.setBoolean(8, courseActive);
 
             ps.executeUpdate();
             
@@ -252,8 +239,7 @@ public class Dao_course extends Handler {
         String sql = "UPDATE course SET course_name = ?, course_topic = ?, course_desc = ?, attendance_avaible = ?, " +
                     "attendance_key= ?, min_attendance= ?, max_attendance= ?, course_active= ? WHERE id= ?";
         
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, couresName);
             ps.setString(2, couresTopic);
             ps.setString(3, couresDesc);
@@ -273,14 +259,13 @@ public class Dao_course extends Handler {
 
     public void removeData(Map<String, Object> object) {
 
-        int value = (int) object.get("value");
-        String label = (String) object.get("label");
+        int value = (int) object.get(VALUE);
+        String label = (String) object.get(LABEL);
 
         Connection connection = DbConnection.getConnection();
         String sql = "DELETE FROM Course WHERE " + label + "  =  " + value;
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(PreparedStatement ps = connection.prepareStatement(sql);) {
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -14,14 +14,12 @@ public class DefaultHandler extends Handler {
 
     @Override
     public boolean canProcess(Request request){
-        setNextHandler(new Dao_user());
+        setNextHandler(new DaoUser());
         return false;
-
     }
 
     @Override
     public Object process(Request request){
         return null;
     }
-
 }

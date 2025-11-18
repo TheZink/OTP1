@@ -12,19 +12,19 @@ import com.attendace.dao.Request;
 import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 
-public class Dao_userTest {
+class DaoUserTest {
 
     @Test
     void testCanProcess() {
-        Dao_user handler = new Dao_user();
+        DaoUser handler = new DaoUser();
         Map<String, Object> data = new HashMap<>();
         Request request = new Request(RequestDao.USERS, RequestType.GETDATA, data);
-        assertEquals(null, handler.handle(request));
+        assertEquals(true, handler.canProcess(request));
     }
 
     @Test
     void testCheckLogin() {
-        Dao_user handler = new Dao_user();
+        DaoUser handler = new DaoUser();
         Map<String, Object> object = new HashMap<>();
         object.put("username", "Toni Testaaja");
         object.put("password", "Salasana");
@@ -34,7 +34,7 @@ public class Dao_userTest {
 
     @Test
     void testGetAllData() {
-        Dao_user handler = new Dao_user();
+        DaoUser handler = new DaoUser();
         Request request = new Request(RequestDao.USERS, RequestType.GETALLDATA, new HashMap<>());
         Object result = handler.handle(request);
         assertNotNull(result);
@@ -42,7 +42,7 @@ public class Dao_userTest {
 
     @Test
     void testGetData() {
-        Dao_user handler = new Dao_user();
+        DaoUser handler = new DaoUser();
         Map<String, Object> data = new HashMap<>();
         data.put("username", "Toni Testaaja");
         Request request = new Request(RequestDao.USERS, RequestType.GETDATA, data);
@@ -52,13 +52,12 @@ public class Dao_userTest {
 
     @Test
     void testSetData() {
-        Dao_user handler = new Dao_user();
+        DaoUser handler = new DaoUser();
         Map<String, Object> object = new HashMap<>();
         object.put("username", "Ilkka Sinkonen");
-        object.put("student_id", 25004);
+        object.put("user_student_id", 25004);
         object.put("degree", "I'm the engineer");
         object.put("password", "12345");
-
         Request request = new Request(RequestDao.USERS, RequestType.SETDATA, object);
         assertEquals(true, handler.handle(request));
 
@@ -66,7 +65,7 @@ public class Dao_userTest {
 
     @Test
     void testRemoveData() {
-        Dao_user handler = new Dao_user();
+        DaoUser handler = new DaoUser();
         Map<String, Object> object = new HashMap<>();
         object.put("value", 4);
         object.put("label", "id");
