@@ -20,6 +20,7 @@ import javafx.util.Duration;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class MainInterfaceController {
@@ -93,7 +94,7 @@ public class MainInterfaceController {
 
 
 
-    public void showprofile() throws IOException {
+    public void showprofile() {
         profilebutton.setDisable(true);
         coursesbutton.setDisable(true);
 
@@ -116,7 +117,7 @@ public class MainInterfaceController {
         fadecourses.play();
     }
 
-    public void showcourses() throws IOException {
+    public void showcourses() {
         profilebutton.setDisable(true);
         coursesbutton.setDisable(true);
 
@@ -180,7 +181,7 @@ public class MainInterfaceController {
         });
     }
 
-    public void fillcourses(ArrayList<ArrayList<Object>> courses) throws IOException {
+    public void fillcourses(List<ArrayList<Object>> courses) throws IOException {
         int column = 0;
         int row = 0;
 
@@ -209,7 +210,7 @@ public class MainInterfaceController {
         }
     }
 
-    public void handleAdminButton(ActionEvent event) {
+    public void handleAdminButton() {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminPage.fxml"));
             Parent root = fxmlLoader.load();
@@ -220,7 +221,7 @@ public class MainInterfaceController {
 
             Platform.runLater(() -> {
                 admininterfaceController = fxmlLoader.getController();
-                admininterfaceController.TranslatePage();
+                admininterfaceController.translatePage();
             });
         } catch (Exception e){
             e.getMessage();

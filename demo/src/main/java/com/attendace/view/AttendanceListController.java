@@ -7,12 +7,13 @@ import javafx.scene.layout.GridPane;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class AttendanceListController {
     @FXML
     private GridPane attendancegrid;
 
-    public void fillattendance(ArrayList<UserModel> users) throws IOException {
+    public void fillattendance(List<UserModel> users) throws IOException {
         int column = 0;
         int row = 0;
 
@@ -21,7 +22,7 @@ public class AttendanceListController {
             try {
                 attendanceContainer = new AttendanceContainer(user);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                throw new IOException(e);
             }
             if (column == 2) {
                 column = 0;

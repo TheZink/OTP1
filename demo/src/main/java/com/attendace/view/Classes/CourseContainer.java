@@ -8,13 +8,13 @@ import javafx.scene.control.Button;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class CourseContainer {
     private Node node;
 
-    public CourseContainer(ArrayList<Object> course) throws IOException {
+    public CourseContainer(List<Object> course) throws IOException {
         Parent root = FXMLLoader.load(
                 Objects.requireNonNull(getClass().getResource("/fxml/CourseContainer.fxml"))
         );
