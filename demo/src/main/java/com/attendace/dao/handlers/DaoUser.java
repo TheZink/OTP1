@@ -108,12 +108,13 @@ public class DaoUser extends Handler {
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT id, user_name, user_student_id, user_degree, user_passw, created_atFROM USERS WHERE user_name = ?";
+        String sql = "SELECT id, user_name, user_student_id, user_degree, user_passw, created_at FROM USERS WHERE user_name = ?";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();)
+        try (PreparedStatement ps = connection.prepareStatement(sql))
+
         {
             ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
                 data.add(Integer.toString(rs.getInt(ID)));

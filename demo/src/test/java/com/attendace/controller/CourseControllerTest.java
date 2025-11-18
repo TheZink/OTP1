@@ -4,6 +4,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,7 +36,7 @@ class CourseControllerTest {
     }
     @Test
     void getAllCourses() {
-        ArrayList x = courseController.getAllCourses();
+        List x = courseController.getAllCourses();
         //ArrayList x1 = x.get(0);
         System.out.println(x.get(0));
         //System.out.println(courseController.getAllCourses());

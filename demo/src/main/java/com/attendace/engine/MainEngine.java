@@ -16,6 +16,7 @@ import com.attendace.localisation.Translator;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainEngine {
     MainInterfaceController mainInterfaceController;
@@ -47,7 +48,7 @@ public class MainEngine {
 
             if (status.equals("Staff")) {
 
-                ArrayList<String> fetcheduser = staffController.getStaff(username);
+                List<String> fetcheduser = staffController.getStaff(username);
 
                 StaffModel user = new StaffModel(
                         Integer.parseInt(fetcheduser.get(0)),
@@ -57,9 +58,10 @@ public class MainEngine {
                 );
                 mainInterfaceController.renderAdminButton(user);
 
-                ArrayList<ArrayList<Object>> courses = courseController.getAllCourses();
 
-                System.out.println("Olenko admin?"+ user.getAdminStatus());
+                List<ArrayList<Object>> courses = courseController.getAllCourses();
+
+                System.out.println(courses + "what is this");
 
                 try {
                     mainInterfaceController.fillcourses(courses);
@@ -70,7 +72,7 @@ public class MainEngine {
                 mainInterfaceController.fillprofiledatastaff(user);
 
             } else if (status.equals("User")) {
-                ArrayList<String> fetcheduser = userController.getUser(username);
+                List<String> fetcheduser = userController.getUser(username);
                 mainInterfaceController.disableAdminButton();
 
                 UserModel user = new UserModel(
@@ -79,7 +81,7 @@ public class MainEngine {
                         fetcheduser.get(3)
                 );
 
-                ArrayList<ArrayList<Object>> courses = courseController.getAllCourses();
+                List<ArrayList<Object>> courses = courseController.getAllCourses();
 
                 try {
                     mainInterfaceController.fillcourses(courses);
