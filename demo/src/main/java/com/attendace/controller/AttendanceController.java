@@ -1,6 +1,5 @@
 package com.attendace.controller;
 
-import com.attendace.model.AttendanceModel;
 import com.attendace.dao.Request;
 import com.attendace.dao.handlers.DefaultHandler;
 import com.attendace.dao.requests.RequestDao;
@@ -8,11 +7,11 @@ import com.attendace.dao.requests.RequestType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class AttendanceController {
 
-    private AttendanceModel attendanceModel;
     private DefaultHandler handler;
     private Request request;
     private Map<String, Object> data;
@@ -32,12 +31,12 @@ public class AttendanceController {
         request = new Request(RequestDao.ATTENDANCE, RequestType.SETDATA, data);
         return (boolean) handler.handle(request);
     }
-    public ArrayList<String> getAttendance() {
+    public List<String> getAttendance() {
         data = new HashMap<>();
         request = new Request(RequestDao.ATTENDANCE, RequestType.GETDATA, data);
         return (ArrayList<String>) handler.handle(request);
     }
-    public ArrayList<String> getAllAttendance() {
+    public List<String> getAllAttendance() {
         data = new HashMap<>();
         request = new Request(RequestDao.ATTENDANCE, RequestType.GETALLDATA, data);
         return (ArrayList<String>) handler.handle(request);

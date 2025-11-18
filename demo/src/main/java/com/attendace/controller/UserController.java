@@ -1,6 +1,5 @@
 package com.attendace.controller;
 
-import com.attendace.model.UserModel;
 import com.attendace.utils.LoginUtils;
 import com.attendace.dao.Request;
 import com.attendace.dao.handlers.DefaultHandler;
@@ -9,15 +8,17 @@ import com.attendace.dao.requests.RequestType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UserController {
 
-    private UserModel user;
     private DefaultHandler handler;
     private LoginUtils login;
     private Request request;
     private Map<String, Object> data;
+    private static final String PASSWORD = "password";
+    private static final String USERNAME = "username";
 
     public UserController() {
         this.handler = new DefaultHandler();
@@ -26,15 +27,15 @@ public class UserController {
 
     public String loginUser(String username, String password) {
         data = new HashMap<>();
-        data.put("username", username);
-        data.put("password", password);
-        return (String) login.login(data);
+        data.put(USERNAME, username);
+        data.put(PASSWORD, password);
+        return login.login(data);
     }
     public boolean createUser(int studentId, String name, String password, String userDegree) {
         data = new HashMap<>();
         data.put("student_id", studentId);
-        data.put("username", name);
-        data.put("password", password);
+        data.put(USERNAME, name);
+        data.put(PASSWORD, password);
         data.put("degree", userDegree);
         request = new Request(RequestDao.USERS, RequestType.SETDATA, data);
         return (boolean) handler.handle(request);
@@ -46,7 +47,7 @@ public class UserController {
         data.put("name", name);
         data.put("id", id);
         data.put("degree", degree);
-        data.put("password", password);
+        data.put(PASSWORD, password);
 
         request = new Request(RequestDao.USERS, RequestType.UPDATEDATA, data);
         return (boolean) handler.handle(request);
@@ -54,15 +55,15 @@ public class UserController {
 
 
 
-    public ArrayList<String> getUser(String username) {
+    public List<String> getUser(String username) {
         data = new HashMap<>();
-        data.put("username", username);
+        data.put(USERNAME, username);
         request = new Request(RequestDao.USERS, RequestType.GETDATA, data);
         return (ArrayList<String>) handler.handle(request);
     }
 
 
-    public ArrayList<String> getAllUsers() {
+    public List<String> getAllUsers() {
         data = new HashMap<>();
         request = new Request(RequestDao.USERS, RequestType.GETALLDATA, data);
         return (ArrayList<String>) handler.handle(request);

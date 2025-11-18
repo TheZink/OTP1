@@ -9,6 +9,7 @@ import com.attendace.dao.requests.RequestType;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StaffController {
@@ -16,6 +17,8 @@ public class StaffController {
     private LoginUtils login;
     private Request request;
     private Map<String, Object> data;
+    private static final String PASSWORD = "password";
+    private static final String USERNAME = "username";
 
     public StaffController() {
         this.handler = new DefaultHandler();
@@ -25,26 +28,26 @@ public class StaffController {
 
     public String loginStaff(String username, String password) {
         data = new HashMap<>();
-        data.put("username", username);
-        data.put("password", password);
+        data.put(USERNAME, username);
+        data.put(PASSWORD, password);
         request = new Request(RequestDao.STAFF, RequestType.SIGNIN, data);
-        return (String) login.login(data);
+        return login.login(data);
     }
 
-    //RETURNS FALSE EVEN THOUGH USER CAN BE CREATED?
+
     public boolean createStaff(String username, String role, boolean isAdmin, String password) {
         data = new HashMap<>();
-        data.put("username", username);
+        data.put(USERNAME, username);
         data.put("role", role);
         data.put("isAdmin", isAdmin);
-        data.put("password", password);
+        data.put(PASSWORD, password);
         request = new Request(RequestDao.STAFF, RequestType.SETDATA, data);
         return (boolean) handler.handle(request);
     }
 
-    public ArrayList<String> getStaff(String username) {
+    public List<String> getStaff(String username) {
         data = new HashMap<>();
-        data.put("username", username);
+        data.put(USERNAME, username);
         request = new Request(RequestDao.STAFF, RequestType.GETDATA, data);
         return (ArrayList<String>) handler.handle(request);
     }
@@ -53,13 +56,13 @@ public class StaffController {
         data.put("name", name);
         data.put("id", id);
         data.put("role", role);
-        data.put("password", password);
+        data.put(PASSWORD, password);
 
         request = new Request(RequestDao.STAFF, RequestType.UPDATEDATA, data);
         return (boolean) handler.handle(request);
     }
 
-    public ArrayList<String> getAllStaff() {
+    public List<String> getAllStaff() {
         data = new HashMap<>();
         request = new Request(RequestDao.STAFF, RequestType.GETALLDATA, data);
         return (ArrayList<String>) handler.handle(request);
