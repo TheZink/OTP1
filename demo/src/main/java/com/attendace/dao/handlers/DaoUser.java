@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.ResultSet;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import com.attendace.utils.UserUtils;
@@ -14,15 +15,28 @@ import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 import com.attendace.datasource.DbConnection;
 
-public class Dao_user extends Handler {
+public class DaoUser extends Handler {
+    private static final String ID = "id";
+    private static final String STUDENTNAME = "user_name";
+    private static final String STUDENTID = "user_student_id";
+    private static final String STUDENTDEGREE = "user_degree";
+    private static final String STUDENTPASSWORD = "user_passw";
+    private static final String CREATEDAT = "created_at";
+
+    private static final String VALUE = "value";
+    private static final String LABEL = "label";
+    private static final String USERNAME = "username";
+    private static final String NAME = "name";
+    private static final String PASSWORD = "password";
+    private static final String DEGREE = "degree";
+
 
 // This method check if handler can process the request
-
     @Override
     public boolean canProcess(Request request) {
         // If handler cannot process this request, set next handler and return false
         if (request.getDao() != RequestDao.USERS) {
-            setNextHandler(new Dao_staff());
+            setNextHandler(new DaoStaff());
             return false;
         } else {
             return true;
@@ -30,62 +44,49 @@ public class Dao_user extends Handler {
     }
 
     // This method check, if handler can process type of request
-
     @Override
     public Object process(Request request){
-        Map<String, Object> data = request.getData(); //Fetch data from request
+        Map<String, Object> data = request.getData();
 
         if (request.getType() == RequestType.GETALLDATA){
             return getAllData();
         }
-
         else if (request.getType() ==RequestType.GETDATA){
             return getData(data);
         }
-
         else if (request.getType() == RequestType.SETDATA){
             setData(data);
             return true;
         }
-
         else if (request.getType() == RequestType.SIGNIN){
             return checkLogin(data);
         }
-
         else if (request.getType() == RequestType.UPDATEDATA){
             updateData(data);
             return true;
         }
-
         else if (request.getType() == RequestType.REMOVEDATA){
             removeData(data);
         }
-
         return false;
     }
     
-    // Fetch all users from Users-table.
-    public ArrayList<ArrayList<String>> getAllData(){
-     
+    // Fetch all users from Users-table. Encapsulate each row in its own array and add to the main data list
+    public List<ArrayList<String>> getAllData(){
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM USERS ORDER BY id ASC";
+        String sql = "SELECT id, user_name, user_student_id, user_degree, created_at FROM USERS ORDER BY id ASC";
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();){
 
             while (rs.next()) {
-                
-                // Encapsulate each row in its own array and add to the main data list
                 ArrayList<String> row = new ArrayList<>(); 
-
-                row.add(Integer.toString(rs.getInt("id")));
-                row.add(rs.getString("user_name"));
-                row.add(Integer.toString(rs.getInt("user_student_id")));
-                row.add(rs.getString("user_degree"));
-                row.add(rs.getTime("created_at").toString());
-                
+                row.add(Integer.toString(rs.getInt(ID)));
+                row.add(rs.getString(STUDENTNAME));
+                row.add(Integer.toString(rs.getInt(STUDENTID)));
+                row.add(rs.getString(STUDENTDEGREE));
+                row.add(rs.getTime(CREATEDAT).toString());
                 data.add(row);
             }
 
@@ -95,43 +96,44 @@ public class Dao_user extends Handler {
 
         // This check the result of the query
         if(data.isEmpty()){
-            return null;}
-        else {
+            return new ArrayList<>();
+        } else {
             return data;}       
     }
 
     // Fetch specific user from Users-table
-    public ArrayList<String> getData(Map<String, Object> object){
+    public List<String> getData(Map<String, Object> object){
 
-        String username = (String) object.get("username");
+        String username = (String) object.get(USERNAME);
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM USERS WHERE user_name = ?";
+        String sql = "SELECT id, user_name, user_student_id, user_degree, user_passw, created_atFROM USERS WHERE user_name = ?";
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql);
+            ResultSet rs = ps.executeQuery();)
+        {
             ps.setString(1, username);
-            ResultSet rs = ps.executeQuery();
 
             while (rs.next()){
-                data.add(Integer.toString(rs.getInt("id")));
-                data.add(rs.getString("user_name"));
-                data.add(Integer.toString(rs.getInt("user_student_id")));
-                data.add(rs.getString("user_degree"));
-                data.add(rs.getString("user_passw"));
-                data.add(rs.getDate("created_at").toString());
+                data.add(Integer.toString(rs.getInt(ID)));
+                data.add(rs.getString(STUDENTNAME));
+                data.add(Integer.toString(rs.getInt(STUDENTID)));
+                data.add(rs.getString(STUDENTDEGREE));
+                data.add(rs.getString(STUDENTPASSWORD));
+                data.add(rs.getDate(CREATEDAT).toString());
             }
 
         } catch (SQLException e){
-            e.printStackTrace();;
+            e.printStackTrace();
         }
 
         // This check the result of the query
         if(data.isEmpty()){
-            return null;}
-        else {
-            return data;}   
+            return new ArrayList<>();
+        } else {
+            return data;
+        }   
     }
 
     // Set users data to the table
@@ -141,43 +143,36 @@ public class Dao_user extends Handler {
         UserUtils user = new UserUtils();
         Map<String, Object> object = user.checkUser(data);
 
-        String username = (String) object.get("username");
-        int studentId = (int) object.get("student_id");
-        String degree = (String) object.get("degree");
-        String passw = (String) object.get("password");
+        String username = (String) object.get(USERNAME);
+        int studentId = (int) object.get(STUDENTID);
+        String degree = (String) object.get(DEGREE);
+        String passw = (String) object.get(PASSWORD);
         
         Connection connection = DbConnection.getConnection();
         String sql = "INSERT INTO USERS (user_name, user_student_id, user_degree, user_passw) VALUES (?, ?, ?, ?)";
         
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, username);
             ps.setInt(2, studentId);
             ps.setString(3, degree);
             ps.setString(4, passw);
-            
             ps.executeUpdate();
-            
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-
-
     public void updateData(Map<String, Object> object) {
-
-        int id = (int) object.get("id");
-        String name = (String) object.get("name");
-        String degree = (String) object.get("degree");
-        String passw = (String) object.get("password");
+        int id = (int) object.get(ID);
+        String name = (String) object.get(NAME);
+        String degree = (String) object.get(DEGREE);
+        String passw = (String) object.get(PASSWORD);
 
 
         Connection connection = DbConnection.getConnection();
         String sql = "UPDATE USERS SET user_name = ?, user_student_id = ?, user_degree = ?, user_passw = COALESCE(NULLIF(?,''), user_passw) WHERE id = ?";
         
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, name);
             ps.setInt(2, id);
             ps.setString(3, degree);
@@ -189,49 +184,40 @@ public class Dao_user extends Handler {
             e.printStackTrace();
         }
     }
-
-
+    
+    // This checks if the user exists in the database and checks if the password is correct
     public boolean checkLogin(Map<String, Object> data){
-
-
-        String username = (String) data.get("username");
-        String password = (String) data.get("password");
+        String username = (String) data.get(USERNAME);
+        String password = (String) data.get(PASSWORD);
     
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT * FROM USERS WHERE user_name = ?";
+        String sql = "SELECT user_passw FROM USERS WHERE user_name = ?";
         
-        // This checks if the user exists in the database
-               
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try(PreparedStatement ps = connection.prepareStatement(sql);) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
     
-            // This checks if the password is correct
-    
             if (rs.next()){
-                if (rs.getString("user_passw").equals(password)){
+                String dbpass = rs.getString(STUDENTPASSWORD);
+
+                if (dbpass != null && dbpass.equals(password)){
                     return true;
                 }
             }
-    
         } catch (Exception e) {
             e.printStackTrace();
         }
-    
         return false;
     }
 
     public void removeData(Map<String, Object> object) {
-
-        int value = (int) object.get("value");
-        String label = (String) object.get("label");
+        int value = (int) object.get(VALUE);
+        String label = (String) object.get(LABEL);
 
         Connection connection = DbConnection.getConnection();
         String sql = "DELETE FROM USERS WHERE " + label + "  =  " + value;
 
-        try {
-            PreparedStatement ps = connection.prepareStatement(sql);
+        try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

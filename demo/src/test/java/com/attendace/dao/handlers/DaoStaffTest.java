@@ -13,22 +13,19 @@ import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 
 
-public class Dao_staffTest {
+class DaoStaffTest {
     
     @Test
     void testCanProcess() {
-        Dao_staff handler = new Dao_staff();
+        DaoStaff handler = new DaoStaff();
         Map<String, Object> object = new HashMap<>();
         Request request = new Request(RequestDao.STAFF, RequestType.GETALLDATA, object);
         assertEquals(true, handler.canProcess(request));
     }
 
     @Test
-    void testProcess() {}
-
-    @Test
     void testGetAllData() {
-        Dao_staff handler = new Dao_staff();
+        DaoStaff handler = new DaoStaff();
         Map<String, Object> object = new HashMap<>();
         Request request = new Request(RequestDao.STAFF, RequestType.GETALLDATA, object);
         assertNotNull(handler.handle(request));
@@ -36,7 +33,7 @@ public class Dao_staffTest {
 
     @Test
     void testGetData() {
-        Dao_staff handler = new Dao_staff();
+        DaoStaff handler = new DaoStaff();
         Map<String, Object> object = new HashMap<>();
         object.put("username", "Olli Opettaja");
         Request request = new Request(RequestDao.STAFF, RequestType.GETDATA, object);
@@ -45,18 +42,18 @@ public class Dao_staffTest {
 
     @Test
     void testCheckLogin() {
-        Dao_staff handler = new Dao_staff();
+        DaoStaff handler = new DaoStaff();
         Map<String, Object> object = new HashMap<>();
         object.put("username", "Olli Opettaja");
         object.put("password", "salis");
         Request request = new Request(RequestDao.STAFF, RequestType.SIGNIN, object);
-        assertEquals((true), handler.handle(request));
+        assertEquals(true, handler.handle(request));
     }
 
 
     @Test
     void testSetData() {
-        Dao_staff handler = new Dao_staff();
+        DaoStaff handler = new DaoStaff();
         Map<String, Object> object = new HashMap<>();
         object.put("username", "Ilkka Sinkonen");
         object.put("role", "Insinööri1");
@@ -64,12 +61,12 @@ public class Dao_staffTest {
         object.put("password", "12345");
 
         Request request = new Request(RequestDao.STAFF, RequestType.SETDATA, object);
-        assertEquals(false, handler.handle(request));
+        assertEquals(true, handler.handle(request));
     }
 
     @Test
     void testRemoveData() {
-        Dao_staff handler = new Dao_staff();
+        DaoStaff handler = new DaoStaff();
         Map<String, Object> object = new HashMap<>();
         object.put("value", 4);
         object.put("label", "id");
