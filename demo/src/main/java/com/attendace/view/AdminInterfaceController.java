@@ -10,6 +10,7 @@ import com.attendace.utils.CryptoUtils;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import com.attendace.localisation.Translator;
 
@@ -33,17 +34,99 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 public class AdminInterfaceController {
+    Logger log = Logger.getLogger(AdminInterfaceController.class.getName());
 
+    // FXML lookup keys
+    private static final String LK_NAMEFIELD = "#namefield";
+    private static final String LK_ROLEFIELD = "#rolefield";
+    private static final String LK_PASSWDFIELD = "#passwordfield";
+    private static final String LK_ISADMIN = "#isAdmin";
+    private static final String LK_USERACTIVE = "#useractive";
+    private static final String LK_SAVEBUTTON = "#saveButton";
+    private static final String LK_CANCELBUTTON = "#cancelButton";
+    private static final String LK_STUDENT_PASSW = "#studentPasswField";
+    private static final String LK_STUDENT_ID = "#studentId";
+    private static final String LK_STUDENT_NAME = "#studentName";
+    private static final String LK_STUDENT_DEGREE = "#studentDegree";
+    private static final String LK_COURSE_NAME = "#courseName";
+    private static final String LK_COURSE_TOPIC = "#courseTopic";
+    private static final String LK_COURSE_DESC = "#courseDesc";
+    private static final String LK_MIN_COURSE_ATTEND = "#minCourseAttend";
+    private static final String LK_MAX_COURSE_ATTEND = "#maxCourseAttend";
+    private static final String LK_COURSE_ATTEND_CODE = "#courseAttendCode";
+    private static final String LK_COURSE_ACTIVE = "#courseActive";
+    private static final String LK_ATTEND_COURSE_ACTIVE = "#attendCourseActive";
+    private static final String LK_DEGREE_FIELD = "#degreefield";
+    private static final String LK_ECTS_FIELD = "#ectsfield";
+    private static final String LK_ATTEND_KEY = "#attendKey";
 
+    // Translation keys
+    private static final String T_MAIN_SOFTWARE_TITLE = "main.softwareTitle";
+    private static final String T_ADMIN_VIEW_STAFF = "admin.viewstaff";
+    private static final String T_ADMIN_CREATE_STAFF = "admin.createstaff";
+    private static final String T_ADMIN_VIEW_STUDENT = "admin.viewstudent";
+    private static final String T_ADMIN_CREATE_STUDENT = "admin.createstudent";
+    private static final String T_ADMIN_VIEW_COURSE = "admin.viewcourse";
+    private static final String T_ADMIN_CREATE_COURSE = "admin.createcourse";
+    private static final String T_ADMIN_VIEW_ATTEN = "admin.viewattendance";
+    private static final String T_ADMIN_VIEW_DEGREE = "admin.viewdegree";
+    private static final String T_ADMIN_CREATE_DEGREE = "admin.createdegree";
+    private static final String T_ADMIN_DELETE_BUTTON = "admin.deletebutton";
+    private static final String T_ADMIN_MODIFY_BUTTON = "admin.modifybutton";
+    private static final String T_ADMIN_REFRESH_BUTTON = "admin.refreshbutton";
+    private static final String T_ADMIN_CLOSE_BUTTON = "admin.closebutton";
+    private static final String T_ADMIN_CANCEL_BUTTON = "admin.cancelbutton";
 
-    // For testing only. Extends Application
-    // @Override
-    // public void start(Stage primaryStage) throws Exception {
-    //     Parent root = FXMLLoader.load(getClass().getResource("/fxml/AdminPage.fxml"));
-    //     primaryStage.setTitle("Admin Interface");
-    //     primaryStage.setScene(new Scene(root));
-    //     primaryStage.show();
-    // }
+    private static final String T_CREATE = "create";
+    private static final String T_CANCEL = "cancel";
+
+    private static final String T_CREATESTAFF_NAME = "createstaff.name";
+    private static final String T_CREATESTAFF_ROLE = "createstaff.role";
+    private static final String T_CREATESTAFF_PASSWORD = "createstaff.password";
+    private static final String T_CREATESTAFF_ISADMIN = "createstaff.isadmin";
+
+    private static final String T_USER_ACTIVE = "useractive";
+
+    private static final String T_CREATESTUDENT_PASSWORD = "createstudent.password";
+    private static final String T_CREATESTUDENT_STUDENTID = "createstudent.studentid";
+    private static final String T_CREATESTUDENT_NAME = "createstudent.name";
+    private static final String T_CREATESTUDENT_DEGREE = "createstudent.studentdegree";
+
+    private static final String T_CREATECOURSE_NAME = "createcourse.coursename";
+    private static final String T_CREATECOURSE_TOPIC = "createcourse.topic";
+    private static final String T_CREATECOURSE_DESC = "createcourse.description";
+    private static final String T_CREATECOURSE_MINATTEND = "createcourse.minattend";
+    private static final String T_CREATECOURSE_MAXATTEND = "createcourse.maxattend";
+    private static final String T_CREATECOURSE_CODEATTEND = "createcourse.codeattend";
+    private static final String T_CREATECOURSE_COURSACTIVE = "createcourse.coursactive";
+    private static final String T_CREATECOURSE_ISATTEND = "createcourse.isattend";
+    private static final String T_CREATECOURSE_ATTENDCODE = "createcourse.attendcode";
+
+    private static final String T_CREATEDGREE_NAME = "createdegree.name";
+    private static final String T_CREATEDGREE_ECTS = "createdegree.ects";
+
+    private static final String T_DELETE_NOSELECT = "deletion.noselect";
+    private static final String T_DELETION_CONFIRM_TITLE = "deletion.confirmtitle";
+    private static final String T_DELETION_CONFIRM = "deletion.confirm";
+    private static final String T_DELETION_ERRORFETCH = "deletion.errorfetch";
+
+    private static final String T_MODIF_NOSELECT = "modif.noselect";
+    private static final String T_MODIF_ERRORFETCH = "modif.errorfetch";
+    private static final String T_MODIF_PASSWORD = "modif.password";
+    private static final String T_MODIF_TITLE = "modif.title";
+
+    private static final String T_TABLEVIEW_ID = "tableview.id";
+    private static final String T_TABLEVIEW_NAME = "tableview.name";
+    private static final String T_TABLEVIEW_TIME = "tableview.time";
+
+    // Misc
+    private static final String M_STUDENT = "student";
+    private static final String M_STAFF = "staff";
+    private static final String M_COURSES = "courses";
+    private static final String M_ATTENDANCE = "attendance";
+    private static final String M_DEGREE = "degree";
+
+    private static final String M_PASSWORD = "password";
 
     Handler handler = new DefaultHandler();
     Map<String, Object> object = new HashMap<>();
@@ -51,25 +134,66 @@ public class AdminInterfaceController {
     CryptoUtils crypto = new CryptoUtils();
 
     @FXML
-    Text softwareTitle;
+    private Text softwareTitle;
 
     @FXML
-    Button viewStaff, createStaff, modifyStaff;
+    private Button viewStaff;
 
     @FXML
-    Button viewStudent, createStudent, modifyStudent;
+    private Button createStaff;
 
     @FXML
-    Button viewCourse, createCourse, modifyCourse;
+    private Button modifyStaff;
 
     @FXML
-    Button viewDegree, createDegree;
+    private Button viewStudent;
 
     @FXML
-    Button viewAtten, modifyAtten;
+    private Button createStudent;
 
     @FXML
-    Button saveButton, cancelButton, deleteButton, modifyButton, closeButton, refreshButton;
+    private Button modifyStudent;
+
+    @FXML
+    private Button viewCourse;
+
+    @FXML
+    private Button createCourse;
+
+    @FXML
+    private Button modifyCourse;
+
+    @FXML
+    private Button viewDegree;
+
+    @FXML
+    private Button createDegree;
+
+
+
+    @FXML
+    private Button viewAtten;
+
+    @FXML
+    private Button modifyAtten;
+
+    @FXML
+    private Button saveButton;
+
+    @FXML
+    private Button cancelButton;
+
+    @FXML
+    private Button deleteButton;
+
+    @FXML
+    private Button modifyButton;
+
+    @FXML
+    private Button closeButton;
+
+    @FXML
+    private Button refreshButton;
 
     @FXML
     private TableView<ObservableList<String>> tableView;
@@ -78,41 +202,42 @@ public class AdminInterfaceController {
 
     // -- VIEW BUTTON HANDLERS --
 
-    public void TranslatePage() {
-        softwareTitle.setText(Translator.getString("main.softwareTitle"));
-        viewStaff.setText(Translator.getString("admin.viewstaff"));
-        createStaff.setText(Translator.getString("admin.createstaff"));
+    public void translatePage() {
 
-        viewStudent.setText(Translator.getString("admin.viewstudent"));
-        createStudent.setText(Translator.getString("admin.createstudent"));
+        softwareTitle.setText(Translator.getString(T_MAIN_SOFTWARE_TITLE));
+        viewStaff.setText(Translator.getString(T_ADMIN_VIEW_STAFF));
+        createStaff.setText(Translator.getString(T_ADMIN_CREATE_STAFF));
 
-        viewCourse.setText(Translator.getString("admin.viewcourse"));
-        createCourse.setText(Translator.getString("admin.createcourse"));
+        viewStudent.setText(Translator.getString(T_ADMIN_VIEW_STUDENT));
+        createStudent.setText(Translator.getString(T_ADMIN_CREATE_STUDENT));
 
-        viewAtten.setText(Translator.getString("admin.viewattendance"));
-        
-        viewDegree.setText(Translator.getString("admin.viewdegree"));
-        createDegree.setText(Translator.getString("admin.createdegree"));
+        viewCourse.setText(Translator.getString(T_ADMIN_VIEW_COURSE));
+        createCourse.setText(Translator.getString(T_ADMIN_CREATE_COURSE));
 
-        deleteButton.setText(Translator.getString("admin.deletebutton"));
-        modifyButton.setText(Translator.getString("admin.modifybutton"));
-        refreshButton.setText(Translator.getString("admin.refreshbutton"));
-        closeButton.setText(Translator.getString("admin.closebutton"));
+        viewAtten.setText(Translator.getString(T_ADMIN_VIEW_ATTEN));
+
+        viewDegree.setText(Translator.getString(T_ADMIN_VIEW_DEGREE));
+        createDegree.setText(Translator.getString(T_ADMIN_CREATE_DEGREE));
+
+        deleteButton.setText(Translator.getString(T_ADMIN_DELETE_BUTTON));
+        modifyButton.setText(Translator.getString(T_ADMIN_MODIFY_BUTTON));
+        refreshButton.setText(Translator.getString(T_ADMIN_REFRESH_BUTTON));
+        closeButton.setText(Translator.getString(T_ADMIN_CLOSE_BUTTON));
 
     }
 
     public void refreshPage(ActionEvent event){
-        if(viewing.equals("student")) {handleViewStudent(event);}
-        else if(viewing.equals("staff")) {handleViewStaff(event);}
-        else if(viewing.equals("courses")) {handleViewCourses(event);}
-        else if(viewing.equals("attendance")) {handleViewAttendance(event);}
-        else if(viewing.equals("degree")) {handleViewAttendance(event);}
+        if(viewing.equals(M_STUDENT)) {handleViewStudent(event);}
+        else if(viewing.equals(M_STAFF)) {handleViewStaff(event);}
+        else if(viewing.equals(M_COURSES)) {handleViewCourses(event);}
+        else if(viewing.equals(M_ATTENDANCE)) {handleViewAttendance(event);}
+        else if(viewing.equals(M_DEGREE)) {handleViewAttendance(event);}
     }
-    
+
     @FXML
     private void handleViewStaff(ActionEvent event) {
 
-        viewing = "staff";
+        viewing = M_STAFF;
 
         Request request = new Request(RequestDao.STAFF, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
@@ -122,14 +247,14 @@ public class AdminInterfaceController {
             index.remove(4);
         }
 
-        String[] headers = new String[] {Translator.getString("tableview.id"), Translator.getString("tableview.name"), Translator.getString("tableview.role"), Translator.getString("tableview.admin"), Translator.getString("tableview.time")};
+        String[] headers = new String[] {Translator.getString(T_TABLEVIEW_ID), Translator.getString(T_TABLEVIEW_NAME), Translator.getString("tableview.role"), Translator.getString("tableview.admin"), Translator.getString(T_TABLEVIEW_TIME)};
         tablaViewFormatter(tableView, data, headers);
     }
 
     @FXML
     private void handleViewStudent(ActionEvent event) {
 
-        viewing = "student";
+        viewing = M_STUDENT;
 
         Request request = new Request(RequestDao.USERS, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
@@ -138,43 +263,43 @@ public class AdminInterfaceController {
         for (ArrayList<String> index : data){
             index.remove(4);
         }
-       
-        String[] headers = new String[] {Translator.getString("tableview.id"), Translator.getString("tableview.name"), Translator.getString("tableview.studId"), Translator.getString("tableview.degree"), Translator.getString("tableview.time")};
+
+        String[] headers = new String[] {Translator.getString(T_TABLEVIEW_ID), Translator.getString(T_TABLEVIEW_NAME), Translator.getString("tableview.studId"), Translator.getString("tableview.degree"), Translator.getString(T_TABLEVIEW_TIME)};
         tablaViewFormatter(tableView, data, headers);
     }
 
     @FXML
     private void handleViewCourses(ActionEvent event) {
 
-        viewing = "courses";
+        viewing = M_COURSES;
 
         Request request = new Request(RequestDao.COURSE, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
 
-        String[] headers = new String[] {Translator.getString("tableview.id"), Translator.getString("tableview.name"), Translator.getString("tableview.topic"), Translator.getString("tableview.desc"), Translator.getString("tableview.attenAv"), Translator.getString("tableview.attenKey"), Translator.getString("tableview.minAtt"), Translator.getString("tableview.maxAtt"), Translator.getString("tableview.active"), Translator.getString("tableview.time")};
+        String[] headers = new String[] {Translator.getString(T_TABLEVIEW_ID), Translator.getString(T_TABLEVIEW_NAME), Translator.getString("tableview.topic"), Translator.getString("tableview.desc"), Translator.getString("tableview.attenAv"), Translator.getString("tableview.attenKey"), Translator.getString("tableview.minAtt"), Translator.getString("tableview.maxAtt"), Translator.getString("tableview.active"), Translator.getString(T_TABLEVIEW_TIME)};
         tablaViewFormatter(tableView, data, headers);
     }
 
     @FXML
     private void handleViewAttendance(ActionEvent event){
 
-        viewing = "attendance";
+        viewing = M_ATTENDANCE;
 
         Request request = new Request(RequestDao.ATTENDANCE, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
 
-        String[] headers = new String[] {Translator.getString("tableview.id"), Translator.getString("tableview.courId"), Translator.getString("tableview.studId"), Translator.getString("tableview.staffId"), Translator.getString("tableview.handl"), Translator.getString("tableview.curr"), Translator.getString("tableview.time")};
+        String[] headers = new String[] {Translator.getString(T_TABLEVIEW_ID), Translator.getString("tableview.courId"), Translator.getString("tableview.studId"), Translator.getString("tableview.staffId"), Translator.getString("tableview.handl"), Translator.getString("tableview.curr"), Translator.getString(T_TABLEVIEW_TIME)};
         tablaViewFormatter(tableView, data, headers);
     }
 
     @FXML
     private void handleViewDegrees(ActionEvent event) {
-        viewing = "degree";
+        viewing = M_DEGREE;
 
         Request request = new Request(RequestDao.DEGREE, RequestType.GETALLDATA, object);
         ArrayList<ArrayList<String>> data = (ArrayList<ArrayList<String>>) handler.handle(request);
 
-        String[] headers = new String[] {Translator.getString("tableview.id"), Translator.getString("tableview.name"), Translator.getString("tableview.ects")};
+        String[] headers = new String[] {Translator.getString(T_TABLEVIEW_ID), Translator.getString(T_TABLEVIEW_NAME), Translator.getString("tableview.ects")};
         tablaViewFormatter(tableView, data, headers);
     }
 
@@ -186,21 +311,21 @@ public class AdminInterfaceController {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminStaffCreation.fxml"));
             Parent root = fxmlLoader.load();
-            
+
             handleViewStaff(event);
-            
-            ((TextField) root.lookup("#namefield")).setPromptText(Translator.getString("createstaff.name"));
-            ((TextField) root.lookup("#rolefield")).setPromptText(Translator.getString("createstaff.role"));
-            ((TextField) root.lookup("#passwordfield")).setPromptText(Translator.getString("createstaff.password"));
-            
-            ((CheckBox) root.lookup("#isAdmin")).setText(Translator.getString("createstaff.isadmin"));
-            ((CheckBox) root.lookup("#useractive")).setText(Translator.getString("useractive"));
-            
-            ((Button) root.lookup("#saveButton")).setText(Translator.getString("create"));
-            ((Button) root.lookup("#cancelButton")).setText(Translator.getString("cancel"));
-            
+
+            ((TextField) root.lookup(LK_NAMEFIELD)).setPromptText(Translator.getString(T_CREATESTAFF_NAME));
+            ((TextField) root.lookup(LK_ROLEFIELD)).setPromptText(Translator.getString(T_CREATESTAFF_ROLE));
+            ((TextField) root.lookup(LK_PASSWDFIELD)).setPromptText(Translator.getString(T_CREATESTAFF_PASSWORD));
+
+            ((CheckBox) root.lookup(LK_ISADMIN)).setText(Translator.getString(T_CREATESTAFF_ISADMIN));
+            ((CheckBox) root.lookup(LK_USERACTIVE)).setText(Translator.getString(T_USER_ACTIVE));
+
+            ((Button) root.lookup(LK_SAVEBUTTON)).setText(Translator.getString(T_CREATE));
+            ((Button) root.lookup(LK_CANCELBUTTON)).setText(Translator.getString(T_CANCEL));
+
             Stage stage = new Stage();
-            stage.setTitle(Translator.getString("admin.createstaff"));
+            stage.setTitle(Translator.getString(T_ADMIN_CREATE_STAFF));
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
@@ -218,28 +343,28 @@ public class AdminInterfaceController {
 
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminStudentCreation.fxml"));
             Parent root = fxmlLoader.load();
-            
+
             handleViewStudent(event);
-            
-            ((TextField) root.lookup("#studentPasswField")).setPromptText(Translator.getString("createstudent.password"));
-            ((TextField) root.lookup("#studentId")).setPromptText(Translator.getString("createstudent.studentid"));
-            ((TextField) root.lookup("#studentName")).setPromptText(Translator.getString("createstudent.name"));
-            ((TextField) root.lookup("#studentDegree")).setPromptText(Translator.getString("createstudent.studentdegree"));
-            
-            ((CheckBox) root.lookup("#useractive")).setText(Translator.getString("useractive"));
-        
-            ((Button) root.lookup("#saveButton")).setText(Translator.getString("create"));
-            ((Button) root.lookup("#cancelButton")).setText(Translator.getString("cancel"));
+
+            ((TextField) root.lookup(LK_STUDENT_PASSW)).setPromptText(Translator.getString(T_CREATESTUDENT_PASSWORD));
+            ((TextField) root.lookup(LK_STUDENT_ID)).setPromptText(Translator.getString(T_CREATESTUDENT_STUDENTID));
+            ((TextField) root.lookup(LK_STUDENT_NAME)).setPromptText(Translator.getString(T_CREATESTUDENT_NAME));
+            ((TextField) root.lookup(LK_STUDENT_DEGREE)).setPromptText(Translator.getString(T_CREATESTUDENT_DEGREE));
+
+            ((CheckBox) root.lookup(LK_USERACTIVE)).setText(Translator.getString(T_USER_ACTIVE));
+
+            ((Button) root.lookup(LK_SAVEBUTTON)).setText(Translator.getString(T_CREATE));
+            ((Button) root.lookup(LK_CANCELBUTTON)).setText(Translator.getString(T_CANCEL));
 
             Stage stage = new Stage();
-            stage.setTitle(Translator.getString("admin.createstudent"));
+            stage.setTitle(Translator.getString(T_ADMIN_CREATE_STUDENT));
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
         } catch (Exception e){
             e.getMessage();
         }
-        
+
         refreshPage(event);
     }
 
@@ -253,28 +378,28 @@ public class AdminInterfaceController {
 
             handleViewCourses(event);
 
-            ((TextField) root.lookup("#courseName")).setPromptText(Translator.getString("createcourse.coursename"));
-            ((TextField) root.lookup("#courseTopic")).setPromptText(Translator.getString("createcourse.topic"));
-            ((TextField) root.lookup("#courseDesc")).setPromptText(Translator.getString("createcourse.description"));
-            ((TextField) root.lookup("#minCourseAttend")).setPromptText(Translator.getString("createcourse.minattend"));
-            ((TextField) root.lookup("#maxCourseAttend")).setPromptText(Translator.getString("createcourse.maxattend"));
-            ((TextField) root.lookup("#courseAttendCode")).setPromptText(Translator.getString("createcourse.codeattend"));
+            ((TextField) root.lookup(LK_COURSE_NAME)).setPromptText(Translator.getString(T_CREATECOURSE_NAME));
+            ((TextField) root.lookup(LK_COURSE_TOPIC)).setPromptText(Translator.getString(T_CREATECOURSE_TOPIC));
+            ((TextField) root.lookup(LK_COURSE_DESC)).setPromptText(Translator.getString(T_CREATECOURSE_DESC));
+            ((TextField) root.lookup(LK_MIN_COURSE_ATTEND)).setPromptText(Translator.getString(T_CREATECOURSE_MINATTEND));
+            ((TextField) root.lookup(LK_MAX_COURSE_ATTEND)).setPromptText(Translator.getString(T_CREATECOURSE_MAXATTEND));
+            ((TextField) root.lookup(LK_COURSE_ATTEND_CODE)).setPromptText(Translator.getString(T_CREATECOURSE_CODEATTEND));
 
-            ((CheckBox) root.lookup("#courseActive")).setText(Translator.getString("createcourse.coursactive"));
-            ((CheckBox) root.lookup("#attendCourseActive")).setText(Translator.getString("createcourse.isattend"));
+            ((CheckBox) root.lookup(LK_COURSE_ACTIVE)).setText(Translator.getString(T_CREATECOURSE_COURSACTIVE));
+            ((CheckBox) root.lookup(LK_ATTEND_COURSE_ACTIVE)).setText(Translator.getString(T_CREATECOURSE_ISATTEND));
 
-            ((Button) root.lookup("#saveButton")).setText(Translator.getString("create"));
-            ((Button) root.lookup("#cancelButton")).setText(Translator.getString("cancel"));
+            ((Button) root.lookup(LK_SAVEBUTTON)).setText(Translator.getString(T_CREATE));
+            ((Button) root.lookup(LK_CANCELBUTTON)).setText(Translator.getString(T_CANCEL));
 
             Stage stage = new Stage();
-            stage.setTitle(Translator.getString("admin.createcourse"));
+            stage.setTitle(Translator.getString(T_ADMIN_CREATE_COURSE));
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
         } catch (Exception e){
             e.getMessage();
         }
-        
+
         refreshPage(event);
     }
 
@@ -284,20 +409,20 @@ public class AdminInterfaceController {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminDegreeCreation.fxml"));
             Parent root = fxmlLoader.load();
-            
-            ((TextField) root.lookup("#degreefield")).setPromptText(Translator.getString("createdegree.name"));
-            ((TextField) root.lookup("#ectsfield")).setPromptText(Translator.getString("createdegree.ects"));
 
-            ((Button) root.lookup("#saveButton")).setText(Translator.getString("create"));
-            ((Button) root.lookup("#cancelButton")).setText(Translator.getString("cancel"));
+            ((TextField) root.lookup(LK_DEGREE_FIELD)).setPromptText(Translator.getString(T_CREATEDGREE_NAME));
+            ((TextField) root.lookup(LK_ECTS_FIELD)).setPromptText(Translator.getString(T_CREATEDGREE_ECTS));
+
+            ((Button) root.lookup(LK_SAVEBUTTON)).setText(Translator.getString(T_CREATE));
+            ((Button) root.lookup(LK_CANCELBUTTON)).setText(Translator.getString(T_CANCEL));
 
             Stage stage = new Stage();
-            stage.setTitle(Translator.getString("admin.createdegree"));
+            stage.setTitle(Translator.getString(T_ADMIN_CREATE_DEGREE));
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
             handleViewDegrees(event);
-           
+
         } catch (Exception e) {
             e.getMessage();
         }
@@ -305,22 +430,22 @@ public class AdminInterfaceController {
         refreshPage(event);
     }
 
-        // -- DELETE HANDLER --
+    // -- DELETE HANDLER --
 
     @FXML
     private void handleDelete(ActionEvent event){
         ObservableList<String> selectedRow = tableView.getSelectionModel().getSelectedItem();
 
         if (selectedRow == null || selectedRow.isEmpty()){
-            new Alert(Alert.AlertType.INFORMATION, Translator.getString("deletion.noselect"));
+            new Alert(Alert.AlertType.INFORMATION, Translator.getString(T_DELETE_NOSELECT));
             return;
         }
 
         // Promt user for confirmation
         Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
-        confirm.setTitle(Translator.getString("deletion.confirmtitle"));
+        confirm.setTitle(Translator.getString(T_DELETION_CONFIRM_TITLE));
         confirm.setHeaderText(null);
-        confirm.setContentText(Translator.getString("deletion.confirm"));
+        confirm.setContentText(Translator.getString(T_DELETION_CONFIRM));
         confirm.getButtonTypes().setAll(ButtonType.YES, ButtonType.NO);
 
         ButtonType choice = confirm.showAndWait().orElse(ButtonType.NO);
@@ -334,36 +459,36 @@ public class AdminInterfaceController {
         try {
             id = Integer.parseInt(idColumn);
         } catch (NumberFormatException e){
-            new Alert(Alert.AlertType.ERROR, Translator.getString("deletion.errorfetch") + 
-            " " + e.getMessage());
+            new Alert(Alert.AlertType.ERROR, Translator.getString(T_DELETION_ERRORFETCH) +
+                    " " + e.getMessage());
             return;
         }
-        
-        Map<String, Object> object = new HashMap<>();
+
+        object = new HashMap<>();
         object.put("value", id);
         object.put("label", "id");
 
-        if (viewing.equals("student")) {
+        if (viewing.equals(M_STUDENT)) {
             Request request = new Request(RequestDao.USERS, RequestType.REMOVEDATA, object);
             handler.handle(request);
         }
 
-        else if (viewing.equals("staff")) {
+        else if (viewing.equals(M_STAFF)) {
             Request request = new Request(RequestDao.STAFF, RequestType.REMOVEDATA, object);
             handler.handle(request);
         }
 
-        else if (viewing.equals("courses")) {
+        else if (viewing.equals(M_COURSES)) {
             Request request = new Request(RequestDao.COURSE, RequestType.REMOVEDATA, object);
             handler.handle(request);
         }
 
-        else if (viewing.equals("attendance")) {
+        else if (viewing.equals(M_ATTENDANCE)) {
             Request request = new Request(RequestDao.ATTENDANCE, RequestType.REMOVEDATA, object);
             handler.handle(request);
         }
 
-        else if (viewing.equals("degree")){
+        else if (viewing.equals(M_DEGREE)){
             Request request = new Request(RequestDao.DEGREE, RequestType.REMOVEDATA, object);
             handler.handle(request);
         }
@@ -379,7 +504,7 @@ public class AdminInterfaceController {
 
         // Throw error, if row is not selected
         if (selectedRow == null || selectedRow.isEmpty()){
-            Alert alert = new Alert(Alert.AlertType.INFORMATION, Translator.getString("modif.noselect"));
+            Alert alert = new Alert(Alert.AlertType.INFORMATION, Translator.getString(T_MODIF_NOSELECT));
             alert.showAndWait();
             return;
         }
@@ -387,8 +512,8 @@ public class AdminInterfaceController {
         try {
             rowId = Integer.parseInt(selectedRow.get(0).trim());
         } catch (NumberFormatException e) {
-            new Alert(Alert.AlertType.ERROR, Translator.getString("modif.errorfetch" + 
-            " " + e.getMessage()));
+            new Alert(Alert.AlertType.ERROR, Translator.getString(T_MODIF_ERRORFETCH +
+                    " " + e.getMessage()));
             return;
         }
 
@@ -396,194 +521,176 @@ public class AdminInterfaceController {
         try {
             String fxmlPath;
 
-            if (viewing.equals("student")) { fxmlPath = "/fxml/AdminStudentCreation.fxml";}
-            else if (viewing.equals("staff")) { fxmlPath = "/fxml/AdminStaffCreation.fxml"; }
-            else if (viewing.equals("courses")) { fxmlPath = "/fxml/AdminCourseCreation.fxml"; }
-            else if (viewing.equals("degree")) { fxmlPath = "/fxml/AdminDegreeCreation.fxml"; }
+            String adminStudentCreationFxml = "/fxml/AdminStudentCreation.fxml";
+            String adminStaffCreationFxml = "/fxml/AdminStaffCreation.fxml";
+            String adminCourseCreationFxml = "/fxml/AdminCourseCreation.fxml";
+            String adminDegreeCreationFxml = "/fxml/AdminDegreeCreation.fxml";
+
+            if (viewing.equals(M_STUDENT)) { fxmlPath = adminStudentCreationFxml;}
+            else if (viewing.equals(M_STAFF)) { fxmlPath = adminStaffCreationFxml; }
+            else if (viewing.equals(M_COURSES)) { fxmlPath = adminCourseCreationFxml; }
+            else if (viewing.equals(M_DEGREE)) { fxmlPath = adminDegreeCreationFxml; }
             else { new Alert(Alert.AlertType.INFORMATION, "Edit is not possible for this entry"); return; }
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
 
-            if (viewing.equals("student")){
-                ((TextField) root.lookup("#studentName")).setText(selectedRow.get(1));
-                ((TextField) root.lookup("#studentId")).setText(selectedRow.get(2));
-                ((TextField) root.lookup("#studentDegree")).setText(selectedRow.get(3));
+            switch (viewing) {
+                case M_STUDENT -> {
+                    ((TextField) root.lookup(LK_STUDENT_NAME)).setText(selectedRow.get(1));
+                    ((TextField) root.lookup(LK_STUDENT_ID)).setText(selectedRow.get(2));
+                    ((TextField) root.lookup(LK_STUDENT_DEGREE)).setText(selectedRow.get(3));
 
-                ((Button) root.lookup("#saveButton")).setText(Translator.getString("admin.modifybutton"));
-                ((Button) root.lookup("#cancelButton")).setText(Translator.getString("admin.cancelbutton"));
+                    ((Button) root.lookup(LK_SAVEBUTTON)).setText(Translator.getString(T_ADMIN_MODIFY_BUTTON));
+                    ((Button) root.lookup(LK_CANCELBUTTON)).setText(Translator.getString(T_ADMIN_CANCEL_BUTTON));
 
-                TextField passField = (TextField) root.lookup("#studentPasswField");
-                passField.setPromptText(Translator.getString("modif.password"));
-            }
-
-            else if(viewing.equals("staff")) {
-                ((TextField) root.lookup("#namefield")).setText(selectedRow.get(1));
-                ((TextField) root.lookup("#rolefield")).setText(selectedRow.get(2));
-
-                ((Button) root.lookup("#saveButton")).setText(Translator.getString("admin.modifybutton"));
-                ((Button) root.lookup("#cancelButton")).setText(Translator.getString("admin.cancelbutton"));
-
-                TextField passField = (TextField) root.lookup("#passwordfield");
-                passField.setPromptText(Translator.getString("modif.password"));
-
-                CheckBox adminCheck = (javafx.scene.control.CheckBox) root.lookup("#isAdmin");
-                adminCheck.setText(Translator.getString("createstaff.isadmin"));
-
-                // Check selected row 'isAdmin' boolean
-                if (selectedRow.get(3).equals("true")){
-                    adminCheck.setSelected(true);
-                } else {
-                    adminCheck.setSelected(false);
+                    TextField passField = (TextField) root.lookup(LK_STUDENT_PASSW);
+                    passField.setPromptText(Translator.getString(T_MODIF_PASSWORD));
                 }
-            }
+                case M_STAFF -> {
+                    ((TextField) root.lookup(LK_NAMEFIELD)).setText(selectedRow.get(1));
+                    ((TextField) root.lookup(LK_ROLEFIELD)).setText(selectedRow.get(2));
 
-            else if(viewing.equals("courses")) {
-                ((TextField) root.lookup("#courseName")).setText(selectedRow.get(1));
-                ((TextField) root.lookup("#courseTopic")).setText(selectedRow.get(2));
-                ((TextField) root.lookup("#courseDesc")).setText(selectedRow.get(3));
-                ((TextField) root.lookup("#minCourseAttend")).setText(selectedRow.get(6));
-                ((TextField) root.lookup("#maxCourseAttend")).setText(selectedRow.get(7));
+                    ((Button) root.lookup(LK_SAVEBUTTON)).setText(Translator.getString(T_ADMIN_MODIFY_BUTTON));
+                    ((Button) root.lookup(LK_CANCELBUTTON)).setText(Translator.getString(T_ADMIN_CANCEL_BUTTON));
 
-                ((Button) root.lookup("#saveButton")).setText(Translator.getString("admin.modifybutton"));
-                ((Button) root.lookup("#cancelButton")).setText(Translator.getString("admin.cancelbutton"));
+                    TextField passField = (TextField) root.lookup(LK_PASSWDFIELD);
+                    passField.setPromptText(Translator.getString(T_MODIF_PASSWORD));
 
-                TextField attendCode = (TextField) root.lookup("#courseAttendCode");
+                    CheckBox adminCheck = (CheckBox) root.lookup(LK_ISADMIN);
+                    adminCheck.setText(Translator.getString(T_CREATESTAFF_ISADMIN));
 
-                if (attendCode != null) {
-                    String attendVal = (selectedRow != null && selectedRow.size() > 5) ? selectedRow.get(5) : null;
-                    if (attendVal != null) {
-                        attendVal = attendVal.trim();
-                    }
-                    if (attendVal != null && !attendVal.isBlank() && !attendVal.equalsIgnoreCase("null")) {
-                        attendCode.setText(attendVal);
+                    adminCheck.setSelected(selectedRow.get(3).equals("true"));
+
+                }
+                case M_COURSES -> {
+                    ((TextField) root.lookup(LK_COURSE_NAME)).setText(selectedRow.get(1));
+                    ((TextField) root.lookup(LK_COURSE_TOPIC)).setText(selectedRow.get(2));
+                    ((TextField) root.lookup(LK_COURSE_DESC)).setText(selectedRow.get(3));
+                    ((TextField) root.lookup(LK_MIN_COURSE_ATTEND)).setText(selectedRow.get(6));
+                    ((TextField) root.lookup(LK_MAX_COURSE_ATTEND)).setText(selectedRow.get(7));
+
+                    ((Button) root.lookup(LK_SAVEBUTTON)).setText(Translator.getString(T_ADMIN_MODIFY_BUTTON));
+                    ((Button) root.lookup(LK_CANCELBUTTON)).setText(Translator.getString(T_ADMIN_CANCEL_BUTTON));
+
+                    TextField attendCode = (TextField) root.lookup(LK_COURSE_ATTEND_CODE);
+
+                    if (attendCode != null) {
+                        String attendVal = (selectedRow != null && selectedRow.size() > 5) ? selectedRow.get(5) : null;
+
+                        if (attendVal != null) {
+                            attendVal = attendVal.trim();
+                        }
+                        if (attendVal != null && !attendVal.isBlank() && !attendVal.equalsIgnoreCase("null")) {
+                            attendCode.setText(attendVal);
+                        } else {
+                            attendCode.clear();
+                            attendCode.setPromptText(Translator.getString(T_CREATECOURSE_ATTENDCODE));
+                        }
                     } else {
-                        attendCode.clear();
-                        attendCode.setPromptText(Translator.getString("createcourse.attendcode"));
+                        log.info("Warning: courseAttendCode lookup returned null");
                     }
-                } else {
-                    System.out.println("Warning: courseAttendCode lookup returned null");
+
+                    CheckBox courseActive = ((CheckBox) root.lookup(LK_COURSE_ACTIVE));
+                    courseActive.setText(Translator.getString(T_CREATECOURSE_COURSACTIVE));
+
+                    CheckBox attendAvaible = ((CheckBox) root.lookup(LK_ATTEND_COURSE_ACTIVE));
+                    attendAvaible.setText(Translator.getString(T_CREATECOURSE_ISATTEND));
+
+
+                    attendAvaible.setSelected(selectedRow.get(4).equalsIgnoreCase("true"));
+
+                    courseActive.setSelected(selectedRow.get(8).equalsIgnoreCase("true"));
+                }
+                case M_DEGREE -> {
+                    ((TextField) root.lookup(LK_DEGREE_FIELD)).setText(selectedRow.get(1));
+                    ((TextField) root.lookup(LK_ECTS_FIELD)).setText(selectedRow.get(2));
+
+                    ((Button) root.lookup(LK_SAVEBUTTON)).setText(Translator.getString(T_ADMIN_MODIFY_BUTTON));
+                    ((Button) root.lookup(LK_CANCELBUTTON)).setText(Translator.getString(T_ADMIN_CANCEL_BUTTON));
                 }
 
-                CheckBox courseActive =  ((CheckBox) root.lookup("#courseActive"));
-                courseActive.setText(Translator.getString("createcourse.coursactive"));
-
-                CheckBox attendAvaible = ((CheckBox) root.lookup("#attendCourseActive"));
-                attendAvaible.setText(Translator.getString("createcourse.isattend"));
-
-
-                if (selectedRow.get(4).equalsIgnoreCase("true")){
-                    attendAvaible.setSelected(true);
-                } else {
-                    attendAvaible.setSelected(false);
-                }
-                
-                if (selectedRow.get(8).equalsIgnoreCase("true")){
-                    courseActive.setSelected(true);
-                } else {
-                    courseActive.setSelected(false);
-                }
-            }
-
-            else if(viewing.equals("degree")){
-                ((TextField) root.lookup("#degreefield")).setText(selectedRow.get(1));
-                ((TextField) root.lookup("#ectsfield")).setText(selectedRow.get(2));
-
-                ((Button) root.lookup("#saveButton")).setText(Translator.getString("admin.modifybutton"));
-                ((Button) root.lookup("#cancelButton")).setText(Translator.getString("admin.cancelbutton"));
+                default -> throw new IllegalStateException("Unexpected value: " + viewing);
             }
 
             // Replace SaveButton action to update data and pass to the DAO
-            Button save = (Button) root.lookup("#saveButton");
+            Button save = (Button) root.lookup(LK_SAVEBUTTON);
 
             save.setOnAction( ev -> {
-                Map<String, Object> object = new HashMap<>();
+                object = new HashMap<>();
                 object.put("id", rowId);
 
-                if(viewing.equals("student")) {
-                    object.put("name", ((TextField) root.lookup("#studentName")).getText());
-                    object.put("degree", ((TextField) root.lookup("#studentDegree")).getText());
+                if(viewing.equals(M_STUDENT)) {
+                    object.put("name", ((TextField) root.lookup(LK_STUDENT_NAME)).getText());
+                    object.put(M_DEGREE, ((TextField) root.lookup(LK_STUDENT_DEGREE)).getText());
 
-                    TextField passField = (TextField) root.lookup("#studentPasswField");
-                    
+                    TextField passField = (TextField) root.lookup(LK_STUDENT_PASSW);
+
                     // If password is inputed, hash it and store it. Otherwise store only null-value. Null-value wont change password
                     if (passField != null){
                         String newPass = crypto.hash(passField.getText());
-                        object.put("password", newPass);
+                        object.put(M_PASSWORD, newPass);
                     } else {
-                        object.put("password", null);
+                        object.put(M_PASSWORD, null);
                     }
-                    
+
                 }
-                
-                else if(viewing.equals("staff")) {
-                    object.put("name", ((TextField) root.lookup("#namefield")).getText());
-                    object.put("role", ((TextField) root.lookup("#rolefield")).getText());
-                    
-                    TextField passField = (TextField) root.lookup("#passwordfield");
-                    CheckBox adminCheck = (CheckBox) root.lookup("#isAdmin");
-                    System.out.println(passField);
-                    
+
+                else if(viewing.equals(M_STAFF)) {
+                    object.put("name", ((TextField) root.lookup(LK_NAMEFIELD)).getText());
+                    object.put("role", ((TextField) root.lookup(LK_ROLEFIELD)).getText());
+
+                    TextField passField = (TextField) root.lookup(LK_PASSWDFIELD);
+                    CheckBox adminCheck = (CheckBox) root.lookup(LK_ISADMIN);
+                    log.info(passField.getText());
+
                     // If password is inputed, hash it and store it. Otherwise store only null-value. Null-value wont change password
                     if (passField.getText() != null && !passField.getText().isBlank()){
                         String newPass = crypto.hash(passField.getText());
-                        object.put("password", newPass);
+                        object.put(M_PASSWORD, newPass);
                     } else {
-                        object.put("password", null);
+                        object.put(M_PASSWORD, null);
                     }
 
                     // If Administrator checkbox is selected, store true-value
-                    if(adminCheck.isSelected()){
-                        object.put("isAdmin", true);
-                    } else {
-                        object.put("isAdmin", false);
-                    }
+                    object.put("isAdmin", adminCheck.isSelected());
                 }
 
-                else if(viewing.equals("courses")){
-                    object.put("courseName", ((TextField) root.lookup("#courseName")).getText());
-                    object.put("courseTopic", ((TextField) root.lookup("#courseTopic")).getText());
-                    object.put("courseDesc", ((TextField) root.lookup("#courseDesc")).getText());
-                    object.put("attendMin", Integer.parseInt(((TextField) root.lookup("#minCourseAttend")).getText()));
-                    object.put("attendMax", Integer.parseInt(((TextField) root.lookup("#maxCourseAttend")).getText()));
+                else if(viewing.equals(M_COURSES)){
+                    object.put("courseName", ((TextField) root.lookup(LK_COURSE_NAME)).getText());
+                    object.put("courseTopic", ((TextField) root.lookup(LK_COURSE_TOPIC)).getText());
+                    object.put("courseDesc", ((TextField) root.lookup(LK_COURSE_DESC)).getText());
+                    object.put("attendMin", Integer.parseInt(((TextField) root.lookup(LK_MIN_COURSE_ATTEND)).getText()));
+                    object.put("attendMax", Integer.parseInt(((TextField) root.lookup(LK_MAX_COURSE_ATTEND)).getText()));
 
-                    CheckBox attendAvaible = ((CheckBox) root.lookup("#attendCourseActive"));
-                    CheckBox courseActive =  ((CheckBox) root.lookup("#courseActive"));
-                    TextField attendCode = ((TextField) root.lookup("#courseAttendCode"));
-                    System.out.println(attendCode.getText().getClass());
+                    CheckBox attendAvaible = ((CheckBox) root.lookup(LK_ATTEND_COURSE_ACTIVE));
+                    CheckBox courseActive =  ((CheckBox) root.lookup(LK_COURSE_ACTIVE));
+                    TextField attendCode = ((TextField) root.lookup(LK_COURSE_ATTEND_CODE));
+                    log.info(String.valueOf(attendCode.getText().getClass()));
 
-                    if(attendAvaible.isSelected()){
-                        object.put("attendAvaib", true);
-                    } else {
-                        object.put("attendAvaib", false);
-                    }
-
-                    if(courseActive.isSelected()){
-                        object.put("courseActive", true);
-                    } else {
-                        object.put("courseActive", false);
-                    }
+                    object.put("attendAvaib", attendAvaible.isSelected());
+                    object.put("courseActive", courseActive.isSelected());
 
                     if (attendCode.getText().equals("null") || attendCode.getText().isBlank()){
                         object.put("attendKey", "");
                     } else {
-                        object.put("attendKey", ((TextField) root.lookup("#attendKey")).getText());
+                        object.put("attendKey", ((TextField) root.lookup(LK_ATTEND_KEY)).getText());
                     }
                 }
 
-                else if(viewing.equals("degree")){
-                    object.put("degreeName", ((TextField) root.lookup("#degreefield")).getText());
-                    object.put("degreeEcts", Integer.parseInt(((TextField) root.lookup("#ectsfield")).getText()));
+                else if(viewing.equals(M_DEGREE)){
+                    object.put("degreeName", ((TextField) root.lookup(LK_DEGREE_FIELD)).getText());
+                    object.put("degreeEcts", Integer.parseInt(((TextField) root.lookup(LK_ECTS_FIELD)).getText()));
                 }
 
                 Request request = null;
 
                 // Select correct request type from viewing-variable
-                if (viewing.equals("student")) { request = new Request(RequestDao.USERS, RequestType.UPDATEDATA, object); }
-                else if (viewing.equals("staff")) { request = new Request(RequestDao.STAFF, RequestType.UPDATEDATA, object); }
-                else if (viewing.equals("courses")) { request = new Request(RequestDao.COURSE, RequestType.UPDATEDATA, object); }
-                else if (viewing.equals("degree")) { request = new Request(RequestDao.DEGREE, RequestType.UPDATEDATA, object); }
-                else if (viewing.equals("attendance")) { request = new Request(RequestDao.ATTENDANCE, RequestType.UPDATEDATA, object); }
+                if (viewing.equals(M_STUDENT)) { request = new Request(RequestDao.USERS, RequestType.UPDATEDATA, object); }
+                else if (viewing.equals(M_STAFF)) { request = new Request(RequestDao.STAFF, RequestType.UPDATEDATA, object); }
+                else if (viewing.equals(M_COURSES)) { request = new Request(RequestDao.COURSE, RequestType.UPDATEDATA, object); }
+                else if (viewing.equals(M_DEGREE)) { request = new Request(RequestDao.DEGREE, RequestType.UPDATEDATA, object); }
+                else if (viewing.equals(M_ATTENDANCE)) { request = new Request(RequestDao.ATTENDANCE, RequestType.UPDATEDATA, object); }
 
                 handler.handle(request);
                 Stage s = (Stage) save.getScene().getWindow();
@@ -591,7 +698,7 @@ public class AdminInterfaceController {
             });
 
             Stage stage = new Stage();
-            stage.setTitle(Translator.getString("modif.title") + " " + viewing);
+            stage.setTitle(Translator.getString(T_MODIF_TITLE) + " " + viewing);
             stage.setScene(new Scene(root));
             stage.showAndWait();
 
@@ -599,7 +706,7 @@ public class AdminInterfaceController {
 
         } catch (Exception e){
             e.printStackTrace();
-            System.out.println(e);
+            log.info(String.valueOf(e.getCause()));
         }
     }
 

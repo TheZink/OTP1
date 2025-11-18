@@ -14,10 +14,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.util.Objects;
+import java.util.logging.Logger;
+
 import com.attendace.localisation.Translator;
 
 public class LoginInterfaceController extends Application {
-    //MainInterfaceController mainInterfaceController = new MainInterfaceController();
+    Logger log = Logger.getLogger(LoginInterfaceController.class.getName());
     MainEngine engine = new MainEngine();
     UserController userController = new UserController();
 
@@ -87,18 +89,18 @@ public class LoginInterfaceController extends Application {
         Translator.setLocale("fa", "IR");
         translatepage();
     }
-    public void AttemptLogin() throws IOException {
+    public void attemptLogin() throws IOException {
         String username = emailfield.getText();
         String password = passwordfield.getText();
 
         String status = userController.loginUser(username, password);
-        System.out.println(status);
+        log.info(status);
 
         if (!status.equals("false")) {
             emailfield.getScene().getWindow().hide();
             engine.runEngine(username, status);
         } else {
-            System.out.println("Failed to login");
+            log.info("Failed to login");
         }
     }
 }
