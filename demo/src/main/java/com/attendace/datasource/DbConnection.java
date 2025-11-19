@@ -5,6 +5,10 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class DbConnection {
+    private DbConnection() {
+        // Prevent instantiation
+    }
+
     private static Connection connection = null;
 
     // If connection is null, method will try to create connection to the database when called

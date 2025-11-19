@@ -25,7 +25,7 @@ public class MainEngine {
     StaffController staffController;
 
     public MainEngine() {
-
+        //Required empty constructor
     }
 
     public void runEngine(String username, String status) throws IOException {
@@ -60,8 +60,6 @@ public class MainEngine {
 
 
                 List<ArrayList<Object>> courses = courseController.getAllCourses();
-
-                System.out.println(courses + "what is this");
 
                 try {
                     mainInterfaceController.fillcourses(courses);

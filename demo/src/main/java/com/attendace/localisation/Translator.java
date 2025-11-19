@@ -4,15 +4,18 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 public class Translator {
-    static private Locale locale;
-    static private ResourceBundle resourceBundle;
+    private Translator() {
+        // Private constructor to prevent instantiation
+    }
 
-    static public void setLocale(String langCode, String countryCode) {
-        locale = new Locale(langCode, countryCode);
+    private static ResourceBundle resourceBundle;
+
+    public static void setLocale(String langCode, String countryCode) {
+        Locale locale = new Locale(langCode, countryCode);
         resourceBundle = ResourceBundle.getBundle("ResourceBundle", locale);
     }
 
-    static public String getString(String key) {
+    public static String getString(String key) {
         return resourceBundle.getString(key);
     }
 }

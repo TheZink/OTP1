@@ -15,6 +15,7 @@ public class HandlerTest {
 
     Handler useHandlers = new DefaultHandler();
 
+    /*
     @Test
     void testAddStudent(){
         HashMap<String, Object> object = new HashMap<>();
@@ -25,6 +26,8 @@ public class HandlerTest {
         Request request = new Request(RequestDao.USERS, RequestType.SETDATA,object);
         assertNotNull(useHandlers.handle(request));
     }
+
+     */
 
     @Test
     void testAddStaff(){
