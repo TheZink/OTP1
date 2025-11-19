@@ -59,7 +59,7 @@ public class DaoDegree extends Handler {
     public List<ArrayList<String>> getAllData(){
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT id, degree_name, degree_etcs FROM DEGREE ORDER BY id ASC";
+        String sql = "SELECT id, degree_name, degree_ects FROM DEGREE ORDER BY id ASC";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();){
