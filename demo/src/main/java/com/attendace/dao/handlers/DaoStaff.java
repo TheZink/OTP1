@@ -26,7 +26,6 @@ public class DaoStaff extends Handler {
     private static final String VALUE = "value";
     private static final String LABEL = "label";
     private static final String USERNAME = "username";
-    private static final String NAME = "name";
     private static final String PASSWORD = "password";
     private static final String ROLE = "role";
     private static final String ISADMIN = "isAdmin";
@@ -190,10 +189,10 @@ public class DaoStaff extends Handler {
     }
     public void updateData(Map<String, Object> object) {
         int id = (int) object.get(ID);
-        String name = (String) object.get(NAME);
-        String role = (String) object.get(ROLE);
+        String name = (String) object.get(STAFFNAME);
+        String role = (String) object.get(STAFFROLE);
         String passw = (String) object.get(PASSWORD);
-        boolean admin = (boolean) object.get(ISADMIN);
+        boolean admin = (boolean) object.get(STAFFADMIN);
 
         Connection connection = DbConnection.getConnection();
         String sql = "UPDATE STAFF SET staff_name = ?, staff_role = ?, staff_admin = ?, staff_passw = COALESCE(NULLIF(?,''), staff_passw) WHERE id = ?";

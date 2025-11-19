@@ -51,12 +51,13 @@ public class StaffController {
         request = new Request(RequestDao.STAFF, RequestType.GETDATA, data);
         return (ArrayList<String>) handler.handle(request);
     }
-    public boolean updateStaff(String name, int id, String role, String password) {
+    public boolean updateStaff(int id, String name, String role, String password, boolean isAdmin) {
         data = new HashMap<>();
-        data.put("name", name);
         data.put("id", id);
-        data.put("role", role);
+        data.put("staff_name", name);
+        data.put("staff_role", role);
         data.put(PASSWORD, password);
+        data.put("staff_admin", isAdmin);
 
         request = new Request(RequestDao.STAFF, RequestType.UPDATEDATA, data);
         return (boolean) handler.handle(request);
