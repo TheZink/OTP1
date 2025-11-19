@@ -33,7 +33,7 @@ public class UserController {
     }
     public boolean createUser(int studentId, String name, String password, String userDegree) {
         data = new HashMap<>();
-        data.put("student_id", studentId);
+        data.put("user_student_id", studentId);
         data.put(USERNAME, name);
         data.put(PASSWORD, password);
         data.put("degree", userDegree);

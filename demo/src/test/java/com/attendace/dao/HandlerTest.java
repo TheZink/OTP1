@@ -15,19 +15,19 @@ public class HandlerTest {
 
     Handler useHandlers = new DefaultHandler();
 
-    /*
+
     @Test
     void testAddStudent(){
         HashMap<String, Object> object = new HashMap<>();
         object.put("username", "Ilkka Sinkonen");
-        object.put("student_id", 25004);
+        object.put("user_student_id", 25004);
         object.put("degree", "I'm the engineer");
         object.put("password", "12345");
         Request request = new Request(RequestDao.USERS, RequestType.SETDATA,object);
         assertNotNull(useHandlers.handle(request));
     }
 
-     */
+
 
     @Test
     void testAddStaff(){
