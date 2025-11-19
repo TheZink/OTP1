@@ -18,10 +18,10 @@ class StaffControllerTest {
         assertTrue(staffController.createStaff("jerno", "rehtori", true, "godmode"));
     }
 
-    /*
+
     @Test
     void updateStaff() {
-        assertTrue(staffController.updateStaff("Olli Opettaja", 1, "Opettaja", "salis"));
+        assertTrue(staffController.updateStaff( 1, "Olli Opettaja", "opettaja", "salis", false));
     }
-     */
+
 }
