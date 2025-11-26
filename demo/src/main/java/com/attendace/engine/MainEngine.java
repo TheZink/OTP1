@@ -56,7 +56,8 @@ public class MainEngine {
                         fetcheduser.get(2),
                         fetcheduser.get(3)
                 );
-                mainInterfaceController.renderAdminButton(user);
+                mainInterfaceController.checkAdminStatus(user);
+
 
 
                 List<ArrayList<Object>> courses = courseController.getAllCourses();

@@ -26,6 +26,7 @@ import java.util.Objects;
 public class MainInterfaceController {
     private AdminInterfaceController admininterfaceController;
 
+    private boolean admin = false;
 
     @FXML
     Text softwareTitle;
@@ -82,18 +83,27 @@ public class MainInterfaceController {
 
     }
 
-    public void renderAdminButton(StaffModel staff) {
+    public void checkAdminStatus(StaffModel staff) {
         if(Objects.equals(staff.getAdminStatus(), "false")) {
             disableAdminButton();
+            admin = false;
 
+        } else if(Objects.equals(staff.getAdminStatus(), "true")) {
+            enableAdminButton();
+            admin = true;
         }
     }
     public void disableAdminButton() {
         adminpanel.setVisible(false);
     }
+    public void enableAdminButton() {
+        adminpanel.setVisible(true);
+    }
 
+    public boolean getAdminStatus() {
+        return admin;
 
-
+    }
     public void showprofile() {
         profilebutton.setDisable(true);
         coursesbutton.setDisable(true);
