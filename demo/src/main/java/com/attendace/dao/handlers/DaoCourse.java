@@ -195,7 +195,11 @@ public class DaoCourse extends Handler {
     // Set course data to the Course-table
     public void setData(Map<String, Object> object) {
 
+        String courseName = (String) object.get(COURSENAME);
+        String courseTopic = (String) object.get(COURSETOPIC);
+        String courseDesc = (String) object.get(COURSEDESC);
         boolean attendActive = (boolean) object.get(ATTENDAVAIBLE);
+        String attendKey = (String) object.get(ATTENDKEY);
         int minAttend = (int) object.get(MINATTEND);
         int maxAttend = (int) object.get(MAXATTEND);
         boolean courseActive = (boolean) object.get(COURSEACTIVE);
@@ -206,11 +210,11 @@ public class DaoCourse extends Handler {
                     "course_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);){
-            ps.setString(1, COURSENAME);
-            ps.setString(2, COURSETOPIC);
-            ps.setString(3, COURSEDESC);
+            ps.setString(1, courseName);
+            ps.setString(2, courseTopic);
+            ps.setString(3, courseDesc);
             ps.setBoolean(4, attendActive);
-            ps.setString(5, ATTENDKEY);
+            ps.setString(5, attendKey);
             ps.setInt(6, minAttend);
             ps.setInt(7, maxAttend);
             ps.setBoolean(8, courseActive);
