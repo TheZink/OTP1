@@ -89,7 +89,7 @@ public class MainInterfaceController {
             admin = true;
 
         } else if(!staff.getAdminStatus()) {
-            //disableAdminButton();
+            disableAdminButton();
             admin = false;
         }
     }
