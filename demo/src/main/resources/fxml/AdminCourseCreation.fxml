@@ -27,7 +27,7 @@
             <TextField fx:id="minCourseAttend" accessibleRole="TEXT_FIELD" layoutX="8.0" layoutY="319.0" prefHeight="39.0" prefWidth="213.0" promptText="Minimum attendance (Default 0)" />
             <TextField fx:id="maxCourseAttend" accessibleRole="TEXT_FIELD" layoutX="232.0" layoutY="319.0" prefHeight="39.0" prefWidth="213.0" promptText="Maximum attendance" />
             <CheckBox fx:id="attendCourseActive" layoutX="10.0" layoutY="389.0" mnemonicParsing="false" text="Attendance is avaible" />
-            <TextField fx:id="courseAttendCode" accessibleRole="TEXT_FIELD" editable="false" layoutX="459.0" layoutY="319.0" prefHeight="39.0" prefWidth="213.0" promptText="Attendance code" />
+            <TextField fx:id="courseAttendCode" accessibleRole="TEXT_FIELD" editable="true" layoutX="459.0" layoutY="319.0" prefHeight="39.0" prefWidth="213.0" promptText="Attendance code" />
          </children>
       </AnchorPane>
    </children>

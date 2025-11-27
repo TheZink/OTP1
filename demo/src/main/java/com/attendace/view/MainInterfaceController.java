@@ -26,7 +26,7 @@ import java.util.Objects;
 public class MainInterfaceController {
     private AdminInterfaceController admininterfaceController;
 
-    private boolean admin = false;
+    private boolean admin;
 
     @FXML
     Text softwareTitle;
@@ -76,7 +76,6 @@ public class MainInterfaceController {
         coursesbutton.setText(Translator.getString("main.coursesButton"));
         adminpanel.setText(Translator.getString("main.adminButton"));
 
-        //PROFILE PAGE, STATUS LABEL SHOULD BE FETCHED FROM DATABASE?
         statuslabel.setText("Student");
         rolelabel.setText(Translator.getString("profile.roleLabel"));
         participatingIn.setText(Translator.getString("profile.participatingIn"));
@@ -84,13 +83,14 @@ public class MainInterfaceController {
     }
 
     public void checkAdminStatus(StaffModel staff) {
-        if(Objects.equals(staff.getAdminStatus(), "false")) {
-            disableAdminButton();
-            admin = false;
-
-        } else if(Objects.equals(staff.getAdminStatus(), "true")) {
+        System.out.println(staff.getAdminStatus());
+        if(staff.getAdminStatus()) {
             enableAdminButton();
             admin = true;
+
+        } else if(!staff.getAdminStatus()) {
+            //disableAdminButton();
+            admin = false;
         }
     }
     public void disableAdminButton() {
@@ -102,8 +102,9 @@ public class MainInterfaceController {
 
     public boolean getAdminStatus() {
         return admin;
-
     }
+
+
     public void showprofile() {
         profilebutton.setDisable(true);
         coursesbutton.setDisable(true);

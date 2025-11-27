@@ -54,9 +54,10 @@ public class MainEngine {
                         Integer.parseInt(fetcheduser.get(0)),
                         fetcheduser.get(1),
                         fetcheduser.get(2),
-                        fetcheduser.get(3)
+                        Boolean.parseBoolean(fetcheduser.get(3))
                 );
                 mainInterfaceController.checkAdminStatus(user);
+
 
 
 

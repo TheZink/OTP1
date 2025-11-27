@@ -18,7 +18,7 @@ public class CourseController {
     private static final String CONSTLABEL = "label";
     private static final String CONSTVALUE = "value";
 
-    private MainInterfaceController mainInterfaceController;
+    private MainInterfaceController mainInterfaceController = new MainInterfaceController();
 
     public CourseController() {
         this.handler = new DefaultHandler();
@@ -28,7 +28,8 @@ public class CourseController {
     public boolean createCourse(String courseName, String courseTopic, String courseDesc, boolean attendanceAvailable, String attendanceKey, int minAttendance, int maxAttendance, boolean courseActive) {
 
 
-            System.out.println("I AM ADMIN!!!!!!");
+            System.out.println(mainInterfaceController.getAdminStatus());
+
             data = new HashMap<>();
             data.put("course_name", courseName);
             data.put("course_topic", courseTopic);
@@ -40,8 +41,6 @@ public class CourseController {
             data.put("course_active", courseActive);
             request = new Request(RequestDao.COURSE, RequestType.SETDATA, data);
             return (boolean) handler.handle(request);
-
-
     }
 
     public boolean updateCourse(int value, String label, String setValue) {
