@@ -637,8 +637,8 @@ public class AdminInterfaceController {
                 }
 
                 else if(viewing.equals(M_STAFF)) {
-                    object.put("name", ((TextField) root.lookup(LK_NAMEFIELD)).getText());
-                    object.put("role", ((TextField) root.lookup(LK_ROLEFIELD)).getText());
+                    object.put("staff_name", ((TextField) root.lookup(LK_NAMEFIELD)).getText());
+                    object.put("staff_role", ((TextField) root.lookup(LK_ROLEFIELD)).getText());
 
                     TextField passField = (TextField) root.lookup(LK_PASSWDFIELD);
                     CheckBox adminCheck = (CheckBox) root.lookup(LK_ISADMIN);
@@ -653,7 +653,7 @@ public class AdminInterfaceController {
                     }
 
                     // If Administrator checkbox is selected, store true-value
-                    object.put("isAdmin", adminCheck.isSelected());
+                    object.put("staff_admin", adminCheck.isSelected());
                 }
 
                 else if(viewing.equals(M_COURSES)){

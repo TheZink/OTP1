@@ -15,6 +15,13 @@ Language change happens while logging in and will be in effect while using the a
 ## Localisation Resources
 
 For localisation, translations have been provided from [Google Translate](https://translate.google.fi/?sl=auto&tl=fi&op=translate) and [DeepL](https://www.deepl.com/en/translator)
+Localisation is done through ResourceBundles and all translated words are stored as keys. There is a possibility to use database for translation and a SQL script has been provided inside the scripts folder
+
+## SonarQube Latest Report
+
+<img width="1185" height="411" alt="kuva" src="https://github.com/user-attachments/assets/f71590ed-c97c-43e1-9cfd-d5edefee0d3e" />
+<img width="1118" height="652" alt="kuva" src="https://github.com/user-attachments/assets/d7b9da7e-3f5e-45ef-8b2e-6f3620e16163" />
+
 
 ## Other resources
 
