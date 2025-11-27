@@ -6,10 +6,10 @@ public class StaffModel {
     private int staffId;
     private String name;
     private String staffRole;
-    private String admin;
+    private boolean admin;
 
 
-    public StaffModel(int staffId, String name, String staffRole, String admin) {
+    public StaffModel(int staffId, String name, String staffRole, boolean admin) {
         this.staffId = staffId;
         this.name = name;
         this.staffRole = staffRole;
@@ -28,7 +28,7 @@ public class StaffModel {
         return staffRole;
     }
 
-    public String getAdminStatus() {
+    public boolean getAdminStatus() {
         return admin;
     }
 }

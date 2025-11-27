@@ -2,6 +2,7 @@ package com.attendace.view;
 
 
 
+import com.attendace.controller.CourseController;
 import com.attendace.dao.Handler;
 import com.attendace.dao.Request;
 import com.attendace.dao.handlers.DefaultHandler;
@@ -22,6 +23,7 @@ import javafx.stage.Stage;
 public class AdminCreationInterfaceController {
     private Logger log = Logger.getLogger(AdminCreationInterfaceController.class.getName());
 
+    private CourseController courseController = new CourseController();
     private CryptoUtils crypto = new CryptoUtils();
     private Handler handler = new DefaultHandler();
 
@@ -93,6 +95,9 @@ public class AdminCreationInterfaceController {
     String regex = "[^\\d]";
 
     public void initialize() {
+
+
+
         if (studentId != null) {
             studentId.textProperty().addListener((observable, oldValue, newValue) -> {
                 if (!newValue.matches("\\d*")) {
@@ -162,17 +167,16 @@ public class AdminCreationInterfaceController {
         int minAttendance = minCourseAttend.getText().isEmpty() ? 0 : Integer.parseInt(minCourseAttend.getText());
         int maxAttendance = maxCourseAttend.getText().isEmpty() ? 0 : Integer.parseInt(maxCourseAttend.getText());
 
-        object.put("course_name", courseName.getText());
-        object.put("course_topic", courseTopic.getText());
-        object.put("course_desc", courseDesc.getText());
-        object.put("attendance_avaible", attendCourseActive.isSelected());
-        object.put("attendance_key", courseAttendCode.getText());
-        object.put("min_attendance", minAttendance);
-        object.put("max_attendance", maxAttendance);
-        object.put("course_active", courseActive.isSelected());
+        String coursename = courseName.getText();
+        String coursetopic = courseTopic.getText();
+        String coursedesc = courseDesc.getText();
+        boolean attendcourseactive = attendCourseActive.isSelected();
+        String coursecode = courseAttendCode.getText();
+        boolean courseactive = courseActive.isSelected();
 
-        Request request = new Request(RequestDao.COURSE, RequestType.SETDATA, object);
-        handler.handle(request);
+        System.out.println("course code!"+ coursecode);
+
+        courseController.createCourse(coursename, coursetopic, coursedesc, attendcourseactive, coursecode, minAttendance, maxAttendance, courseactive);
 
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
     }

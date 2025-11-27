@@ -4,6 +4,7 @@ import com.attendace.dao.Request;
 import com.attendace.dao.handlers.DefaultHandler;
 import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
+import com.attendace.view.MainInterfaceController;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,6 +18,7 @@ public class CourseController {
     private static final String CONSTLABEL = "label";
     private static final String CONSTVALUE = "value";
 
+    private MainInterfaceController mainInterfaceController = new MainInterfaceController();
 
     public CourseController() {
         this.handler = new DefaultHandler();
@@ -24,18 +26,21 @@ public class CourseController {
 
 
     public boolean createCourse(String courseName, String courseTopic, String courseDesc, boolean attendanceAvailable, String attendanceKey, int minAttendance, int maxAttendance, boolean courseActive) {
-        data = new HashMap<>();
-        data.put("course_name", courseName);
-        data.put("course_topic", courseTopic);
-        data.put("course_desc", courseDesc);
-        data.put("attendance_avaible", attendanceAvailable);
-        data.put("attendance_key", attendanceKey);
-        data.put("min_attendance", minAttendance);
-        data.put("max_attendance", maxAttendance);
-        data.put("course_active", courseActive);
-        request = new Request(RequestDao.COURSE, RequestType.SETDATA, data);
-        return (boolean) handler.handle(request);
 
+
+            System.out.println(mainInterfaceController.getAdminStatus());
+
+            data = new HashMap<>();
+            data.put("course_name", courseName);
+            data.put("course_topic", courseTopic);
+            data.put("course_desc", courseDesc);
+            data.put("attendance_avaible", attendanceAvailable);
+            data.put("attendance_key", attendanceKey);
+            data.put("min_attendance", minAttendance);
+            data.put("max_attendance", maxAttendance);
+            data.put("course_active", courseActive);
+            request = new Request(RequestDao.COURSE, RequestType.SETDATA, data);
+            return (boolean) handler.handle(request);
     }
 
     public boolean updateCourse(int value, String label, String setValue) {
