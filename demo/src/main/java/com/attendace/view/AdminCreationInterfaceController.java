@@ -94,7 +94,7 @@ public class AdminCreationInterfaceController {
     private Button cancelButton;
 
     String regex = "[^\\d]";
-    UserController userController = new UserController();
+    private static final UserController userController = new UserController();
 
     public void initialize() {
 

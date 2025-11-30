@@ -9,11 +9,13 @@ import java.util.List;
 import java.util.Map;
 
 import com.attendace.utils.UserUtils;
+import com.attendace.utils.CryptoUtils;
 import com.attendace.dao.Handler;
 import com.attendace.dao.Request;
 import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 import com.attendace.datasource.DbConnection;
+
 
 public class DaoStaff extends Handler {
     private static final String ID = "id";
@@ -29,6 +31,8 @@ public class DaoStaff extends Handler {
     private static final String PASSWORD = "password";
     private static final String ROLE = "role";
     private static final String ISADMIN = "isAdmin";
+    private static final CryptoUtils cryptoUtils = new CryptoUtils();
+
 
     // This method check if handler can process the request
     @Override
@@ -163,7 +167,7 @@ public class DaoStaff extends Handler {
     }
 
     // This checks if the user exists in the database and checks if the password correct
-    public boolean checkLogin(Map<String, Object> object){
+    public boolean checkLogin(Map<String, Object> object) {
         String username = (String) object.get(USERNAME);
         String password = (String) object.get(PASSWORD);
 
@@ -176,8 +180,8 @@ public class DaoStaff extends Handler {
 
             if (rs.next()){
                 String dbpass = rs.getString(STAFFPASSWORD);
-
-                if (dbpass != null && dbpass.equals(password)){
+                boolean correctOrNot = cryptoUtils.verify(password, dbpass);
+                if (correctOrNot){
                     return true;
                 }
             }

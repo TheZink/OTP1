@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import com.attendace.utils.CryptoUtils;
 import com.attendace.utils.UserUtils;
 import com.attendace.dao.Handler;
 import com.attendace.dao.Request;
@@ -29,9 +30,10 @@ public class DaoUser extends Handler {
     private static final String NAME = "name";
     private static final String PASSWORD = "password";
     private static final String DEGREE = "degree";
+    private static final CryptoUtils cryptoUtils = new CryptoUtils();
 
 
-// This method check if handler can process the request
+    // This method check if handler can process the request
     @Override
     public boolean canProcess(Request request) {
         // If handler cannot process this request, set next handler and return false
@@ -144,7 +146,6 @@ public class DaoUser extends Handler {
         UserUtils user = new UserUtils();
         Map<String, Object> object = user.checkUser(data);
 
-        System.out.println("OBJEKTI!!!"+ object);
         String username = (String) object.get(USERNAME);
         int studentId = (int) object.get(STUDENTID);
         String degree = (String) object.get(DEGREE);
@@ -201,8 +202,8 @@ public class DaoUser extends Handler {
     
             if (rs.next()){
                 String dbpass = rs.getString(STUDENTPASSWORD);
-
-                if (dbpass != null && dbpass.equals(password)){
+                boolean correctOrNot = cryptoUtils.verify(password, dbpass);
+                if (correctOrNot){
                     return true;
                 }
             }
