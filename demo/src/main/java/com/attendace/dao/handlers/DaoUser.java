@@ -144,6 +144,7 @@ public class DaoUser extends Handler {
         UserUtils user = new UserUtils();
         Map<String, Object> object = user.checkUser(data);
 
+        System.out.println("OBJEKTI!!!"+ object);
         String username = (String) object.get(USERNAME);
         int studentId = (int) object.get(STUDENTID);
         String degree = (String) object.get(DEGREE);

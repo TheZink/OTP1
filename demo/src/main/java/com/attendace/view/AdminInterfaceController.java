@@ -356,6 +356,9 @@ public class AdminInterfaceController {
             ((Button) root.lookup(LK_SAVEBUTTON)).setText(Translator.getString(T_CREATE));
             ((Button) root.lookup(LK_CANCELBUTTON)).setText(Translator.getString(T_CANCEL));
 
+
+
+
             Stage stage = new Stage();
             stage.setTitle(Translator.getString(T_ADMIN_CREATE_STUDENT));
             stage.setScene(new Scene(root));

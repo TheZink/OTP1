@@ -19,6 +19,8 @@ public class UserController {
     private Map<String, Object> data;
     private static final String PASSWORD = "password";
     private static final String USERNAME = "username";
+    private static final String STUDENTID = "user_student_id";
+    private static final String DEGREE = "degree";
 
     public UserController() {
         this.handler = new DefaultHandler();
@@ -33,10 +35,10 @@ public class UserController {
     }
     public boolean createUser(int studentId, String name, String password, String userDegree) {
         data = new HashMap<>();
-        data.put("user_student_id", studentId);
         data.put(USERNAME, name);
+        data.put(STUDENTID, studentId);
+        data.put(DEGREE, userDegree);
         data.put(PASSWORD, password);
-        data.put("degree", userDegree);
         request = new Request(RequestDao.USERS, RequestType.SETDATA, data);
         return (boolean) handler.handle(request);
     }
