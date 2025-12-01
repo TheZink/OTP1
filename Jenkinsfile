@@ -2,7 +2,8 @@ pipeline {
     agent any
 
     environment {
-        PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
+        //PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
+        PATH = "${JAVA_HOME}\\bin;${JMETER_HOME}\\bin;${env.PATH}"
         JMETER_HOME = 'C:\\Tools\\apache-jmeter-5.6.3'
 
         SONARQUBE_SERVER = 'SonarQubeServer' // The name of the SonarQube server configured in Jenkins
