@@ -24,6 +24,7 @@ public class DaoStaff extends Handler {
     private static final String STAFFADMIN = "staff_admin";
     private static final String STAFFPASSWORD = "staff_passw";
     private static final String CREATEDAT = "created_at";
+    private static final String language = "language";
 
     private static final String VALUE = "value";
     private static final String LABEL = "label";
