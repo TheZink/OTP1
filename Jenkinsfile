@@ -135,4 +135,11 @@ pipeline {
                     }
                 }
     }
+
+    post {
+            always {
+                archiveArtifacts artifacts: 'result.jtl', allowEmptyArchive: true
+                perfReport sourceDataFiles: 'result.jtl'
+            }
+        }
 }
