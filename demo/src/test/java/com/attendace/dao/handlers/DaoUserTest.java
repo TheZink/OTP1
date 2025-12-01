@@ -26,8 +26,8 @@ class DaoUserTest {
     void testCheckLogin() {
         DaoUser handler = new DaoUser();
         Map<String, Object> object = new HashMap<>();
-        object.put("username", "Toni Testaaja");
-        object.put("password", "Salasana");
+        object.put("username", "Jukka Junitti");
+        object.put("password", "12345");
         Request request = new Request(RequestDao.USERS, RequestType.SIGNIN, object);
         assertEquals(true, handler.handle(request));
     }

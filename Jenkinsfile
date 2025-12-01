@@ -48,12 +48,6 @@ pipeline {
             //}
         //}
 
-        stage('Non-Functional Test') {
-            steps {
-                bat 'jmeter -n -t tests/performance/demo.jmx -l result.jtl'
-            }
-        }
-
 
         stage('Publish Coverage Report') {
             steps {
@@ -105,9 +99,9 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'mvn -f demo/pom.xml clean package -DskipTests'
+                        sh 'mvn -f demo/pom.xml clean package' //-DskipTests
                     } else {
-                        bat 'mvn -f demo/pom.xml clean package -DskipTests'
+                        bat 'mvn -f demo/pom.xml clean package' //-DskipTests
                     }
                 }
             }
@@ -122,6 +116,12 @@ pipeline {
                         bat "docker build -t ${DOCKERHUB_REPO}:${DOCKER_IMAGE_TAG} ."
                     }
                 }
+            }
+        }
+
+        stage('Non-Functional Test') {
+            steps {
+                bat 'jmeter -n -t tests/performance/demo.jmx -l result.jtl'
             }
         }
 
