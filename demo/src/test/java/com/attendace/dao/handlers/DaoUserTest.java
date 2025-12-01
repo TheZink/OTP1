@@ -58,6 +58,7 @@ class DaoUserTest {
         object.put("user_student_id", 25004);
         object.put("degree", "I'm the engineer");
         object.put("password", "12345");
+        object.put("lang", "en");
         Request request = new Request(RequestDao.USERS, RequestType.SETDATA, object);
         assertEquals(true, handler.handle(request));
 

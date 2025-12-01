@@ -23,6 +23,7 @@ public class DaoUser extends Handler {
     private static final String STUDENTDEGREE = "user_degree";
     private static final String STUDENTPASSWORD = "user_passw";
     private static final String CREATEDAT = "created_at";
+    private static final String LANGUAGE = "lang";
 
     private static final String VALUE = "value";
     private static final String LABEL = "label";
@@ -77,7 +78,7 @@ public class DaoUser extends Handler {
     public List<ArrayList<String>> getAllData(){
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT id, user_name, user_student_id, user_degree, created_at FROM USERS ORDER BY id ASC";
+        String sql = "SELECT id, user_name, user_student_id, user_degree, created_at, lang FROM USERS ORDER BY id ASC";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();){
@@ -89,6 +90,7 @@ public class DaoUser extends Handler {
                 row.add(Integer.toString(rs.getInt(STUDENTID)));
                 row.add(rs.getString(STUDENTDEGREE));
                 row.add(rs.getTime(CREATEDAT).toString());
+                row.add(rs.getString(LANGUAGE));
                 data.add(row);
             }
 
@@ -110,7 +112,7 @@ public class DaoUser extends Handler {
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT id, user_name, user_student_id, user_degree, user_passw, created_at FROM USERS WHERE user_name = ?";
+        String sql = "SELECT id, user_name, user_student_id, user_degree, user_passw, created_at, lang FROM USERS WHERE user_name = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql))
 
@@ -125,6 +127,7 @@ public class DaoUser extends Handler {
                 data.add(rs.getString(STUDENTDEGREE));
                 data.add(rs.getString(STUDENTPASSWORD));
                 data.add(rs.getDate(CREATEDAT).toString());
+                data.add(rs.getString(LANGUAGE));
             }
 
         } catch (SQLException e){
@@ -150,15 +153,17 @@ public class DaoUser extends Handler {
         int studentId = (int) object.get(STUDENTID);
         String degree = (String) object.get(DEGREE);
         String passw = (String) object.get(PASSWORD);
+        String lang = (String) object.get(LANGUAGE);
         
         Connection connection = DbConnection.getConnection();
-        String sql = "INSERT INTO USERS (user_name, user_student_id, user_degree, user_passw) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO USERS (user_name, user_student_id, user_degree, user_passw, lang) VALUES (?, ?, ?, ?, ?)";
         
         try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, username);
             ps.setInt(2, studentId);
             ps.setString(3, degree);
             ps.setString(4, passw);
+            ps.setString(5, lang);
             ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -170,17 +175,19 @@ public class DaoUser extends Handler {
         String name = (String) object.get(NAME);
         String degree = (String) object.get(DEGREE);
         String passw = (String) object.get(PASSWORD);
+        String lang = (String) object.get(LANGUAGE);
 
 
         Connection connection = DbConnection.getConnection();
-        String sql = "UPDATE USERS SET user_name = ?, user_student_id = ?, user_degree = ?, user_passw = COALESCE(NULLIF(?,''), user_passw) WHERE id = ?";
+        String sql = "UPDATE USERS SET user_name = ?, user_student_id = ?, user_degree = ?, user_passw = COALESCE(NULLIF(?,''), user_passw), lang = ? WHERE id = ?";
         
         try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, name);
             ps.setInt(2, id);
             ps.setString(3, degree);
             ps.setString(4, passw);
-            ps.setInt(5, id);
+            ps.setString(5, lang);
+            ps.setInt(6, id);
             ps.executeUpdate();
             
         } catch (Exception e) {
