@@ -3,6 +3,7 @@ package com.attendace.view;
 
 
 import com.attendace.controller.CourseController;
+import com.attendace.controller.UserController;
 import com.attendace.dao.Handler;
 import com.attendace.dao.Request;
 import com.attendace.dao.handlers.DefaultHandler;
@@ -93,8 +94,10 @@ public class AdminCreationInterfaceController {
     private Button cancelButton;
 
     String regex = "[^\\d]";
+    private static final UserController userController = new UserController();
 
     public void initialize() {
+
 
 
 
@@ -143,15 +146,15 @@ public class AdminCreationInterfaceController {
     @FXML
     private void handleSaveStudent(ActionEvent event) {
         log.info("handleSaveStudent");
-        Map<String, Object> object = new HashMap<>();
 
-        object.put("username", studentName.getText());
-        object.put("student_id", Integer.parseInt(studentId.getText()));
-        object.put("degree", studentDegree.getText());
-        object.put("password", crypto.hash(studentPasswField.getText()));
+        String username = studentName.getText();
+        int id = Integer.parseInt(studentId.getText());
+        String degree = studentDegree.getText();
+        String password = crypto.hash(studentPasswField.getText());
 
-        Request request = new Request(RequestDao.USERS, RequestType.SETDATA, object);
-        handler.handle(request);
+
+        userController.createUser(id, username, password, degree);
+
 
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 
@@ -162,7 +165,6 @@ public class AdminCreationInterfaceController {
     @FXML
     private void handleSaveCourse(ActionEvent event) {
         log.info("handleSaveCourse");
-        Map<String, Object> object = new HashMap<>();
 
         int minAttendance = minCourseAttend.getText().isEmpty() ? 0 : Integer.parseInt(minCourseAttend.getText());
         int maxAttendance = maxCourseAttend.getText().isEmpty() ? 0 : Integer.parseInt(maxCourseAttend.getText());
@@ -173,8 +175,6 @@ public class AdminCreationInterfaceController {
         boolean attendcourseactive = attendCourseActive.isSelected();
         String coursecode = courseAttendCode.getText();
         boolean courseactive = courseActive.isSelected();
-
-        System.out.println("course code!"+ coursecode);
 
         courseController.createCourse(coursename, coursetopic, coursedesc, attendcourseactive, coursecode, minAttendance, maxAttendance, courseactive);
 
