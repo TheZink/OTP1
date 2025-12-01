@@ -15,7 +15,7 @@ class UserControllerTest {
 
     @Test
     void loginUser() {
-        assertEquals("User" ,userController.loginUser("Jaakko", "testi"));
+        assertEquals("User" ,userController.loginUser("Jukka Junitti", "12345"));
     }
 
     @Test

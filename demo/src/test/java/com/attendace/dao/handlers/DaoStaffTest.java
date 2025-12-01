@@ -44,8 +44,8 @@ class DaoStaffTest {
     void testCheckLogin() {
         DaoStaff handler = new DaoStaff();
         Map<String, Object> object = new HashMap<>();
-        object.put("username", "Olli Opettaja");
-        object.put("password", "salis");
+        object.put("username", "Toni Tukihenkilö");
+        object.put("password", "godmode12345");
         Request request = new Request(RequestDao.STAFF, RequestType.SIGNIN, object);
         assertEquals(true, handler.handle(request));
     }
