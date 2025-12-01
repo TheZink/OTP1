@@ -70,13 +70,13 @@ pipeline {
                                   -Dsonar.projectKey=SonarOTP2 \
                                   -Dsonar.projectName=OTP2 \
                                   -Dsonar.projectVersion=1.0 \
-                                  -Dsonar.sources=demo/src \
-                                  -Dsonar.java.binaries=demo/target/classes \
-                                  -Dsonar.java.libraries=demo/target/classes \
-                                  -Dsonar.issue.exclusions=demo/src/test/**/* \
-                                  -Dsonar.tests=demo/src/test \
-                                  -Dsonar.test.inclusions=demo/src/test/**/*.java \
-                                  -Dsonar.coverage.jacoco.xmlReportPaths=demo/target/site/jacoco/jacoco.xml \
+                                  -Dsonar.sources=src \
+                                  -Dsonar.java.binaries=target/classes \
+                                  -Dsonar.java.libraries=target/classes \
+                                  -Dsonar.issue.exclusions=src/test/**/* \
+                                  -Dsonar.tests=src/test \
+                                  -Dsonar.test.inclusions=src/test/**/*.java \
+                                  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml \
                                   -Dsonar.login=${env.SONAR_TOKEN}
                             """
                         } else {
@@ -85,13 +85,13 @@ pipeline {
                                   -Dsonar.projectKey=SonarOTP2 ^
                                   -Dsonar.projectName=OTP2 ^
                                   -Dsonar.projectVersion=1.0 ^
-                                  -Dsonar.sources=demo/src ^
-                                  -Dsonar.java.binaries=demo/target/classes ^
-                                  -Dsonar.java.libraries=demo/target/classes ^
-                                  -Dsonar.issue.exclusions=demo/src/test/**/* ^
-                                  -Dsonar.tests=demo/src/test ^
-                                  -Dsonar.test.inclusions=demo/src/test/**/*.java ^
-                                  -Dsonar.coverage.jacoco.xmlReportPaths=demo/target/site/jacoco/jacoco.xml ^
+                                  -Dsonar.sources=src ^
+                                  -Dsonar.java.binaries=target/classes ^
+                                  -Dsonar.java.libraries=target/classes ^
+                                  -Dsonar.issue.exclusions=src/test/**/* ^
+                                  -Dsonar.tests=src/test ^
+                                  -Dsonar.test.inclusions=src/test/**/*.java ^
+                                  -Dsonar.coverage.jacoco.xmlReportPaths=target/site/jacoco/jacoco.xml ^
                                   -Dsonar.login=${env.SONAR_TOKEN}
                             """
                         }
