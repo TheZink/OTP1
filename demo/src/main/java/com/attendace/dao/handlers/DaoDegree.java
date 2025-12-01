@@ -28,7 +28,12 @@ public class DaoDegree extends Handler {
     // This method check if handler can process the request. If handler cannot process this request, set next handler and return false
     @Override
     public boolean canProcess(Request request) {
-        return request.getDao() == RequestDao.DEGREE;
+        if (request.getDao() != RequestDao.DEGREE) {
+            setNextHandler(new DaoCourseUserJoin());
+            return false;
+        } else {
+            return true;
+        }
     }
 
     // This method check, if handler can process type of request
