@@ -19,8 +19,10 @@ Localisation is done through ResourceBundles and all translated words are stored
 
 ## SonarQube Latest Report
 
-<img width="1185" height="411" alt="kuva" src="https://github.com/user-attachments/assets/f71590ed-c97c-43e1-9cfd-d5edefee0d3e" />
-<img width="1118" height="652" alt="kuva" src="https://github.com/user-attachments/assets/d7b9da7e-3f5e-45ef-8b2e-6f3620e16163" />
+<img width="1194" height="498" alt="kuva" src="https://github.com/user-attachments/assets/2e50f72b-49f4-4c08-a823-f15f7e412249" />
+<img width="1197" height="689" alt="kuva" src="https://github.com/user-attachments/assets/e2296d4b-739b-4ee0-b0f0-422b59eb9f0d" />
+<img width="1189" height="704" alt="kuva" src="https://github.com/user-attachments/assets/ebd2874d-26cc-41ea-a589-f652530572b0" />
+<img width="1194" height="700" alt="kuva" src="https://github.com/user-attachments/assets/e07425e8-68bd-4280-b27b-be5a708cf032" />
 
 
 ## Other resources
