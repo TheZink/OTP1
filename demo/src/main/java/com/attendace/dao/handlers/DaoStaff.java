@@ -24,6 +24,7 @@ public class DaoStaff extends Handler {
     private static final String STAFFADMIN = "staff_admin";
     private static final String STAFFPASSWORD = "staff_passw";
     private static final String CREATEDAT = "created_at";
+    private static final String LANGUAGE = "lang";
 
     private static final String VALUE = "value";
     private static final String LABEL = "label";
@@ -49,7 +50,7 @@ public class DaoStaff extends Handler {
     // This method check, if handler can process type of request
     @Override
     public Object process(Request request){
-        Map<String, Object> object = request.getData(); //Fetch data from request
+        Map<String, Object> object = request.getData();
 
         if (request.getType() == RequestType.GETALLDATA){
             return getAllData();
@@ -81,7 +82,7 @@ public class DaoStaff extends Handler {
 
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT id, staff_name, staff_role, staff_admin, created_at FROM STAFF ORDER BY id ASC";
+        String sql = "SELECT id, staff_name, staff_role, staff_admin, created_at, lang FROM STAFF ORDER BY id ASC";
 
         try(PreparedStatement ps = connection.prepareStatement(sql);
             ResultSet rs = ps.executeQuery();) {
@@ -93,6 +94,7 @@ public class DaoStaff extends Handler {
                 row.add(rs.getString(STAFFROLE));
                 row.add(Boolean.toString(rs.getBoolean(STAFFADMIN)));
                 row.add(rs.getTime(CREATEDAT).toString());
+                row.add(rs.getString(LANGUAGE));
                 data.add(row);
             }
         } catch (SQLException e) {
@@ -114,7 +116,7 @@ public class DaoStaff extends Handler {
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT id, staff_name, staff_role, staff_admin, staff_passw, created_at FROM STAFF WHERE staff_name = ?";
+        String sql = "SELECT id, staff_name, staff_role, staff_admin, staff_passw, created_at, lang FROM STAFF WHERE staff_name = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, username);
@@ -126,6 +128,7 @@ public class DaoStaff extends Handler {
                     data.add(Boolean.toString(rs.getBoolean(STAFFADMIN)));
                     data.add(rs.getString(STAFFPASSWORD));
                     data.add(rs.getTime(CREATEDAT).toString());
+                    data.add(rs.getString(LANGUAGE));
                 }
             }
         } catch (SQLException e) {
@@ -151,15 +154,17 @@ public class DaoStaff extends Handler {
         String role = (String) object.get(ROLE);
         boolean isAdmin = (boolean) object.get(ISADMIN);
         String passw = (String) object.get(PASSWORD);
+        String lang = (String) object.get(LANGUAGE);
 
         Connection connection = DbConnection.getConnection();
-        String sql = "INSERT INTO STAFF (staff_name, staff_role, staff_admin, staff_passw) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO STAFF (staff_name, staff_role, staff_admin, staff_passw, lang) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, username);
             ps.setString(2, role);
             ps.setBoolean(3, isAdmin);
             ps.setString(4, passw);
+            ps.setString(5, lang);
             ps.executeUpdate(); 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -197,16 +202,18 @@ public class DaoStaff extends Handler {
         String role = (String) object.get(STAFFROLE);
         String passw = (String) object.get(PASSWORD);
         boolean admin = (boolean) object.get(STAFFADMIN);
+        String lang = (String) object.get(LANGUAGE);
 
         Connection connection = DbConnection.getConnection();
-        String sql = "UPDATE STAFF SET staff_name = ?, staff_role = ?, staff_admin = ?, staff_passw = COALESCE(NULLIF(?,''), staff_passw) WHERE id = ?";
+        String sql = "UPDATE STAFF SET staff_name = ?, staff_role = ?, staff_admin = ?, staff_passw = COALESCE(NULLIF(?,''), staff_passw), lang = ? WHERE id = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, name);
             ps.setString(2, role);
             ps.setBoolean(3, admin);
             ps.setString(4, passw);
-            ps.setInt(5, id);
+            ps.setString(5, lang);
+            ps.setInt(6, id);
             ps.executeUpdate();
 
         } catch (Exception e) {
