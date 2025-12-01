@@ -5,6 +5,9 @@ pipeline {
         PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
         JMETER_HOME = 'C:\\Tools\\apache-jmeter-5.6.3'
 
+        SONARQUBE_SERVER = 'SonarQubeServer' // The name of the SonarQube server configured in Jenkins
+        SONAR_TOKEN = 'sqa_3b2b639e2c536a7095d2bd438b6e0a0a4bbafc07' // Store the token securely
+
         // Define Docker Hub credentials ID
         DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
         // Define Docker Hub repository name
@@ -54,6 +57,46 @@ pipeline {
         stage('Publish Coverage Report') {
             steps {
                 jacoco()
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                script {
+                    withSonarQubeEnv("${env.SONARQUBE_SERVER}") {
+                        if (isUnix()) {
+                            sh """
+                                mvn -f demo/pom.xml sonar:sonar \
+                                  -Dsonar.projectKey=SonarOTP2 \
+                                  -Dsonar.projectName=OTP2 \
+                                  -Dsonar.projectVersion=1.0 \
+                                  -Dsonar.sources=demo/src/main \
+                                  -Dsonar.java.binaries=demo/target/classes \
+                                  -Dsonar.java.libraries=demo/target/classes \
+                                  -Dsonar.issue.exclusions=demo/src/test/**/* \
+                                  -Dsonar.tests=demo/src/test \
+                                  -Dsonar.test.inclusions=demo/src/test/**/*.java \
+                                  -Dsonar.coverage.jacoco.xmlReportPaths=demo/target/site/jacoco/jacoco.xml \
+                                  -Dsonar.login=${env.SONAR_TOKEN}
+                            """
+                        } else {
+                            bat """
+                                mvn -f demo/pom.xml sonar:sonar ^
+                                  -Dsonar.projectKey=SonarOTP2 ^
+                                  -Dsonar.projectName=OTP2 ^
+                                  -Dsonar.projectVersion=1.0 ^
+                                  -Dsonar.sources=demo/src/main ^
+                                  -Dsonar.java.binaries=demo/target/classes ^
+                                  -Dsonar.java.libraries=demo/target/classes ^
+                                  -Dsonar.issue.exclusions=demo/src/test/**/* ^
+                                  -Dsonar.tests=demo/src/test ^
+                                  -Dsonar.test.inclusions=demo/src/test/**/*.java ^
+                                  -Dsonar.coverage.jacoco.xmlReportPaths=demo/target/site/jacoco/jacoco.xml ^
+                                  -Dsonar.login=${env.SONAR_TOKEN}
+                            """
+                        }
+                    }
+                }
             }
         }
 
