@@ -70,7 +70,7 @@ pipeline {
                                   -Dsonar.projectKey=SonarOTP2 \
                                   -Dsonar.projectName=OTP2 \
                                   -Dsonar.projectVersion=1.0 \
-                                  -Dsonar.sources=demo/src/main \
+                                  -Dsonar.sources=demo/src \
                                   -Dsonar.java.binaries=demo/target/classes \
                                   -Dsonar.java.libraries=demo/target/classes \
                                   -Dsonar.issue.exclusions=demo/src/test/**/* \
@@ -85,7 +85,7 @@ pipeline {
                                   -Dsonar.projectKey=SonarOTP2 ^
                                   -Dsonar.projectName=OTP2 ^
                                   -Dsonar.projectVersion=1.0 ^
-                                  -Dsonar.sources=demo/src/main ^
+                                  -Dsonar.sources=demo/src ^
                                   -Dsonar.java.binaries=demo/target/classes ^
                                   -Dsonar.java.libraries=demo/target/classes ^
                                   -Dsonar.issue.exclusions=demo/src/test/**/* ^
