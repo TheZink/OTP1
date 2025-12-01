@@ -16,6 +16,6 @@ class DegreeControllerTest {
 
     @Test
     void addDegree() {
-        assertFalse(degreeController.createDegree("Software engineering", 240));
+        assertTrue(degreeController.createDegree("Software engineering", 240));
     }
 }

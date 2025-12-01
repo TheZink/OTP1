@@ -44,6 +44,7 @@ public class DaoDegree extends Handler {
         }
         else if (request.getType() == RequestType.SETDATA){
             setData(object);
+            return true;
         }
         else if (request.getType() == RequestType.UPDATEDATA){
             updateData(object);
