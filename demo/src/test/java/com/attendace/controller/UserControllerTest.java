@@ -26,17 +26,6 @@ class UserControllerTest {
                 "insinööri"));
     }
 
-
-
-    @Test
-    void getUser() {
-
-    }
-    @Test
-    void getAllUsers() {
-        System.out.println(userController.getAllUsers());
-
-    }
     @Test
     void updateUser() {
         assertTrue(userController.updateUser("Pekka Pouta", 1, "Tähtitiede", "Salasana12345"));
