@@ -17,7 +17,6 @@ import java.util.Map;
 public class DaoCourseUserJoin extends Handler {
 
     private static final String USERID = "id";
-    //private static final String USER_NAME = "user_name";
     private static final String COURSEID = "course_id";
 
 
@@ -47,8 +46,21 @@ public class DaoCourseUserJoin extends Handler {
         return false;
     }
     public void setData(Map<String, Object> data) {
+        int course_id = (int) data.get(COURSEID);
+        int user_id = (int) data.get(USERID);
 
+        Connection connection = DbConnection.getConnection();
+        String sql = "INSERT INTO COURSE_USER_JOIN (user_id, course_id) VALUES (?, ?)";
 
+        try (PreparedStatement ps = connection.prepareStatement(sql);){
+            ps.setInt(1, user_id);
+            ps.setInt(2, course_id);
+
+            ps.executeUpdate();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 public List<Integer> getData(Map<String, Object> object) {
