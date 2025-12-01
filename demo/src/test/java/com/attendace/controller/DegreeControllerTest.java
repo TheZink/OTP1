@@ -16,7 +16,7 @@ class DegreeControllerTest {
 
     @Test
     void addDegree() {
-        degreeController.addDegree("Software engineering", 240);
+        degreeController.createDegree("Software engineering", 240);
         DegreeModel degree = degreeController.getDegree();
 
         assertEquals("Software engineering", degree.getName());
