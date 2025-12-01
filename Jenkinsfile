@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         PATH = "C:\\Program Files\\Docker\\Docker\\resources\\bin;${env.PATH}"
+        JMETER_HOME = 'C:\\Tools\\apache-jmeter-5.6.3'
 
         // Define Docker Hub credentials ID
         DOCKERHUB_CREDENTIALS_ID = 'Docker_Hub'
@@ -42,6 +43,12 @@ pipeline {
                 //junit '**/target/surefire-reports/*.xml'
             //}
         //}
+
+        stage('Non-Functional Test') {
+            steps {
+                bat 'jmeter -n -t tests/performance/demo.jmx -l result.jtl'
+            }
+        }
 
 
         stage('Publish Coverage Report') {
