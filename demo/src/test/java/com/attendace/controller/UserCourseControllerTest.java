@@ -16,11 +16,12 @@ class UserCourseControllerTest {
 
     @Test
     void createUserCourse() {
-        assertTrue(userCourseController.createUserCourse(5, 6));
+        assertTrue(userCourseController.createUserCourse(5, 2));
 
     }
 
     @Test
-    void getUserCourses() {
+    void getUserCoursesById() {
+        userCourseController.getUserCoursesById(5);
     }
 }

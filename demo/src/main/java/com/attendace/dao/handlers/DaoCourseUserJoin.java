@@ -38,13 +38,15 @@ public class DaoCourseUserJoin extends Handler {
 
         if (request.getType() == RequestType.GETDATA) {
             return getData(object);
-        }
-        else if (request.getType() == RequestType.SETDATA){
+        } else if (request.getType() == RequestType.SETDATA) {
             setData(object);
             return true;
+        } else if (request.getType() == RequestType.GETDATABYID) {
+            return getDataById(object);
         }
         return false;
     }
+
     public void setData(Map<String, Object> data) {
         int course_id = (int) data.get(COURSEID);
         int user_id = (int) data.get(USERID);
@@ -52,7 +54,7 @@ public class DaoCourseUserJoin extends Handler {
         Connection connection = DbConnection.getConnection();
         String sql = "INSERT INTO COURSE_USER_JOIN (user_id, course_id) VALUES (?, ?)";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql);){
+        try (PreparedStatement ps = connection.prepareStatement(sql);) {
             ps.setInt(1, user_id);
             ps.setInt(2, course_id);
 
@@ -62,6 +64,39 @@ public class DaoCourseUserJoin extends Handler {
             e.printStackTrace();
         }
     }
+
+    public List<ArrayList<Integer>> getDataById(Map<String, Object> object) {
+
+        Integer userId = (Integer) object.get(USERID);
+        ArrayList<ArrayList<Integer>> data = new ArrayList<>();
+
+        Connection connection = DbConnection.getConnection();
+        String sql = "SELECT course_id FROM COURSE_USER_JOIN WHERE user_id = ?";
+
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);){
+
+            ps.setInt(1, userId);
+            ResultSet rs = ps.executeQuery();
+
+
+            while (rs.next()) {
+                ArrayList<Integer> row = new ArrayList<>();
+                row.add(rs.getInt(COURSEID));
+                data.add(row);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        if (data.isEmpty()) {
+            return new ArrayList<>();
+        } else {
+            return data;
+        }
+    }
+
 
 public List<Integer> getData(Map<String, Object> object) {
 
