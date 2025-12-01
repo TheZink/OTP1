@@ -59,6 +59,7 @@ class DaoStaffTest {
         object.put("role", "Insinööri1");
         object.put("isAdmin", true);
         object.put("password", "12345");
+        object.put("lang", "en");
 
         Request request = new Request(RequestDao.STAFF, RequestType.SETDATA, object);
         assertEquals(true, handler.handle(request));
