@@ -1,6 +1,5 @@
 package com.attendace.controller;
 
-import com.attendace.model.DegreeModel;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

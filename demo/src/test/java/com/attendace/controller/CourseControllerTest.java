@@ -3,9 +3,6 @@ package com.attendace.controller;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class CourseControllerTest {
@@ -28,22 +25,5 @@ class CourseControllerTest {
                 10,
                 20,
                 true));
-    }
-    @Test
-    void updateCourse() {
-
-
-    }
-    @Test
-    void getAllCourses() {
-        List x = courseController.getAllCourses();
-        //ArrayList x1 = x.get(0);
-        System.out.println(x.get(0));
-        //System.out.println(courseController.getAllCourses());
-    }
-    @Test
-    void getStaffsCourses() {
-        //System.out.println(courseController.getStaffsCourses(1));
-        System.out.println(courseController.getCourseById(1));
     }
 }
