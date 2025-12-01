@@ -2,6 +2,8 @@ package com.attendace.controller;
 
 
 import com.attendace.utils.LoginUtils;
+import com.attendace.utils.CryptoUtils;
+
 import com.attendace.dao.Request;
 import com.attendace.dao.handlers.DefaultHandler;
 import com.attendace.dao.requests.RequestDao;
@@ -15,6 +17,7 @@ import java.util.Map;
 public class StaffController {
     private DefaultHandler handler;
     private LoginUtils login;
+    private final CryptoUtils crypto = new CryptoUtils();
     private Request request;
     private Map<String, Object> data;
     private static final String PASSWORD = "password";
@@ -40,7 +43,7 @@ public class StaffController {
         data.put(USERNAME, username);
         data.put("role", role);
         data.put("isAdmin", isAdmin);
-        data.put(PASSWORD, password);
+        data.put(PASSWORD, crypto.hash(password));
         request = new Request(RequestDao.STAFF, RequestType.SETDATA, data);
         return (boolean) handler.handle(request);
     }

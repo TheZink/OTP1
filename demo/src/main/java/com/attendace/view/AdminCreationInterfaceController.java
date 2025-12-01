@@ -124,7 +124,7 @@ public class AdminCreationInterfaceController {
         String username = namefield.getText();
         String role = rolefield.getText();
         boolean admin = isAdmin.isSelected();
-        String password = crypto.hash(passwordfield.getText());
+        String password = passwordfield.getText();
 
         staffController.createStaff(username, role, admin, password);
 
@@ -140,7 +140,7 @@ public class AdminCreationInterfaceController {
         String username = studentName.getText();
         int id = Integer.parseInt(studentId.getText());
         String degree = studentDegree.getText();
-        String password = crypto.hash(studentPasswField.getText());
+        String password = studentPasswField.getText();
 
         userController.createUser(id, username, password, degree);
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
