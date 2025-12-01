@@ -4,6 +4,7 @@ import com.attendace.dao.Request;
 import com.attendace.dao.handlers.DefaultHandler;
 import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
+import com.attendace.model.CourseModel;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -28,11 +29,11 @@ public class UserCourseController {
         return (boolean) handler.handle(request);
 
     }
-    public List<Integer> getUserCoursesById(int user_id) {
+    public List<CourseModel> getUserCoursesById(int user_id) {
         data = new HashMap<>();
         data.put(USERID, user_id);
         request = new Request(RequestDao.USER_COURSE_JOIN, RequestType.GETDATABYID, data);
-        return (ArrayList<Integer>) handler.handle(request);
+        return (List<CourseModel>) handler.handle(request);
 
     }
 }

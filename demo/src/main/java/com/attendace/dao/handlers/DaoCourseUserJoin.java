@@ -5,6 +5,7 @@ import com.attendace.dao.Request;
 import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 import com.attendace.datasource.DbConnection;
+import com.attendace.model.CourseModel;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -65,14 +66,23 @@ public class DaoCourseUserJoin extends Handler {
         }
     }
 
-    public List<ArrayList<Integer>> getDataById(Map<String, Object> object) {
+    public List<CourseModel> getDataById(Map<String, Object> object) {
 
         Integer userId = (Integer) object.get(USERID);
-        ArrayList<ArrayList<Integer>> data = new ArrayList<>();
+        ArrayList<CourseModel> data = new ArrayList<>();
 
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT course_id FROM COURSE_USER_JOIN WHERE user_id = ?";
-
+        String sql = "SELECT " +
+                "course_name, " +
+                "course_topic, " +
+                "course_desc, " +
+                "attendance_key, " +
+                "min_attendance, " +
+                "max_attendance, " +
+                "course_active " +
+                "FROM COURSE " +
+                "JOIN COURSE_USER_JOIN ON COURSE_USER_JOIN.course_id = COURSE.id " +
+                "WHERE COURSE_USER_JOIN.user_id = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);){
 
@@ -81,9 +91,15 @@ public class DaoCourseUserJoin extends Handler {
 
 
             while (rs.next()) {
-                ArrayList<Integer> row = new ArrayList<>();
-                row.add(rs.getInt(COURSEID));
-                data.add(row);
+                CourseModel course = new CourseModel(
+                        rs.getString("course_name"),
+                        rs.getString("course_topic"),
+                        rs.getString("course_desc"),
+                        rs.getInt("min_attendance"),
+                        rs.getInt("max_attendance")
+                );
+                data.add(course);
+
             }
 
         } catch (SQLException e) {

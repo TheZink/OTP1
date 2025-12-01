@@ -3,6 +3,8 @@ package com.attendace.engine;
 import com.attendace.controller.CourseController;
 import com.attendace.controller.StaffController;
 import com.attendace.controller.UserController;
+import com.attendace.controller.UserCourseController;
+import com.attendace.model.CourseModel;
 import com.attendace.model.StaffModel;
 import com.attendace.model.UserModel;
 import com.attendace.view.MainInterfaceController;
@@ -23,6 +25,7 @@ public class MainEngine {
     CourseController courseController;
     UserController userController;
     StaffController staffController;
+    UserCourseController userCourseController;
 
     public MainEngine() {
         //Required empty constructor
@@ -32,6 +35,7 @@ public class MainEngine {
         courseController = new CourseController();
         userController = new UserController();
         staffController = new StaffController();
+        userCourseController = new UserCourseController();
 
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/ProjectInterface.fxml"));
         Parent root = loader.load();
@@ -57,10 +61,6 @@ public class MainEngine {
                         Boolean.parseBoolean(fetcheduser.get(3))
                 );
                 mainInterfaceController.checkAdminStatus(user);
-
-
-
-
                 List<ArrayList<Object>> courses = courseController.getAllCourses();
 
                 try {
@@ -76,12 +76,18 @@ public class MainEngine {
                 mainInterfaceController.disableAdminButton();
 
                 UserModel user = new UserModel(
+                        Integer.parseInt(fetcheduser.get(0)),
                         Integer.parseInt(fetcheduser.get(2)),
                         fetcheduser.get(1),
                         fetcheduser.get(3)
                 );
 
                 List<ArrayList<Object>> courses = courseController.getAllCourses();
+                List<CourseModel> attendingCourses = userCourseController.getUserCoursesById(user.getId());
+
+                for(CourseModel c : attendingCourses) {
+                    user.addCourse(c);
+                }
 
                 try {
                     mainInterfaceController.fillcourses(courses);
