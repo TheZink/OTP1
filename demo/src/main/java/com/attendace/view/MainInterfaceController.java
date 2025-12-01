@@ -6,7 +6,6 @@ import com.attendace.view.Classes.CourseContainer;
 import com.attendace.localisation.Translator;
 import javafx.animation.FadeTransition;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,7 +20,6 @@ import javafx.util.Duration;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 public class MainInterfaceController {
     private AdminInterfaceController admininterfaceController;
@@ -83,7 +81,6 @@ public class MainInterfaceController {
     }
 
     public void checkAdminStatus(StaffModel staff) {
-        System.out.println(staff.getAdminStatus());
         if(staff.getAdminStatus()) {
             enableAdminButton();
             admin = true;
