@@ -231,7 +231,7 @@ public class AdminInterfaceController {
         else if(viewing.equals(M_STAFF)) {handleViewStaff(event);}
         else if(viewing.equals(M_COURSES)) {handleViewCourses(event);}
         else if(viewing.equals(M_ATTENDANCE)) {handleViewAttendance(event);}
-        else if(viewing.equals(M_DEGREE)) {handleViewAttendance(event);}
+        else if(viewing.equals(M_DEGREE)) {handleViewDegrees(event);}
     }
 
     @FXML

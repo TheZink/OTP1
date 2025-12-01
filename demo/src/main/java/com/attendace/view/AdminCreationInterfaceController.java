@@ -1,17 +1,10 @@
 package com.attendace.view;
 
-
-
 import com.attendace.controller.CourseController;
+import com.attendace.controller.DegreeController;
+import com.attendace.controller.StaffController;
 import com.attendace.controller.UserController;
-import com.attendace.dao.Handler;
-import com.attendace.dao.Request;
-import com.attendace.dao.handlers.DefaultHandler;
-import com.attendace.dao.requests.RequestDao;
-import com.attendace.dao.requests.RequestType;
 import com.attendace.utils.CryptoUtils;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.logging.Logger;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -26,7 +19,6 @@ public class AdminCreationInterfaceController {
 
     private CourseController courseController = new CourseController();
     private CryptoUtils crypto = new CryptoUtils();
-    private Handler handler = new DefaultHandler();
 
     // For Staff interface
     @FXML
@@ -94,12 +86,12 @@ public class AdminCreationInterfaceController {
     private Button cancelButton;
 
     String regex = "[^\\d]";
-    private static final UserController userController = new UserController();
+    UserController userController = new UserController();
+    StaffController staffController = new StaffController();
+    DegreeController degreeController = new DegreeController();
+
 
     public void initialize() {
-
-
-
 
         if (studentId != null) {
             studentId.textProperty().addListener((observable, oldValue, newValue) -> {
@@ -128,15 +120,13 @@ public class AdminCreationInterfaceController {
     @FXML
     private void handleSaveStaff(ActionEvent event) {
         log.info("handleSaveStaff");
-        Map<String, Object> object = new HashMap<>();
 
-        object.put("username", namefield.getText());
-        object.put("role", rolefield.getText());
-        object.put("isAdmin", isAdmin.isSelected());
-        object.put("password", crypto.hash(passwordfield.getText()));
+        String username = namefield.getText();
+        String role = rolefield.getText();
+        boolean admin = isAdmin.isSelected();
+        String password = crypto.hash(passwordfield.getText());
 
-        Request request = new Request(RequestDao.STAFF, RequestType.SETDATA, object);
-        handler.handle(request);
+        staffController.createStaff(username, role, admin, password);
 
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
     }
@@ -152,14 +142,10 @@ public class AdminCreationInterfaceController {
         String degree = studentDegree.getText();
         String password = crypto.hash(studentPasswField.getText());
 
-
         userController.createUser(id, username, password, degree);
-
-
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 
     }
-
     // -- Course creation handler --
 
     @FXML
@@ -185,18 +171,9 @@ public class AdminCreationInterfaceController {
 
     @FXML
     private void handleSaveDegree(ActionEvent event) {
-        log.info("handleSaveDegree");
-        Map<String, Object> object = new HashMap<>();
-
         String degreeName = degreefield.getText();
         int ects = ectsfield.getText().isEmpty() ? 0 : Integer.parseInt(ectsfield.getText());
-
-        object.put("degreeName", degreeName);
-        object.put("degreeEcts", ects);
-
-        Request request = new Request(RequestDao.DEGREE, RequestType.SETDATA, object);
-        handler.handle(request);
-
+        degreeController.createDegree(degreeName, ects);
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
     }
 

@@ -48,7 +48,7 @@ public class UserController {
         data = new HashMap<>();
         data.put("name", name);
         data.put("id", id);
-        data.put("degree", degree);
+        data.put(DEGREE, degree);
         data.put(PASSWORD, password);
 
         request = new Request(RequestDao.USERS, RequestType.UPDATEDATA, data);
