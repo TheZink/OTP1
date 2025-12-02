@@ -1,7 +1,9 @@
 package com.attendace.controller;
 
 import com.attendace.utils.CryptoUtils;
+import com.attendace.utils.LangUtils;
 import com.attendace.utils.LoginUtils;
+
 import com.attendace.dao.Request;
 import com.attendace.dao.handlers.DefaultHandler;
 import com.attendace.dao.requests.RequestDao;
@@ -16,6 +18,7 @@ public class UserController {
 
     private DefaultHandler handler;
     private LoginUtils login;
+    private LangUtils langUtils;
     private CryptoUtils crypto = new CryptoUtils();
     private Request request;
     private Map<String, Object> data;
@@ -27,14 +30,28 @@ public class UserController {
     public UserController() {
         this.handler = new DefaultHandler();
         this.login = new LoginUtils();
+        this.langUtils = new LangUtils();
     }
 
     public String loginUser(String username, String password) {
         data = new HashMap<>();
         data.put(USERNAME, username);
         data.put(PASSWORD, password);
-        return login.login(data);
+        String userType = login.login(data);
+        userLanguage(data, userType);
+        return userType;
     }
+
+    public void userLanguage(Map<String, Object> object, String userType){
+        List<String> lang = langUtils.language(object, userType);
+        String language = lang.get(lang.size() - 1);
+        String id = lang.get(lang.size() - 2);
+
+        if (!language.equals("null") || language != null) {
+            langUtils.setLanguage(language);
+        }
+    }
+
     public boolean createUser(int studentId, String name, String password, String userDegree) {
         data = new HashMap<>();
         data.put(USERNAME, name);

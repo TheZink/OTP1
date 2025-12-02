@@ -65,6 +65,9 @@ public class DaoStaff extends Handler {
         else if (request.getType() == RequestType.SIGNIN){
             return checkLogin(object);
         }
+        else if (request.getType() == RequestType.LANGUAGE){
+            return checkLang(object);
+        }
         else if (request.getType() == RequestType.UPDATEDATA){
             updateData(object);
             return true;
@@ -72,6 +75,7 @@ public class DaoStaff extends Handler {
         else if (request.getType() == RequestType.REMOVEDATA){
             removeData(object);
         }
+
         return false;
 
 
@@ -196,6 +200,32 @@ public class DaoStaff extends Handler {
         }
         return false;
     }
+
+    public List<String> checkLang(Map<String, Object> data) {
+        ArrayList<String> object = new ArrayList<>();
+        String username = (String) data.get(USERNAME);
+        Connection connection = DbConnection.getConnection();
+        String sql = "SELECT id, lang FROM STAFF WHERE staff_name = ?";
+
+        try (PreparedStatement ps = connection.prepareStatement(sql);) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                object.add(Integer.toString(rs.getInt(ID)));
+                object.add(rs.getString(LANGUAGE));
+                return object;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (object.isEmpty()) {
+            return new ArrayList<>();
+        } else {
+            return object;
+        }
+    }
+
     public void updateData(Map<String, Object> object) {
         int id = (int) object.get(ID);
         String name = (String) object.get(STAFFNAME);
@@ -205,7 +235,13 @@ public class DaoStaff extends Handler {
         String lang = (String) object.get(LANGUAGE);
 
         Connection connection = DbConnection.getConnection();
-        String sql = "UPDATE STAFF SET staff_name = ?, staff_role = ?, staff_admin = ?, staff_passw = COALESCE(NULLIF(?,''), staff_passw), lang = ? WHERE id = ?";
+        String sql = "UPDATE STAFF SET " +
+                "staff_name = COALESCE(NULLIF(?,''), staff_name), " +
+                "staff_role = COALESCE(NULLIF(?,''), staff_role), " +
+                "staff_admin = COALESCE(?, staff_admin), " +
+                "staff_passw = COALESCE(NULLIF(?,''), staff_passw), " +
+                "lang = COALESCE(NULLIF(?,''), lang) " +
+                "WHERE id = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, name);

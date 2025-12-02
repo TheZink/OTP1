@@ -64,6 +64,9 @@ public class DaoUser extends Handler {
         else if (request.getType() == RequestType.SIGNIN){
             return checkLogin(data);
         }
+        else if (request.getType() == RequestType.LANGUAGE) {
+            return checkLang(data);
+        }
         else if (request.getType() == RequestType.UPDATEDATA){
             updateData(data);
             return true;
@@ -179,7 +182,13 @@ public class DaoUser extends Handler {
 
 
         Connection connection = DbConnection.getConnection();
-        String sql = "UPDATE USERS SET user_name = ?, user_student_id = ?, user_degree = ?, user_passw = COALESCE(NULLIF(?,''), user_passw), lang = ? WHERE id = ?";
+        String sql = "UPDATE USERS SET " +
+                    "user_name = COALESCE(NULLIF(?,''), user_name), " +
+                    "user_student_id = COALESCE(?, user_student_id), " +
+                    "user_degree = COALESCE(NULLIF(?,''), user_degree), " +
+                    "user_passw = COALESCE(NULLIF(?,''), user_passw), " +
+                    "lang = COALESCE(NULLIF(?,''), lang) " +
+                    "WHERE id = ?";
         
         try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, name);
@@ -218,6 +227,31 @@ public class DaoUser extends Handler {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public List<String> checkLang(Map<String, Object> data){
+        ArrayList<String> object = new ArrayList<>();
+        String username = (String) data.get(USERNAME);
+        Connection connection = DbConnection.getConnection();
+        String sql = "SELECT id, lang FROM USERS WHERE user_name = ?";
+        
+        try (PreparedStatement ps = connection.prepareStatement(sql);) {
+            ps.setString(1, username);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                object.add(Integer.toString(rs.getInt(ID)));
+                object.add(rs.getString(LANGUAGE));
+                return object;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        if (object.isEmpty()) {
+            return new ArrayList<>();
+        } else {
+            return object;
+        }
     }
 
     public void removeData(Map<String, Object> object) {
