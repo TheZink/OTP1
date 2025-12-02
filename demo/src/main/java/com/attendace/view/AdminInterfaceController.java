@@ -20,6 +20,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.NodeOrientation;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -127,6 +128,7 @@ public class AdminInterfaceController {
     private static final String M_DEGREE = "degree";
 
     private static final String M_PASSWORD = "password";
+    private static final String M_PERSIAN = "fa_IR";
 
     Handler handler = new DefaultHandler();
     Map<String, Object> object = new HashMap<>();
@@ -324,6 +326,16 @@ public class AdminInterfaceController {
             ((Button) root.lookup(LK_SAVEBUTTON)).setText(Translator.getString(T_CREATE));
             ((Button) root.lookup(LK_CANCELBUTTON)).setText(Translator.getString(T_CANCEL));
 
+            if (Translator.getLocale().toString().equals(M_PERSIAN)) {
+                (root.lookup(LK_PASSWDFIELD)).setNodeOrientation(javafx.geometry.NodeOrientation.LEFT_TO_RIGHT);
+                (root.lookup(LK_ROLEFIELD)).setNodeOrientation(javafx.geometry.NodeOrientation.LEFT_TO_RIGHT);
+                (root.lookup(LK_NAMEFIELD)).setNodeOrientation(javafx.geometry.NodeOrientation.LEFT_TO_RIGHT);
+            } else {
+                (root.lookup(LK_PASSWDFIELD)).setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
+                (root.lookup(LK_ROLEFIELD)).setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
+                (root.lookup(LK_NAMEFIELD)).setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
+            }
+
             Stage stage = new Stage();
             stage.setTitle(Translator.getString(T_ADMIN_CREATE_STAFF));
             stage.setScene(new Scene(root));
@@ -356,7 +368,17 @@ public class AdminInterfaceController {
             ((Button) root.lookup(LK_SAVEBUTTON)).setText(Translator.getString(T_CREATE));
             ((Button) root.lookup(LK_CANCELBUTTON)).setText(Translator.getString(T_CANCEL));
 
-
+            if (Translator.getLocale().toString().equals(M_PERSIAN)) {
+                (root.lookup(LK_STUDENT_PASSW)).setNodeOrientation(javafx.geometry.NodeOrientation.LEFT_TO_RIGHT);
+                (root.lookup(LK_STUDENT_ID)).setNodeOrientation(javafx.geometry.NodeOrientation.LEFT_TO_RIGHT);
+                (root.lookup(LK_STUDENT_NAME)).setNodeOrientation(javafx.geometry.NodeOrientation.LEFT_TO_RIGHT);
+                (root.lookup(LK_STUDENT_DEGREE)).setNodeOrientation(javafx.geometry.NodeOrientation.LEFT_TO_RIGHT);
+            } else {
+                (root.lookup(LK_STUDENT_PASSW)).setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
+                (root.lookup(LK_STUDENT_ID)).setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
+                (root.lookup(LK_STUDENT_NAME)).setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
+                (root.lookup(LK_STUDENT_DEGREE)).setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
+            }
 
 
             Stage stage = new Stage();
@@ -394,6 +416,22 @@ public class AdminInterfaceController {
             ((Button) root.lookup(LK_SAVEBUTTON)).setText(Translator.getString(T_CREATE));
             ((Button) root.lookup(LK_CANCELBUTTON)).setText(Translator.getString(T_CANCEL));
 
+            if (Translator.getLocale().toString().equals(M_PERSIAN)) {
+                (root.lookup(LK_COURSE_NAME)).setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+                (root.lookup(LK_COURSE_TOPIC)).setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+                (root.lookup(LK_COURSE_DESC)).setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+                (root.lookup(LK_MIN_COURSE_ATTEND)).setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+                (root.lookup(LK_MAX_COURSE_ATTEND)).setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+                (root.lookup(LK_COURSE_ATTEND_CODE)).setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+            } else {
+                (root.lookup(LK_COURSE_NAME)).setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+                (root.lookup(LK_COURSE_TOPIC)).setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+                (root.lookup(LK_COURSE_DESC)).setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+                (root.lookup(LK_MIN_COURSE_ATTEND)).setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+                (root.lookup(LK_MAX_COURSE_ATTEND)).setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+                (root.lookup(LK_COURSE_ATTEND_CODE)).setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+            }
+
             Stage stage = new Stage();
             stage.setTitle(Translator.getString(T_ADMIN_CREATE_COURSE));
             stage.setScene(new Scene(root));
@@ -418,6 +456,14 @@ public class AdminInterfaceController {
 
             ((Button) root.lookup(LK_SAVEBUTTON)).setText(Translator.getString(T_CREATE));
             ((Button) root.lookup(LK_CANCELBUTTON)).setText(Translator.getString(T_CANCEL));
+
+            if (Translator.getLocale().toString().equals(M_PERSIAN)) {
+                (root.lookup(LK_DEGREE_FIELD)).setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+                (root.lookup(LK_ECTS_FIELD)).setNodeOrientation(NodeOrientation.LEFT_TO_RIGHT);
+            } else {
+                (root.lookup(LK_DEGREE_FIELD)).setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+                (root.lookup(LK_ECTS_FIELD)).setNodeOrientation(NodeOrientation.RIGHT_TO_LEFT);
+            }
 
             Stage stage = new Stage();
             stage.setTitle(Translator.getString(T_ADMIN_CREATE_DEGREE));

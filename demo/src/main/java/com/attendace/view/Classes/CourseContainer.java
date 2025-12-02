@@ -28,6 +28,14 @@ public class CourseContainer {
         Text courseteachertext = (Text) root.lookup("#courseteacher");
         courseteachertext.setText("Opettaja: " + "NULL");
 
+        if (Translator.getLocale().toString().equals("fa_IR")) {
+            coursenametext.setTextAlignment(javafx.scene.text.TextAlignment.RIGHT);
+            courseteachertext.setTextAlignment(javafx.scene.text.TextAlignment.RIGHT);
+        } else {
+            coursenametext.setTextAlignment(javafx.scene.text.TextAlignment.LEFT);
+            courseteachertext.setTextAlignment(javafx.scene.text.TextAlignment.LEFT);
+        }
+
         this.node = root;
     }
 

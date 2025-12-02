@@ -21,6 +21,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static javafx.scene.text.TextAlignment.RIGHT;
+
 public class MainInterfaceController {
     private AdminInterfaceController admininterfaceController;
 
@@ -74,10 +76,29 @@ public class MainInterfaceController {
         coursesbutton.setText(Translator.getString("main.coursesButton"));
         adminpanel.setText(Translator.getString("main.adminButton"));
 
-        statuslabel.setText("Student");
+        statuslabel.setText(Translator.getString("student"));
         rolelabel.setText(Translator.getString("profile.roleLabel"));
         participatingIn.setText(Translator.getString("profile.participatingIn"));
 
+        if (Translator.getLocale().toString().equals("fa_IR")) {
+            statuslabel.setTextAlignment(RIGHT);
+            rolelabel.setTextAlignment(RIGHT);
+            participatingIn.setTextAlignment(RIGHT);
+            studentidlabel.setTextAlignment(RIGHT);
+            usernamelabel.setTextAlignment(RIGHT);
+            degreelabel.setTextAlignment(RIGHT);
+
+            participatingcoursesgrid.setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
+        } else {
+            participatingcoursesgrid.setNodeOrientation(javafx.geometry.NodeOrientation.LEFT_TO_RIGHT);
+
+            statuslabel.setTextAlignment(javafx.scene.text.TextAlignment.LEFT);
+            rolelabel.setTextAlignment(javafx.scene.text.TextAlignment.LEFT);
+            participatingIn.setTextAlignment(javafx.scene.text.TextAlignment.LEFT);
+            studentidlabel.setTextAlignment(javafx.scene.text.TextAlignment.LEFT);
+            usernamelabel.setTextAlignment(javafx.scene.text.TextAlignment.LEFT);
+            degreelabel.setTextAlignment(javafx.scene.text.TextAlignment.LEFT);
+        }
     }
 
     public void checkAdminStatus(StaffModel staff) {

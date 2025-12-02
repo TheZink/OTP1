@@ -157,17 +157,17 @@
                <children>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;">
                      <children>
-                        <Text fx:id="statuslabel" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student" wrappingWidth="288.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <Text fx:id="statuslabel" layoutX="14.0" layoutY="33.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Student" wrappingWidth="325.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Text>
-                        <Text fx:id="usernamelabel" layoutX="10.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Toni Testaaja" wrappingWidth="288.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="40.0">
+                        <Text fx:id="usernamelabel" layoutX="10.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Toni Testaaja" wrappingWidth="325.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="40.0">
                            <font>
                               <Font size="17.0" />
                            </font>
                         </Text>
-                        <Text fx:id="studentidlabel" layoutX="10.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00000" wrappingWidth="288.13671875" AnchorPane.topAnchor="62.0">
+                        <Text fx:id="studentidlabel" layoutX="10.0" layoutY="69.0" strokeType="OUTSIDE" strokeWidth="0.0" text="00000" wrappingWidth="325.0" AnchorPane.topAnchor="62.0">
                            <font>
                               <Font name="System Italic" size="15.0" />
                            </font>
@@ -176,12 +176,12 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;" GridPane.rowIndex="1">
                      <children>
-                        <Text fx:id="rolelabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Degree Program" wrappingWidth="288.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <Text fx:id="rolelabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Degree Program" wrappingWidth="325.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>
                         </Text>
-                        <Text fx:id="degreelabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Software Engineering" wrappingWidth="288.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="40.0">
+                        <Text fx:id="degreelabel" strokeType="OUTSIDE" strokeWidth="0.0" text="Software Engineering" wrappingWidth="325.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="40.0">
                            <font>
                               <Font size="17.0" />
                            </font>
@@ -190,7 +190,7 @@
                   </AnchorPane>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0" style="-fx-background-color: #ffffff; -fx-background-radius: 5;" GridPane.rowIndex="2">
                      <children>
-                        <Text fx:id="participatingIn" strokeType="OUTSIDE" strokeWidth="0.0" text="Participating In" wrappingWidth="288.13671875" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <Text fx:id="participatingIn" strokeType="OUTSIDE" strokeWidth="0.0" text="Participating In" wrappingWidth="325.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                            <font>
                               <Font name="System Bold" size="20.0" />
                            </font>

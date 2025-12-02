@@ -15,6 +15,10 @@ public class Translator {
         resourceBundle = ResourceBundle.getBundle("ResourceBundle", locale);
     }
 
+    public static Locale getLocale() {
+        return resourceBundle.getLocale();
+    }
+
     public static String getString(String key) {
         return resourceBundle.getString(key);
     }

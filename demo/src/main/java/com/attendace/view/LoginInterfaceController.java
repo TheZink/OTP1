@@ -65,6 +65,22 @@ public class LoginInterfaceController extends Application {
         for (MenuItem item : items) {
             item.setText(Translator.getString("login." + item.getId()));
         }
+
+        if (Translator.getLocale().toString().equals("fa_IR")) {
+            emailfield.setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
+            passwordfield.setNodeOrientation(javafx.geometry.NodeOrientation.RIGHT_TO_LEFT);
+
+            usernametext.setTextAlignment(javafx.scene.text.TextAlignment.RIGHT);
+            passwordtext.setTextAlignment(javafx.scene.text.TextAlignment.RIGHT);
+            failedtext.setTextAlignment(javafx.scene.text.TextAlignment.RIGHT);
+        } else {
+            emailfield.setNodeOrientation(javafx.geometry.NodeOrientation.LEFT_TO_RIGHT);
+            passwordfield.setNodeOrientation(javafx.geometry.NodeOrientation.LEFT_TO_RIGHT);
+
+            usernametext.setTextAlignment(javafx.scene.text.TextAlignment.LEFT);
+            passwordtext.setTextAlignment(javafx.scene.text.TextAlignment.LEFT);
+            failedtext.setTextAlignment(javafx.scene.text.TextAlignment.LEFT);
+        }
     }
 
     @FXML
