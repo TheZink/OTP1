@@ -83,7 +83,6 @@ public class DaoCourseStaffJoin extends Handler {
         }
     }
 
-    // Fetch course_id's of specific staff. SHOULD WORK
     public List<Integer> getData(Map<String, Object> object){
 
         Integer staffId = (Integer) object.get(STAFFID);
@@ -111,6 +110,6 @@ public class DaoCourseStaffJoin extends Handler {
     }
 
     public void setData(Map<String, Object> data) {
-        // NOT WORKING
+
     }
 }

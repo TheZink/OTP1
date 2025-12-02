@@ -177,7 +177,7 @@ public class MainInterfaceController {
         stage.show();
 
         ArrayList<UserModel> users = new ArrayList<>();
-        users.add(new UserModel(25012, "Matti Meikäläinen", "Software Engineer"));
+        //users.add(new UserModel(25012, "Matti Meikäläinen", "Software Engineer"));
 
         Platform.runLater(() -> {
             AttendanceListController attendanceListController = loader.getController();
