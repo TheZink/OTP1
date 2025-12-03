@@ -126,7 +126,10 @@ public class AdminCreationInterfaceController {
         boolean admin = isAdmin.isSelected();
         String password = passwordfield.getText();
 
-        staffController.createStaff(username, role, admin, password);
+        //HARDCODED CHANGE
+        String lang = "fi";
+
+        staffController.createStaff(username, role, admin, password, lang);
 
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
     }
@@ -142,7 +145,10 @@ public class AdminCreationInterfaceController {
         String degree = studentDegree.getText();
         String password = studentPasswField.getText();
 
-        userController.createUser(id, username, password, degree);
+        //HARDCODED CHANGE
+        String lang = "fi";
+
+        userController.createUser(id, username, password, degree, lang);
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 
     }

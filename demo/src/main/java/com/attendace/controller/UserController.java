@@ -57,12 +57,13 @@ public class UserController {
         }
     }
 
-    public boolean createUser(int studentId, String name, String password, String userDegree) {
+    public boolean createUser(int studentId, String name, String password, String userDegree, String lang) {
         data = new HashMap<>();
         data.put(USERNAME, name);
         data.put(STUDENTID, studentId);
         data.put(DEGREE, userDegree);
         data.put(PASSWORD, crypto.hash(password));
+        data.put("lang", lang);
         request = new Request(RequestDao.USERS, RequestType.SETDATA, data);
         return (boolean) handler.handle(request);
     }

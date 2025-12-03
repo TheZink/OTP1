@@ -1,5 +1,6 @@
 package com.attendace.view;
 
+import com.attendace.model.CourseModel;
 import com.attendace.model.StaffModel;
 import com.attendace.model.UserModel;
 import com.attendace.view.Classes.CourseContainer;
@@ -110,6 +111,14 @@ public class MainInterfaceController {
             disableAdminButton();
             admin = false;
         }
+    }
+    public void fillParticipatingCourses(UserModel user) {
+
+        for(CourseModel course : user.getUserCourses()) {
+            String courseName =  course.getCourseName();
+            participatingcoursesgrid.add(new Text(courseName), 1, 0);
+        }
+
     }
     public void disableAdminButton() {
         adminpanel.setVisible(false);

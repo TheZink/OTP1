@@ -38,12 +38,13 @@ public class StaffController {
     }
 
 
-    public boolean createStaff(String username, String role, boolean isAdmin, String password) {
+    public boolean createStaff(String username, String role, boolean isAdmin, String password, String lang) {
         data = new HashMap<>();
         data.put(USERNAME, username);
         data.put("role", role);
         data.put("isAdmin", isAdmin);
         data.put(PASSWORD, crypto.hash(password));
+        data.put("lang", lang);
         request = new Request(RequestDao.STAFF, RequestType.SETDATA, data);
         return (boolean) handler.handle(request);
     }
