@@ -26,6 +26,7 @@ public class UserController {
     private static final String USERNAME = "username";
     private static final String STUDENTID = "user_student_id";
     private static final String DEGREE = "degree";
+    private static final String LANGUAGE = "lang";
 
     public UserController() {
         this.handler = new DefaultHandler();
@@ -44,11 +45,15 @@ public class UserController {
 
     public void userLanguage(Map<String, Object> object, String userType){
         List<String> lang = langUtils.language(object, userType);
-        String language = lang.get(lang.size() - 1);
-        String id = lang.get(lang.size() - 2);
+        String getLang = lang.get(lang.size() - 1);
+        int id = Integer.parseInt(lang.get(lang.size() - 2));
 
-        if (!language.equals("null") || language != null) {
-            langUtils.setLanguage(language);
+        if (getLang.equals("NULL") || getLang.isEmpty()) {
+            // String localLang = langUtils.getLanguage();
+            // String setLang = langUtils.setLanguage(localLang);
+            // updateUser("", id, "", "", setLang);
+        } else {
+            langUtils.setLanguage(getLang);
         }
     }
 
@@ -63,12 +68,13 @@ public class UserController {
     }
 
 
-    public boolean updateUser(String name, int id, String degree, String password) {
+    public boolean updateUser(String name, int id, String degree, String password, String language) {
         data = new HashMap<>();
         data.put("name", name);
         data.put("id", id);
         data.put(DEGREE, degree);
         data.put(PASSWORD, password);
+        data.put(LANGUAGE, language);
 
         request = new Request(RequestDao.USERS, RequestType.UPDATEDATA, data);
         return (boolean) handler.handle(request);
