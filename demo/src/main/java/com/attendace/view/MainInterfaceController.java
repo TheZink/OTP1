@@ -1,5 +1,6 @@
 package com.attendace.view;
 
+import com.attendace.model.CourseModel;
 import com.attendace.model.StaffModel;
 import com.attendace.model.UserModel;
 import com.attendace.view.Classes.CourseContainer;
@@ -11,8 +12,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -57,6 +62,9 @@ public class MainInterfaceController {
 
     @FXML
     private Text statuslabel;
+
+    @FXML
+    private Text notEnrolled;
 
     @FXML
     private GridPane participatingcoursesgrid;
@@ -109,6 +117,24 @@ public class MainInterfaceController {
         } else if(!staff.getAdminStatus()) {
             disableAdminButton();
             admin = false;
+        }
+    }
+    public void fillParticipatingCourses(UserModel user) {
+
+        //profile.userCoursesEmpty
+        if(user.getUserCourses().isEmpty()) {
+            notEnrolled.setText(Translator.getString("profile.userCoursesEmpty"));
+
+        } else {
+            ListView<String> list = new ListView();
+            participatingcoursesgrid.add(list, 0, 0);
+            for(CourseModel course : user.getUserCourses()) {
+                String courseName =  course.getCourseName();
+                list.getItems().add(courseName);
+
+        }
+
+
         }
     }
     public void disableAdminButton() {

@@ -7,13 +7,15 @@ public class StaffModel {
     private String name;
     private String staffRole;
     private boolean admin;
+    private String lang;
 
 
-    public StaffModel(int staffId, String name, String staffRole, boolean admin) {
+    public StaffModel(int staffId, String name, String staffRole, boolean admin, String lang) {
         this.staffId = staffId;
         this.name = name;
         this.staffRole = staffRole;
         this.admin = admin;
+        this.lang = lang;
 
     }
     public int getStaffId() {

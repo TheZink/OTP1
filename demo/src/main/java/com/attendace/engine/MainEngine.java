@@ -54,11 +54,13 @@ public class MainEngine {
 
                 List<String> fetcheduser = staffController.getStaff(username);
 
+                System.out.println(fetcheduser);
                 StaffModel user = new StaffModel(
                         Integer.parseInt(fetcheduser.get(0)),
                         fetcheduser.get(1),
                         fetcheduser.get(2),
-                        Boolean.parseBoolean(fetcheduser.get(3))
+                        Boolean.parseBoolean(fetcheduser.get(3)),
+                        fetcheduser.get(6)
                 );
                 mainInterfaceController.checkAdminStatus(user);
                 List<ArrayList<Object>> courses = courseController.getAllCourses();
@@ -79,7 +81,8 @@ public class MainEngine {
                         Integer.parseInt(fetcheduser.get(0)),
                         Integer.parseInt(fetcheduser.get(2)),
                         fetcheduser.get(1),
-                        fetcheduser.get(3)
+                        fetcheduser.get(3),
+                        fetcheduser.get(6)
                 );
 
                 List<ArrayList<Object>> courses = courseController.getAllCourses();
@@ -88,6 +91,7 @@ public class MainEngine {
                 for(CourseModel c : attendingCourses) {
                     user.addCourse(c);
                 }
+                mainInterfaceController.fillParticipatingCourses(user);
 
                 try {
                     mainInterfaceController.fillcourses(courses);
