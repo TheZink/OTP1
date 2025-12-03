@@ -7,5 +7,6 @@ public enum RequestType {
     SETDATA,
     REMOVEDATA,
     UPDATEDATA,
-    SIGNIN
+    SIGNIN,
+    LANGUAGE
 }

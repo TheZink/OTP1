@@ -28,6 +28,6 @@ class UserControllerTest {
 
     @Test
     void updateUser() {
-        assertTrue(userController.updateUser("Pekka Pouta", 1, "Tähtitiede", "Salasana12345"));
+        assertTrue(userController.updateUser("Pekka Pouta", 1, "Tähtitiede", "Salasana12345", ""));
     }
 }
