@@ -12,8 +12,12 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -113,12 +117,12 @@ public class MainInterfaceController {
         }
     }
     public void fillParticipatingCourses(UserModel user) {
-
+        ListView<String> list = new ListView();
+        participatingcoursesgrid.add(list, 0, 0);
         for(CourseModel course : user.getUserCourses()) {
             String courseName =  course.getCourseName();
-            participatingcoursesgrid.add(new Text(courseName), 1, 0);
+            list.getItems().add(courseName);
         }
-
     }
     public void disableAdminButton() {
         adminpanel.setVisible(false);

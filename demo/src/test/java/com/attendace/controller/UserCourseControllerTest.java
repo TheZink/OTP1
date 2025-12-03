@@ -16,7 +16,7 @@ class UserCourseControllerTest {
 
     @Test
     void createUserCourse() {
-        assertTrue(userCourseController.createUserCourse(5, 2));
+        assertTrue(userCourseController.createUserCourse(7, 3));
 
     }
 
