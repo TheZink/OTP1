@@ -64,6 +64,9 @@ public class MainInterfaceController {
     private Text statuslabel;
 
     @FXML
+    private Text notEnrolled;
+
+    @FXML
     private GridPane participatingcoursesgrid;
 
     @FXML
@@ -117,11 +120,21 @@ public class MainInterfaceController {
         }
     }
     public void fillParticipatingCourses(UserModel user) {
-        ListView<String> list = new ListView();
-        participatingcoursesgrid.add(list, 0, 0);
-        for(CourseModel course : user.getUserCourses()) {
-            String courseName =  course.getCourseName();
-            list.getItems().add(courseName);
+
+        //profile.userCoursesEmpty
+        if(user.getUserCourses().isEmpty()) {
+            notEnrolled.setText(Translator.getString("profile.userCoursesEmpty"));
+
+        } else {
+            ListView<String> list = new ListView();
+            participatingcoursesgrid.add(list, 0, 0);
+            for(CourseModel course : user.getUserCourses()) {
+                String courseName =  course.getCourseName();
+                list.getItems().add(courseName);
+
+        }
+
+
         }
     }
     public void disableAdminButton() {

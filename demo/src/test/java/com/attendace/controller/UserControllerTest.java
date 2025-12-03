@@ -21,9 +21,9 @@ class UserControllerTest {
     @Test
     void createUser() {
         assertTrue(userController.createUser(124,
-                "useri",
+                "noob1",
                 "lol",
-                "insinööri", "fi"));
+                "insinööri", ""));
     }
 
     @Test
