@@ -12,13 +12,13 @@ Currently, the application localisation works by selecting one of 4 language fro
 
 Language change happens while logging in and will be in effect while using the application. Admins will also see the language change in the adminpanel. Language cannot be changed afterwards while using the application.
 
+If the user has been chosen a language before hand, upon signing in the pages will automatically translate to the chosen language. If the user manually chooses another language in the login page, the language will change to the new one. 
+In addition, it is planned for automatic saving to the database depending on the login choice (TBA)
+
 ## Localisation Resources
 
 For localisation, translations have been provided from [Google Translate](https://translate.google.fi/?sl=auto&tl=fi&op=translate) and [DeepL](https://www.deepl.com/en/translator)
 Localisation is done through ResourceBundles and all translated words are stored as keys. There is a possibility to use database for translation and a SQL script has been provided inside the scripts folder
-
-If the user has been chosen a language before hand, upon signing in the pages will automatically translate to the chosen language. If the user manually chooses another language in the login page, the language will change to the new one. 
-In addition, it is planned for automatic saving to the database depending on the login choice (TBA)
 
 ## SonarQube Latest Report
 
