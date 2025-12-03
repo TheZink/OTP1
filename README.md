@@ -17,6 +17,9 @@ Language change happens while logging in and will be in effect while using the a
 For localisation, translations have been provided from [Google Translate](https://translate.google.fi/?sl=auto&tl=fi&op=translate) and [DeepL](https://www.deepl.com/en/translator)
 Localisation is done through ResourceBundles and all translated words are stored as keys. There is a possibility to use database for translation and a SQL script has been provided inside the scripts folder
 
+If the user has been chosen a language before hand, upon signing in the pages will automatically translate to the chosen language. If the user manually chooses another language in the login page, the language will change to the new one. 
+In addition, it is planned for automatic saving to the database depending on the login choice (TBA)
+
 ## SonarQube Latest Report
 
 <img width="1194" height="498" alt="kuva" src="https://github.com/user-attachments/assets/2e50f72b-49f4-4c08-a823-f15f7e412249" />
