@@ -45,7 +45,6 @@ public class UserController {
 
     public void userLanguage(Map<String, Object> object, String userType){
         List<String> lang = langUtils.language(object, userType);
-        System.out.println(lang);
         String getLang = lang.get(lang.size() - 1);
         int id = Integer.parseInt(lang.get(lang.size() - 2));
 

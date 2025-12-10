@@ -99,9 +99,9 @@ pipeline {
             steps {
                 script {
                     if (isUnix()) {
-                        sh 'mvn -f demo/pom.xml clean package' //-DskipTests
+                        sh 'mvn -f demo/pom.xml clean package -DskipTests' //
                     } else {
-                        bat 'mvn -f demo/pom.xml clean package' //-DskipTests
+                        bat 'mvn -f demo/pom.xml clean package -DskipTests' //
                     }
                 }
             }
