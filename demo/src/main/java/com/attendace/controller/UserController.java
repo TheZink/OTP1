@@ -45,10 +45,11 @@ public class UserController {
 
     public void userLanguage(Map<String, Object> object, String userType){
         List<String> lang = langUtils.language(object, userType);
+        System.out.println(lang);
         String getLang = lang.get(lang.size() - 1);
         int id = Integer.parseInt(lang.get(lang.size() - 2));
 
-        if (getLang.equals("NULL") || getLang.isEmpty()) {
+        if (getLang == null || getLang.isEmpty() || getLang.equals("NULL")) {
             // String localLang = langUtils.getLanguage();
             // String setLang = langUtils.setLanguage(localLang);
             // updateUser("", id, "", "", setLang);
