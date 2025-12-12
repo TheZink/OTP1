@@ -23,13 +23,11 @@ Localisation is done through ResourceBundles and all translated words are stored
 ## SonarQube Latest Report
 
 <img width="1194" height="498" alt="kuva" src="https://github.com/user-attachments/assets/2e50f72b-49f4-4c08-a823-f15f7e412249" />
-<img width="1197" height="689" alt="kuva" src="https://github.com/user-attachments/assets/e2296d4b-739b-4ee0-b0f0-422b59eb9f0d" />
-<img width="1189" height="704" alt="kuva" src="https://github.com/user-attachments/assets/ebd2874d-26cc-41ea-a589-f652530572b0" />
-<img width="1194" height="700" alt="kuva" src="https://github.com/user-attachments/assets/e07425e8-68bd-4280-b27b-be5a708cf032" />
-
 
 ## Other resources
-
+[Product Documentation]()
+[Project Development Process]()
+[JavaDoc](https://github.com/TheZink/OTP1/tree/main/doc/JavaDoc)
 [Trello](https://trello.com/b/5WAxql7T/product-backlog-board)
 [Project Plan](https://docs.google.com/document/d/1O_g-zJz1wV71_avTI1PDZ-5DXeloIw9V7ZhQsQWpBLM/edit?tab=t.0)
 [Product Vision](https://docs.google.com/document/d/1O3U6CPSf3AjObtddmFEt4F05RRHxHQHc2p4wla8N3JY/edit?tab=t.0)
