@@ -14,6 +14,10 @@ import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 import com.attendace.datasource.DbConnection;
 
+/**
+ * Handler for processing course-related requests in the chain of responsibility.
+ * Handles CRUD operations for courses in the COURSE table.
+ */
 public class DaoCourse extends Handler {
     private static final String ID = "id";
     private static final String COURSENAME = "course_name";
@@ -29,10 +33,15 @@ public class DaoCourse extends Handler {
     private static final String VALUE = "value";
     private static final String LABEL = "label";
 
-    // This method check if handler can process the request
+    /**
+     * Determines if this handler can process the given request.
+     * If the request is not for COURSE, sets the next handler and returns false.
+     *
+     * @param request the request to check
+     * @return true if this handler can process the request, false otherwise
+     */
     @Override
     public boolean canProcess(Request request) {
-        // If handler cannot process this request, set next handler and return false
         if (request.getDao() != RequestDao.COURSE) {
             setNextHandler(new DaoAttendance());
             return false;
@@ -41,18 +50,24 @@ public class DaoCourse extends Handler {
         }
     }
 
-    // This method check, if handler can process type of request
+    /**
+     * Processes the given request based on its type.
+     * Supports GETALLDATA, GETDATA, GETDATABYID, SETDATA, UPDATEDATA, and REMOVEDATA.
+     *
+     * @param request the request to process
+     * @return the result of processing the request, or false if not handled
+     */
     @Override
     public Object process(Request request){
-        Map<String, Object> object = request.getData(); //Fetch data from request
+        Map<String, Object> object = request.getData();
 
         if (request.getType() == RequestType.GETALLDATA){
             return getAllData();
         }
-        else if (request.getType() ==RequestType.GETDATA){
+        else if (request.getType() == RequestType.GETDATA){
             return getData(object);
         }
-        else if (request.getType() ==RequestType.GETDATABYID){
+        else if (request.getType() == RequestType.GETDATABYID){
             return getDataById(object);
         }
         else if (request.getType() == RequestType.SETDATA){
@@ -69,16 +84,20 @@ public class DaoCourse extends Handler {
         return false;
     }
 
-    // Fetch all courses from Course-table. Encapsulate each row in its own array and add to the main data list
+    /**
+     * Fetches all courses from the COURSE table.
+     * Each row is encapsulated in its own array and added to the main data list.
+     *
+     * @return a list of course data rows
+     */
     public List<ArrayList<String>> getAllData(){
-        
-        ArrayList<ArrayList<String> > data = new ArrayList<>();
+        ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT id, course_name, course_topic, course_desc, attendance_avaible, "+
-         " attendance_key, min_attendance, max_attendance, course_active, created_at FROM COURSE ORDER BY id ASC";
+                " attendance_key, min_attendance, max_attendance, course_active, created_at FROM COURSE ORDER BY id ASC";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();){
+             ResultSet rs = ps.executeQuery();){
             while (rs.next()) {
                 ArrayList<String> row = new ArrayList<>();
                 row.add(Integer.toString(rs.getInt(ID)));
@@ -93,36 +112,33 @@ public class DaoCourse extends Handler {
                 row.add(rs.getDate(CREATEDAT).toString());
                 data.add(row);
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        // This check the result of the query
         if(data.isEmpty()){
             return new ArrayList<>();
         } else {
             return data;
-        }   
+        }
     }
 
+    /**
+     * Fetches a specific course from the COURSE table by course ID.
+     *
+     * @param object a map containing the course ID
+     * @return a list of course data rows, or an empty list if not found
+     */
     public List<ArrayList<String>> getDataById(Map<String, Object> object){
-
         Integer courseId = (Integer) object.get("course_id");
-
-
         ArrayList<ArrayList<String>> data = new ArrayList<>();
-
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT id, course_name, course_topic, course_desc, attendance_avaible, + " +
-                    "attendance_key, min_attendance, max_attendance, course_active, created_at FROM COURSE WHERE id = ?";
+        String sql = "SELECT id, course_name, course_topic, course_desc, attendance_avaible, " +
+                "attendance_key, min_attendance, max_attendance, course_active, created_at FROM COURSE WHERE id = ?";
 
-
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();){
-
+        try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setInt(1, courseId);
-
+            ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 ArrayList<String> row = new ArrayList<>();
                 row.add(Integer.toString(rs.getInt(ID)));
@@ -137,7 +153,6 @@ public class DaoCourse extends Handler {
                 row.add(rs.getDate(CREATEDAT).toString());
                 data.add(row);
             }
-
         } catch (SQLException e){
             e.printStackTrace();
         }
@@ -149,23 +164,24 @@ public class DaoCourse extends Handler {
         }
     }
 
-    // Fetch specific course from Course-table
+    /**
+     * Fetches specific courses from the COURSE table based on a label and value.
+     *
+     * @param object a map containing the label and value for the query
+     * @return a list of course data rows, or an empty list if not found
+     */
     public List<ArrayList<String>> getData(Map<String, Object> object){
-
         String value = (String) object.get(VALUE);
         String label = (String) object.get(LABEL);
 
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-        String sql = "SELECT id, course_name, course_topic, course_desc, attendance_avaible, + " +
-            "  attendance_key, min_attendance, max_attendance, course_active, created_at FROM COURSE WHERE " + label + " LIKE ?";
+        String sql = "SELECT id, course_name, course_topic, course_desc, attendance_avaible, " +
+                "attendance_key, min_attendance, max_attendance, course_active, created_at FROM COURSE WHERE " + label + " LIKE ?";
 
-
-        try (PreparedStatement ps = connection.prepareStatement(sql);
-        ResultSet rs = ps.executeQuery();){
-
+        try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, value + "%");
-
+            ResultSet rs = ps.executeQuery();
             while (rs.next()){
                 ArrayList<String> row = new ArrayList<>();
                 row.add(Integer.toString(rs.getInt(ID)));
@@ -180,21 +196,23 @@ public class DaoCourse extends Handler {
                 row.add(rs.getDate(CREATEDAT).toString());
                 data.add(row);
             }
-
         } catch (SQLException e){
             e.printStackTrace();
         }
-        
+
         if(data.isEmpty()){
             return new ArrayList<>();
         } else {
             return data;
-        }   
+        }
     }
-    
-    // Set course data to the Course-table
-    public void setData(Map<String, Object> object) {
 
+    /**
+     * Inserts a new course into the COURSE table.
+     *
+     * @param object a map containing course data fields
+     */
+    public void setData(Map<String, Object> object) {
         String courseName = (String) object.get(COURSENAME);
         String courseTopic = (String) object.get(COURSETOPIC);
         String courseDesc = (String) object.get(COURSEDESC);
@@ -205,9 +223,9 @@ public class DaoCourse extends Handler {
         boolean courseActive = (boolean) object.get(COURSEACTIVE);
 
         Connection connection = DbConnection.getConnection();
-        String sql = "INSERT INTO Course (course_name, course_topic, course_desc, " + 
-                    "attendance_avaible, attendance_key, min_attendance, max_attendance, " +
-                    "course_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Course (course_name, course_topic, course_desc, " +
+                "attendance_avaible, attendance_key, min_attendance, max_attendance, " +
+                "course_active) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, courseName);
@@ -218,17 +236,18 @@ public class DaoCourse extends Handler {
             ps.setInt(6, minAttend);
             ps.setInt(7, maxAttend);
             ps.setBoolean(8, courseActive);
-
             ps.executeUpdate();
-            
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Update specific course in Course-table
+    /**
+     * Updates a specific course in the COURSE table.
+     *
+     * @param object a map containing course data fields to update
+     */
     public void updateData(Map<String, Object> object){
-
         int id = (int) object.get("id");
         String couresName = (String) object.get("courseName");
         String couresTopic = (String) object.get("courseTopic");
@@ -238,11 +257,11 @@ public class DaoCourse extends Handler {
         int attendMin = (int) object.get("attendMin");
         int attendMax = (int) object.get("attendMax");
         Boolean courseActive = (Boolean) object.get("courseActive");
-        
+
         Connection connection = DbConnection.getConnection();
         String sql = "UPDATE course SET course_name = ?, course_topic = ?, course_desc = ?, attendance_avaible = ?, " +
-                    "attendance_key= ?, min_attendance= ?, max_attendance= ?, course_active= ? WHERE id= ?";
-        
+                "attendance_key= ?, min_attendance= ?, max_attendance= ?, course_active= ? WHERE id= ?";
+
         try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, couresName);
             ps.setString(2, couresTopic);
@@ -253,16 +272,18 @@ public class DaoCourse extends Handler {
             ps.setInt(7, attendMax);
             ps.setBoolean(8, courseActive);
             ps.setInt(9, id);
-
             ps.executeUpdate();
-            
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Removes a course from the COURSE table based on a specified label and value.
+     *
+     * @param object a map containing the label and value for deletion
+     */
     public void removeData(Map<String, Object> object) {
-
         int value = (int) object.get(VALUE);
         String label = (String) object.get(LABEL);
 

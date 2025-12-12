@@ -28,9 +28,15 @@ import java.util.List;
 
 import static javafx.scene.text.TextAlignment.RIGHT;
 
+/**
+ * Controller for the main user interface.
+ * Handles profile and course views, localization, admin access, and dynamic UI updates.
+ */
 public class MainInterfaceController {
+    /** Controller for the admin interface. */
     private AdminInterfaceController admininterfaceController;
 
+    /** Indicates if the current user has admin privileges. */
     private boolean admin;
 
     @FXML
@@ -78,6 +84,9 @@ public class MainInterfaceController {
     @FXML
     private Button adminpanel;
 
+    /**
+     * Translates the UI elements based on the current locale.
+     */
     public void translatepage() {
         softwareTitle.setText(Translator.getString("main.softwareTitle"));
         profilebutton.setText(Translator.getString("main.profileButton"));
@@ -109,6 +118,10 @@ public class MainInterfaceController {
         }
     }
 
+    /**
+     * Checks if the given staff member has admin status and updates the UI accordingly.
+     * @param staff the staff model to check
+     */
     public void checkAdminStatus(StaffModel staff) {
         if(staff.getAdminStatus()) {
             enableAdminButton();
@@ -119,6 +132,11 @@ public class MainInterfaceController {
             admin = false;
         }
     }
+
+    /**
+     * Fills the participating courses grid for the given user.
+     * @param user the user whose courses to display
+     */
     public void fillParticipatingCourses(UserModel user) {
 
         //profile.userCoursesEmpty
@@ -137,18 +155,32 @@ public class MainInterfaceController {
 
         }
     }
+
+    /**
+     * Hides the admin panel button.
+     */
     public void disableAdminButton() {
         adminpanel.setVisible(false);
     }
+
+    /**
+     * Shows the admin panel button.
+     */
     public void enableAdminButton() {
         adminpanel.setVisible(true);
     }
 
+    /**
+     * Returns whether the current user has admin privileges.
+     * @return true if admin, false otherwise
+     */
     public boolean getAdminStatus() {
         return admin;
     }
 
-
+    /**
+     * Shows the profile tab with a fade transition.
+     */
     public void showprofile() {
         profilebutton.setDisable(true);
         coursesbutton.setDisable(true);
@@ -172,6 +204,9 @@ public class MainInterfaceController {
         fadecourses.play();
     }
 
+    /**
+     * Shows the courses tab with a fade transition.
+     */
     public void showcourses() {
         profilebutton.setDisable(true);
         coursesbutton.setDisable(true);
@@ -195,6 +230,10 @@ public class MainInterfaceController {
         fadecourses.play();
     }
 
+    /**
+     * Fills the profile tab with the given user's data.
+     * @param user the user whose data to display
+     */
     public void fillprofiledata(UserModel user) {
 
 
@@ -203,6 +242,10 @@ public class MainInterfaceController {
         studentidlabel.setText(String.valueOf(user.getStudentId()));
     }
 
+    /**
+     * Fills the profile tab with the given staff member's data.
+     * @param user the staff member whose data to display
+     */
     public void fillprofiledatastaff(StaffModel user) {
 
         statuslabel.setText(Translator.getString("staff.status"));
@@ -213,6 +256,11 @@ public class MainInterfaceController {
         studentidlabel.setText("");
     }
 
+    /**
+     * Creates and displays the attendance list window for the given course.
+     * @param course the course data
+     * @throws IOException if loading the attendance list fails
+     */
     private void createattendancelist(ArrayList<Object> course) throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/fxml/AttendanceList.fxml"));
         Parent root = loader.load();
@@ -236,6 +284,11 @@ public class MainInterfaceController {
         });
     }
 
+    /**
+     * Fills the courses grid with the given list of courses.
+     * @param courses the list of courses to display
+     * @throws IOException if loading a course container fails
+     */
     public void fillcourses(List<ArrayList<Object>> courses) throws IOException {
         int column = 0;
         int row = 0;
@@ -265,6 +318,9 @@ public class MainInterfaceController {
         }
     }
 
+    /**
+     * Handles the admin panel button action and opens the admin interface.
+     */
     public void handleAdminButton() {
         try{
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/AdminPage.fxml"));

@@ -14,83 +14,80 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
+/**
+ * Controller for the admin creation interface.
+ * Handles creation of staff, students, courses, and degrees via the UI.
+ */
 public class AdminCreationInterfaceController {
+    /** Logger for this controller. */
     private Logger log = Logger.getLogger(AdminCreationInterfaceController.class.getName());
 
+    /** Controller for course-related operations. */
     private CourseController courseController = new CourseController();
+    /** Utility for cryptographic operations. */
     private CryptoUtils crypto = new CryptoUtils();
 
-    // For Staff interface
-    @FXML
-    private TextField namefield;
+    // Staff interface fields
+    @FXML private TextField namefield;
 
-    @FXML
-    private TextField rolefield;
+    @FXML private TextField rolefield;
 
-    @FXML
-    private TextField passwordfield;
+    @FXML private TextField passwordfield;
 
-    @FXML
-    private CheckBox isAdmin;
+    @FXML private CheckBox isAdmin;
 
-    // For student interface
-    @FXML
-    private TextField studentName;
+    // Student interface fields
 
-    @FXML
-    private TextField studentId;
+    @FXML private TextField studentName;
 
-    @FXML
-    private TextField studentDegree;
+    @FXML private TextField studentId;
 
-    @FXML
-    private TextField studentPasswField;
+    @FXML private TextField studentDegree;
 
-    // For course interface
-    @FXML
-    private TextField courseName;
+    @FXML private TextField studentPasswField;
 
-    @FXML
-    private TextField courseTopic;
+    // Course interface fields
 
-    @FXML
-    private TextField courseDesc;
+    @FXML private TextField courseName;
 
-    @FXML
-    private TextField minCourseAttend;
+    @FXML private TextField courseTopic;
 
-    @FXML
-    private TextField maxCourseAttend;
+    @FXML private TextField courseDesc;
 
-    @FXML
-    private TextField courseAttendCode;
+    @FXML private TextField minCourseAttend;
 
-    @FXML
-    private CheckBox courseActive;
+    @FXML private TextField maxCourseAttend;
 
-    @FXML
-    private CheckBox attendCourseActive;
+    @FXML private TextField courseAttendCode;
 
-    // For degree interface
-    @FXML
-    private TextField degreefield;
+    @FXML private CheckBox courseActive;
 
-    @FXML
-    private TextField ectsfield;
+    @FXML private CheckBox attendCourseActive;
 
-    // For all interfaces
-    @FXML
-    private Button saveButton;
+    // Degree interface fields
 
-    @FXML
-    private Button cancelButton;
+    @FXML private TextField degreefield;
 
+    @FXML private TextField ectsfield;
+
+    // Common interface fields
+
+    @FXML private Button saveButton;
+
+    @FXML private Button cancelButton;
+
+    /** Regular expression for non-digit characters. */
     String regex = "[^\\d]";
+    /** Controller for user-related operations. */
     UserController userController = new UserController();
+    /** Controller for staff-related operations. */
     StaffController staffController = new StaffController();
+    /** Controller for degree-related operations. */
     DegreeController degreeController = new DegreeController();
 
-
+    /**
+     * Initializes the controller and sets up input validation for numeric fields.
+     */
     public void initialize() {
 
         if (studentId != null) {
@@ -117,6 +114,10 @@ public class AdminCreationInterfaceController {
     }
 
     // -- Staff creation handler --
+    /**
+     * Handles saving a new staff member.
+     * @param event the action event triggered by the save button
+     */
     @FXML
     private void handleSaveStaff(ActionEvent event) {
         log.info("handleSaveStaff");
@@ -135,7 +136,10 @@ public class AdminCreationInterfaceController {
     }
 
     // -- Student creation handler --
-
+    /**
+     * Handles saving a new student.
+     * @param event the action event triggered by the save button
+     */
     @FXML
     private void handleSaveStudent(ActionEvent event) {
         log.info("handleSaveStudent");
@@ -153,7 +157,10 @@ public class AdminCreationInterfaceController {
 
     }
     // -- Course creation handler --
-
+    /**
+     * Handles saving a new course.
+     * @param event the action event triggered by the save button
+     */
     @FXML
     private void handleSaveCourse(ActionEvent event) {
         log.info("handleSaveCourse");
@@ -175,6 +182,10 @@ public class AdminCreationInterfaceController {
 
     // -- Degree creation handler --
 
+    /**
+     * Handles saving a new degree.
+     * @param event the action event triggered by the save button
+     */
     @FXML
     private void handleSaveDegree(ActionEvent event) {
         String degreeName = degreefield.getText();
@@ -183,6 +194,10 @@ public class AdminCreationInterfaceController {
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
     }
 
+    /**
+     * Handles cancelling the current operation and closes the window.
+     * @param event the action event triggered by the cancel button
+     */
     @FXML
     private void handleCancel(ActionEvent event) {
         log.info("handleSaveCancel");

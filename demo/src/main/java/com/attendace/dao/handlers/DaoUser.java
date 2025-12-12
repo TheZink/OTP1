@@ -16,6 +16,10 @@ import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 import com.attendace.datasource.DbConnection;
 
+/**
+ * Handler for processing user-related requests in the chain of responsibility.
+ * Handles CRUD operations and authentication for users in the USERS table.
+ */
 public class DaoUser extends Handler {
     private static final String ID = "id";
     private static final String STUDENTNAME = "user_name";
@@ -33,11 +37,15 @@ public class DaoUser extends Handler {
     private static final String DEGREE = "degree";
     private static final CryptoUtils cryptoUtils = new CryptoUtils();
 
-
-    // This method check if handler can process the request
+    /**
+     * Determines if this handler can process the given request.
+     * If the request is not for USERS, sets the next handler and returns false.
+     *
+     * @param request the request to check
+     * @return true if this handler can process the request, false otherwise
+     */
     @Override
     public boolean canProcess(Request request) {
-        // If handler cannot process this request, set next handler and return false
         if (request.getDao() != RequestDao.USERS) {
             setNextHandler(new DaoStaff());
             return false;
@@ -46,7 +54,13 @@ public class DaoUser extends Handler {
         }
     }
 
-    // This method check, if handler can process type of request
+    /**
+     * Processes the given request based on its type.
+     * Supports GETALLDATA, GETDATA, SETDATA, SIGNIN, LANGUAGE, UPDATEDATA, and REMOVEDATA.
+     *
+     * @param request the request to process
+     * @return the result of processing the request, or false if not handled
+     */
     @Override
     public Object process(Request request){
         Map<String, Object> data = request.getData();
@@ -76,18 +90,23 @@ public class DaoUser extends Handler {
         }
         return false;
     }
-    
-    // Fetch all users from Users-table. Encapsulate each row in its own array and add to the main data list
+
+    /**
+     * Fetches all users from the USERS table.
+     * Each row is encapsulated in its own array and added to the main data list.
+     *
+     * @return a list of user data rows
+     */
     public List<ArrayList<String>> getAllData(){
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT id, user_name, user_student_id, user_degree, created_at, lang FROM USERS ORDER BY id ASC";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();){
+             ResultSet rs = ps.executeQuery();){
 
             while (rs.next()) {
-                ArrayList<String> row = new ArrayList<>(); 
+                ArrayList<String> row = new ArrayList<>();
                 row.add(Integer.toString(rs.getInt(ID)));
                 row.add(rs.getString(STUDENTNAME));
                 row.add(Integer.toString(rs.getInt(STUDENTID)));
@@ -101,25 +120,27 @@ public class DaoUser extends Handler {
             e.printStackTrace();
         }
 
-        // This check the result of the query
         if(data.isEmpty()){
             return new ArrayList<>();
         } else {
-            return data;}       
+            return data;
+        }
     }
 
-    // Fetch specific user from Users-table
+    /**
+     * Fetches a specific user from the USERS table by username.
+     *
+     * @param object a map containing the username
+     * @return a list of user data fields, or an empty list if not found
+     */
     public List<String> getData(Map<String, Object> object){
-
         String username = (String) object.get(USERNAME);
 
         ArrayList<String> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT id, user_name, user_student_id, user_degree, user_passw, created_at, lang FROM USERS WHERE user_name = ?";
 
-        try (PreparedStatement ps = connection.prepareStatement(sql))
-
-        {
+        try (PreparedStatement ps = connection.prepareStatement(sql)) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
 
@@ -129,7 +150,7 @@ public class DaoUser extends Handler {
                 data.add(Integer.toString(rs.getInt(STUDENTID)));
                 data.add(rs.getString(STUDENTDEGREE));
                 data.add(rs.getString(STUDENTPASSWORD));
-                data.add(rs.getDate(CREATEDAT).toString());
+                data.add(rs.getString(CREATEDAT));
                 data.add(rs.getString(LANGUAGE));
             }
 
@@ -137,18 +158,20 @@ public class DaoUser extends Handler {
             e.printStackTrace();
         }
 
-        // This check the result of the query
         if(data.isEmpty()){
             return new ArrayList<>();
         } else {
             return data;
-        }   
+        }
     }
 
-    // Set users data to the table
+    /**
+     * Inserts a new user into the USERS table.
+     * Validates and prepares user data before insertion.
+     *
+     * @param data a map containing user data fields
+     */
     public void setData(Map<String, Object> data){
-
-        // Before setting user data to the database, check username
         UserUtils user = new UserUtils();
         Map<String, Object> object = user.checkUser(data);
 
@@ -157,10 +180,10 @@ public class DaoUser extends Handler {
         String degree = (String) object.get(DEGREE);
         String passw = (String) object.get(PASSWORD);
         String lang = (String) object.get(LANGUAGE);
-        
+
         Connection connection = DbConnection.getConnection();
         String sql = "INSERT INTO USERS (user_name, user_student_id, user_degree, user_passw, lang) VALUES (?, ?, ?, ?, ?)";
-        
+
         try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, username);
             ps.setInt(2, studentId);
@@ -173,6 +196,12 @@ public class DaoUser extends Handler {
         }
     }
 
+    /**
+     * Updates user data in the USERS table.
+     * Only non-empty fields are updated.
+     *
+     * @param object a map containing user data fields to update
+     */
     public void updateData(Map<String, Object> object) {
         int id = (int) object.get(ID);
         String name = (String) object.get(NAME);
@@ -180,16 +209,15 @@ public class DaoUser extends Handler {
         String passw = (String) object.get(PASSWORD);
         String lang = (String) object.get(LANGUAGE);
 
-
         Connection connection = DbConnection.getConnection();
         String sql = "UPDATE USERS SET " +
-                    "user_name = COALESCE(NULLIF(?,''), user_name), " +
-                    "user_student_id = COALESCE(?, user_student_id), " +
-                    "user_degree = COALESCE(NULLIF(?,''), user_degree), " +
-                    "user_passw = COALESCE(NULLIF(?,''), user_passw), " +
-                    "lang = COALESCE(NULLIF(?,''), lang) " +
-                    "WHERE id = ?";
-        
+                "user_name = COALESCE(NULLIF(?,''), user_name), " +
+                "user_student_id = COALESCE(?, user_student_id), " +
+                "user_degree = COALESCE(NULLIF(?,''), user_degree), " +
+                "user_passw = COALESCE(NULLIF(?,''), user_passw), " +
+                "lang = COALESCE(NULLIF(?,''), lang) " +
+                "WHERE id = ?";
+
         try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, name);
             ps.setInt(2, id);
@@ -198,24 +226,29 @@ public class DaoUser extends Handler {
             ps.setString(5, lang);
             ps.setInt(6, id);
             ps.executeUpdate();
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
-    // This checks if the user exists in the database and checks if the password is correct
+
+    /**
+     * Checks if the user exists in the database and verifies the password.
+     *
+     * @param data a map containing username and password
+     * @return true if authentication is successful, false otherwise
+     */
     public boolean checkLogin(Map<String, Object> data){
         String username = (String) data.get(USERNAME);
         String password = (String) data.get(PASSWORD);
-    
+
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT user_passw FROM USERS WHERE user_name = ?";
-        
+
         try(PreparedStatement ps = connection.prepareStatement(sql);) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
-    
+
             if (rs.next()){
                 String dbpass = rs.getString(STUDENTPASSWORD);
                 boolean correctOrNot = cryptoUtils.verify(password, dbpass);
@@ -229,12 +262,18 @@ public class DaoUser extends Handler {
         return false;
     }
 
+    /**
+     * Retrieves the language preference for a user.
+     *
+     * @param data a map containing the username
+     * @return a list containing the user id and language, or an empty list if not found
+     */
     public List<String> checkLang(Map<String, Object> data){
         ArrayList<String> object = new ArrayList<>();
         String username = (String) data.get(USERNAME);
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT id, lang FROM USERS WHERE user_name = ?";
-        
+
         try (PreparedStatement ps = connection.prepareStatement(sql);) {
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
@@ -254,6 +293,11 @@ public class DaoUser extends Handler {
         }
     }
 
+    /**
+     * Removes a user from the USERS table based on a specified label and value.
+     *
+     * @param object a map containing the label and value for deletion
+     */
     public void removeData(Map<String, Object> object) {
         int value = (int) object.get(VALUE);
         String label = (String) object.get(LABEL);

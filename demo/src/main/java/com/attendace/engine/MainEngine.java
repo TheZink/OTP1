@@ -15,22 +15,46 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import com.attendace.localisation.Translator;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Main engine class responsible for initializing controllers, loading the main interface,
+ * and handling user or staff session logic.
+ */
 public class MainEngine {
+    /** Controller for the main interface. */
     MainInterfaceController mainInterfaceController;
+
+    /** Controller for course-related operations. */
     CourseController courseController;
+
+    /** Controller for user-related operations. */
     UserController userController;
+
+    /** Controller for staff-related operations. */
     StaffController staffController;
+
+    /** Controller for user-course relationships. */
     UserCourseController userCourseController;
 
+    /**
+     * Constructs a new MainEngine instance.
+     * Required empty constructor.
+     */
     public MainEngine() {
-        //Required empty constructor
+        // Required empty constructor
     }
 
+    /**
+     * Runs the main engine logic, initializes controllers, loads the main interface,
+     * and sets up the session for the given user or staff.
+     *
+     * @param username the username of the logged-in user or staff
+     * @param status   the status indicating "Staff" or "User"
+     * @throws IOException if the FXML file cannot be loaded
+     */
     public void runEngine(String username, String status) throws IOException {
         courseController = new CourseController();
         userController = new UserController();

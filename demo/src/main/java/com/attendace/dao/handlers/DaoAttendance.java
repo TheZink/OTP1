@@ -14,6 +14,10 @@ import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 import com.attendace.datasource.DbConnection;
 
+/**
+ * Handler for processing attendance-related requests in the chain of responsibility.
+ * Handles CRUD operations for attendance records in the ATTENDANCE table.
+ */
 public class DaoAttendance extends Handler {
     private static final String ID = "id";
     private static final String COURSEID = "course_id";
@@ -27,10 +31,15 @@ public class DaoAttendance extends Handler {
 
     private static final List<String> allowedLabels = List.of(ID, COURSEID, USERID, STAFFID, ATTENSTATUS, ATTENCURRENT, CREATEDAT);
 
-    // This method check if handler can process the request
+    /**
+     * Determines if this handler can process the given request.
+     * If the request is not for ATTENDANCE, sets the next handler and returns false.
+     *
+     * @param request the request to check
+     * @return true if this handler can process the request, false otherwise
+     */
     @Override
     public boolean canProcess(Request request) {
-        // If handler cannot process this request, set next handler and return false
         if (request.getDao() != RequestDao.ATTENDANCE) {
             setNextHandler(new DaoCourseStaffJoin());
             return false;
@@ -39,10 +48,16 @@ public class DaoAttendance extends Handler {
         }
     }
 
-    // This method check, if handler can process type of request
+    /**
+     * Processes the given request based on its type.
+     * Supports GETALLDATA, GETDATA, SETDATA, UPDATEDATA, and REMOVEDATA.
+     *
+     * @param request the request to process
+     * @return the result of processing the request, or false if not handled
+     */
     @Override
     public Object process(Request request){
-        Map<String, Object> object = request.getData(); //Fetch data from request
+        Map<String, Object> object = request.getData();
 
         if (request.getType() == RequestType.GETALLDATA){
             return getAllData();
@@ -64,15 +79,19 @@ public class DaoAttendance extends Handler {
         return false;
     }
 
-    // Fetch all attendance from attendance-table.
+    /**
+     * Fetches all attendance records from the ATTENDANCE table.
+     * Each row is encapsulated in its own array and added to the main data list.
+     *
+     * @return a list of attendance data rows
+     */
     public List<ArrayList<String>> getAllData(){
-
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT id, course_id, user_id, staff_id, atten_status, atten_current, created_at FROM ATTENDANCE ORDER BY id ASC";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();){
+             ResultSet rs = ps.executeQuery();){
 
             while (rs.next()) {
                 ArrayList<String> row = new ArrayList<>();
@@ -95,18 +114,22 @@ public class DaoAttendance extends Handler {
             return new ArrayList<>();
         } else {
             return data;
-        }   
+        }
     }
-    
-    // Fetch specific attendance from Course-table
-    public List<ArrayList<String>> getData(Map<String, Object> object) {
 
+    /**
+     * Fetches specific attendance records from the ATTENDANCE table based on a label and value.
+     *
+     * @param object a map containing the label and value for the query
+     * @return a list of attendance data rows, or an empty list if not found
+     * @throws IllegalArgumentException if the label is not allowed
+     */
+    public List<ArrayList<String>> getData(Map<String, Object> object) {
         int value = (int) object.get(VALUE);
         String label = (String) object.get(LABEL);
 
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
-
 
         if (!allowedLabels.contains(label)) {
             throw new IllegalArgumentException("Invalid column name");
@@ -115,7 +138,7 @@ public class DaoAttendance extends Handler {
         String sql = "SELECT * FROM ATTENDANCE WHERE " + label + " = ?";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery();){
+             ResultSet rs = ps.executeQuery();){
 
             ps.setInt(1, value);
 
@@ -135,18 +158,21 @@ public class DaoAttendance extends Handler {
         } catch (SQLException e){
             e.printStackTrace();
         }
-        
+
         if(data.isEmpty()){
             return new ArrayList<>();
         } else {
             return data;
-        }   
+        }
     }
 
-    // Set attendance data to the Course-table
+    /**
+     * Inserts a new attendance record into the ATTENDANCE table.
+     *
+     * @param object a map containing attendance data fields
+     */
     public void setData(Map<String, Object> object) {
-
-        int course = (int) object.get(COURSEID); 
+        int course = (int) object.get(COURSEID);
         int user = (int) object.get(USERID);
         int staff = (int) object.get(STAFFID);
         boolean status = (boolean) object.get(ATTENSTATUS);
@@ -156,7 +182,6 @@ public class DaoAttendance extends Handler {
         String sql = "INSERT INTO attendance (course_id, user_id, staff_id, atten_status, atten_current) VALUES (?, ?, ?, ?, ?)";
 
         try (PreparedStatement ps = connection.prepareStatement(sql);){
-
             ps.setInt(1, course);
             ps.setInt(2, user);
             ps.setInt(3, staff);
@@ -164,15 +189,19 @@ public class DaoAttendance extends Handler {
             ps.setInt(5, current);
 
             ps.executeUpdate();
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // Update specific attendance in Attendance-table
+    /**
+     * Updates a specific attendance record in the ATTENDANCE table.
+     *
+     * @param object a map containing the label, value, and new value to set
+     * @throws IllegalArgumentException if the label is not allowed
+     */
     public void updateData(Map<String, Object> object){
-
         int value = (int) object.get(VALUE);
         String label = (String) object.get(LABEL);
         boolean setValue = (boolean) object.get("setValue");
@@ -187,14 +216,19 @@ public class DaoAttendance extends Handler {
 
         try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.executeUpdate();
-            
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
+    /**
+     * Removes an attendance record from the ATTENDANCE table based on a specified label and value.
+     *
+     * @param object a map containing the label and value for deletion
+     * @throws IllegalArgumentException if the label is not allowed
+     */
     public void removeData(Map<String, Object> object) {
-
         int value = (int) object.get(VALUE);
         String label = (String) object.get(LABEL);
 

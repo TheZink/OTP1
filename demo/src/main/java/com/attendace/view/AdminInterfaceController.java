@@ -34,8 +34,15 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
+/**
+ * Controller for the admin interface.
+ * Handles viewing, creating, modifying, and deleting staff, students, courses, degrees, and attendance records via the UI.
+ * Manages localization, TableView formatting, and dialog interactions.
+ */
 public class AdminInterfaceController {
+    /** Logger for this controller. */
     Logger log = Logger.getLogger(AdminInterfaceController.class.getName());
+
 
     // FXML lookup keys
     private static final String LK_NAMEFIELD = "#namefield";
@@ -130,9 +137,11 @@ public class AdminInterfaceController {
     private static final String M_PASSWORD = "password";
     private static final String M_PERSIAN = "fa_IR";
 
+    /** Handler for DAO operations. */
     Handler handler = new DefaultHandler();
+    /** Object map for passing data to DAO requests. */
     Map<String, Object> object = new HashMap<>();
-
+    /** Utility for cryptographic operations. */
     CryptoUtils crypto = new CryptoUtils();
 
     @FXML
@@ -200,10 +209,14 @@ public class AdminInterfaceController {
     @FXML
     private TableView<ObservableList<String>> tableView;
 
+    /** The current view context (e.g., student, staff, courses, etc.). */
     private String viewing = null;
 
     // -- VIEW BUTTON HANDLERS --
 
+    /**
+     * Translates the page UI elements using the current locale.
+     */
     public void translatePage() {
 
         softwareTitle.setText(Translator.getString(T_MAIN_SOFTWARE_TITLE));
@@ -228,6 +241,10 @@ public class AdminInterfaceController {
 
     }
 
+    /**
+     * Refreshes the current page based on the current view context.
+     * @param event the action event triggering the refresh
+     */
     public void refreshPage(ActionEvent event){
         if(viewing.equals(M_STUDENT)) {handleViewStudent(event);}
         else if(viewing.equals(M_STAFF)) {handleViewStaff(event);}
@@ -236,6 +253,10 @@ public class AdminInterfaceController {
         else if(viewing.equals(M_DEGREE)) {handleViewDegrees(event);}
     }
 
+    /**
+     * Handles displaying staff data in the TableView.
+     * @param event the action event
+     */
     @FXML
     private void handleViewStaff(ActionEvent event) {
 
@@ -253,6 +274,10 @@ public class AdminInterfaceController {
         tablaViewFormatter(tableView, data, headers);
     }
 
+    /**
+     * Handles displaying student data in the TableView.
+     * @param event the action event
+     */
     @FXML
     private void handleViewStudent(ActionEvent event) {
 
@@ -270,6 +295,10 @@ public class AdminInterfaceController {
         tablaViewFormatter(tableView, data, headers);
     }
 
+    /**
+     * Handles displaying course data in the TableView.
+     * @param event the action event
+     */
     @FXML
     private void handleViewCourses(ActionEvent event) {
 
@@ -282,6 +311,10 @@ public class AdminInterfaceController {
         tablaViewFormatter(tableView, data, headers);
     }
 
+    /**
+     * Handles displaying attendance data in the TableView.
+     * @param event the action event
+     */
     @FXML
     private void handleViewAttendance(ActionEvent event){
 
@@ -294,6 +327,10 @@ public class AdminInterfaceController {
         tablaViewFormatter(tableView, data, headers);
     }
 
+    /**
+     * Handles displaying degree data in the TableView.
+     * @param event the action event
+     */
     @FXML
     private void handleViewDegrees(ActionEvent event) {
         viewing = M_DEGREE;
@@ -307,6 +344,10 @@ public class AdminInterfaceController {
 
     // -- CREATION BUTTON HANDLERS --
 
+    /**
+     * Handles the creation of a new staff member via a dialog.
+     * @param event the action event
+     */
     @FXML
     private void handleCreateStaff(ActionEvent event){
 
@@ -348,6 +389,10 @@ public class AdminInterfaceController {
         refreshPage(event);
     }
 
+    /**
+     * Handles the creation of a new student via a dialog.
+     * @param event the action event
+     */
     @FXML
     private void handleCreateStudent(ActionEvent event){
 
@@ -393,6 +438,10 @@ public class AdminInterfaceController {
         refreshPage(event);
     }
 
+    /**
+     * Handles the creation of a new course via a dialog.
+     * @param event the action event
+     */
     @FXML
     private void handleCreateCourse(ActionEvent event){
 
@@ -444,6 +493,10 @@ public class AdminInterfaceController {
         refreshPage(event);
     }
 
+    /**
+     * Handles the creation of a new degree via a dialog.
+     * @param event the action event
+     */
     @FXML
     private void handleCreateDegree(ActionEvent event){
 
@@ -480,7 +533,10 @@ public class AdminInterfaceController {
     }
 
     // -- DELETE HANDLER --
-
+    /**
+     * Handles deleting the selected entry from the TableView and database.
+     * @param event the action event
+     */
     @FXML
     private void handleDelete(ActionEvent event){
         ObservableList<String> selectedRow = tableView.getSelectionModel().getSelectedItem();
@@ -546,7 +602,10 @@ public class AdminInterfaceController {
     }
 
     //  --MODIFY HANDLER--
-
+    /**
+     * Handles modifying the selected entry via a dialog and updates the database.
+     * @param event the action event
+     */
     public void handleModify(ActionEvent event){
         ObservableList<String> selectedRow = tableView.getSelectionModel().getSelectedItem();
         int rowId;
@@ -759,16 +818,29 @@ public class AdminInterfaceController {
         }
     }
 
+    /**
+     * Handles refreshing the TableView.
+     * @param event the action event
+     */
     public void handleRefresh(ActionEvent event) {
         refreshPage(event);
     }
 
+    /**
+     * Handles closing the current window.
+     * @param event the action event
+     */
     public void handleClose(ActionEvent event){
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
     }
 
     // TableView formatter
-
+    /**
+     * Formats and populates the TableView with the given data and headers.
+     * @param table the TableView to format
+     * @param data the data to display
+     * @param headers the column headers
+     */
     private void tablaViewFormatter(TableView<ObservableList<String>> table, ArrayList<ArrayList<String>> data, String[] headers){
         table.getColumns().clear(); // Clear Tableview, when method is called
 

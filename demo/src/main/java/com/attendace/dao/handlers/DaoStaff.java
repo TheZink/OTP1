@@ -16,7 +16,10 @@ import com.attendace.dao.requests.RequestDao;
 import com.attendace.dao.requests.RequestType;
 import com.attendace.datasource.DbConnection;
 
-
+/**
+ * Handler for processing staff-related requests in the chain of responsibility.
+ * Handles CRUD operations and authentication for staff in the STAFF table.
+ */
 public class DaoStaff extends Handler {
     private static final String ID = "id";
     private static final String STAFFNAME = "staff_name";
@@ -34,11 +37,15 @@ public class DaoStaff extends Handler {
     private static final String ISADMIN = "isAdmin";
     private static final CryptoUtils cryptoUtils = new CryptoUtils();
 
-
-    // This method check if handler can process the request
+    /**
+     * Determines if this handler can process the given request.
+     * If the request is not for STAFF, sets the next handler and returns false.
+     *
+     * @param request the request to check
+     * @return true if this handler can process the request, false otherwise
+     */
     @Override
     public boolean canProcess(Request request) {
-        // If handler cannot process this request, set next handler and return false
         if (request.getDao() != RequestDao.STAFF) {
             setNextHandler(new DaoCourse());
             return false;
@@ -47,7 +54,13 @@ public class DaoStaff extends Handler {
         }
     }
 
-    // This method check, if handler can process type of request
+    /**
+     * Processes the given request based on its type.
+     * Supports GETALLDATA, GETDATA, SETDATA, SIGNIN, LANGUAGE, UPDATEDATA, and REMOVEDATA.
+     *
+     * @param request the request to process
+     * @return the result of processing the request, or false if not handled
+     */
     @Override
     public Object process(Request request){
         Map<String, Object> object = request.getData();
@@ -77,13 +90,15 @@ public class DaoStaff extends Handler {
         }
 
         return false;
-
-
     }
 
-    // Fetch all staff from Staff-table. Encapsulate each row in its own array and add to the main data list
+    /**
+     * Fetches all staff from the STAFF table.
+     * Each row is encapsulated in its own array and added to the main data list.
+     *
+     * @return a list of staff data rows
+     */
     public List<ArrayList<String>> getAllData(){
-
         ArrayList<ArrayList<String>> data = new ArrayList<>();
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT id, staff_name, staff_role, staff_admin, created_at, lang FROM STAFF ORDER BY id ASC";
@@ -105,17 +120,20 @@ public class DaoStaff extends Handler {
             e.printStackTrace();
         }
 
-        // This check the result of the query
         if(data.isEmpty()){
             return new ArrayList<>();
         } else {
             return data;
-        }   
+        }
     }
 
-    // Fetch specific user from Staff-table
+    /**
+     * Fetches a specific staff member from the STAFF table by username.
+     *
+     * @param object a map containing the username
+     * @return a list of staff data fields, or an empty list if not found
+     */
     public List<String> getData(Map<String, Object> object){
-
         String username = (String) object.get(USERNAME);
 
         ArrayList<String> data = new ArrayList<>();
@@ -138,19 +156,21 @@ public class DaoStaff extends Handler {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        
-        // This check the result of the query
+
         if(data.isEmpty()){
             return new ArrayList<>();
         } else {
             return data;
-        }  
+        }
     }
-    
-    // Set staff data to the Staff-table
-    public void setData(Map<String, Object> data){
 
-        // Before setting user data to the database, check username
+    /**
+     * Inserts a new staff member into the STAFF table.
+     * Validates and prepares staff data before insertion.
+     *
+     * @param data a map containing staff data fields
+     */
+    public void setData(Map<String, Object> data){
         UserUtils user = new UserUtils();
         Map<String, Object> object = user.checkStaff(data);
 
@@ -169,20 +189,25 @@ public class DaoStaff extends Handler {
             ps.setBoolean(3, isAdmin);
             ps.setString(4, passw);
             ps.setString(5, lang);
-            ps.executeUpdate(); 
+            ps.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
-    // This checks if the user exists in the database and checks if the password correct
+    /**
+     * Checks if the staff member exists in the database and verifies the password.
+     *
+     * @param object a map containing username and password
+     * @return true if authentication is successful, false otherwise
+     */
     public boolean checkLogin(Map<String, Object> object) {
         String username = (String) object.get(USERNAME);
         String password = (String) object.get(PASSWORD);
 
         Connection connection = DbConnection.getConnection();
         String sql = "SELECT staff_passw FROM STAFF WHERE staff_name = ?";
-                       
+
         try (PreparedStatement ps = connection.prepareStatement(sql);){
             ps.setString(1, username);
             ResultSet rs = ps.executeQuery();
@@ -194,13 +219,19 @@ public class DaoStaff extends Handler {
                     return true;
                 }
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
 
+    /**
+     * Retrieves the language preference for a staff member.
+     *
+     * @param data a map containing the username
+     * @return a list containing the staff id and language, or an empty list if not found
+     */
     public List<String> checkLang(Map<String, Object> data) {
         ArrayList<String> object = new ArrayList<>();
         String username = (String) data.get(USERNAME);
@@ -226,6 +257,12 @@ public class DaoStaff extends Handler {
         }
     }
 
+    /**
+     * Updates staff data in the STAFF table.
+     * Only non-empty fields are updated.
+     *
+     * @param object a map containing staff data fields to update
+     */
     public void updateData(Map<String, Object> object) {
         int id = (int) object.get(ID);
         String name = (String) object.get(STAFFNAME);
@@ -257,6 +294,11 @@ public class DaoStaff extends Handler {
         }
     }
 
+    /**
+     * Removes a staff member from the STAFF table based on a specified label and value.
+     *
+     * @param object a map containing the label and value for deletion
+     */
     public void removeData(Map<String, Object> object) {
         int value = (int) object.get(VALUE);
         String label = (String) object.get(LABEL);

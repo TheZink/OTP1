@@ -1,0 +1,13 @@
+com.attendace
+com.attendace.controller
+com.attendace.dao
+com.attendace.dao.handlers
+com.attendace.dao.requests
+com.attendace.datasource
+com.attendace.engine
+com.attendace.localisation
+com.attendace.model
+com.attendace.testingfolder
+com.attendace.utils
+com.attendace.view
+com.attendace.view.Classes
