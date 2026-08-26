@@ -5,7 +5,7 @@ All project sprintreviews can be found under the [doc](https://github.com/TheZin
 ## Localisation Instructions
 
 Currently, the application localisation works by selecting one of 4 language from a drop down menu. These languages include:
-- English 
+- English
 - Finnish
 - Japanese
 - Persian
